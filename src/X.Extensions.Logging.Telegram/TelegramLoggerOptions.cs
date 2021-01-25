@@ -7,5 +7,6 @@ namespace X.Extensions.Logging.Telegram
         public LogLevel MinimumLogLevel { get; set; } = LogLevel.Information;
         public string AccessToken { get; set; }
         public string ChatId { get; set; }
+        public bool UseEmoji { get; set; } = true;
     }
 }

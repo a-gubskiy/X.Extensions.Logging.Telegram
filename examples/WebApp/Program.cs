@@ -22,7 +22,13 @@ namespace WebApp
                 .ConfigureLogging((context, builder) =>
                 {
                     builder
-                        .AddTelegram()
+                        .AddTelegram(options =>
+                        {
+                            options.AccessToken = "";
+                            options.ChatId = "";
+                            options.UseEmoji = true;
+                            options.MinimumLogLevel = LogLevel.Warning;
+                        })
                         .AddConsole();
                 })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });

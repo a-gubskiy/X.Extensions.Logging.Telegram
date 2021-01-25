@@ -3,22 +3,18 @@ using Microsoft.Extensions.Logging;
 
 namespace X.Extensions.Logging.Telegram
 {
-    public class TelegramLoggerProvider : ILoggerProvider
+    internal class TelegramLoggerProvider : ILoggerProvider
     {
-        private static TelegramLoggerProcessor _telegramLoggerProcessor;
+        private readonly TelegramLoggerProcessor _telegramLoggerProcessor;
         
         private readonly TelegramLoggerOptions _options;
         
         private readonly ConcurrentDictionary<string, TelegramLogger> _loggers = new();
 
-        public TelegramLoggerProvider(TelegramLoggerOptions options)
+        public TelegramLoggerProvider(TelegramLoggerOptions options, TelegramLoggerProcessor telegramLoggerProcessor)
         {
             _options = options;
-
-            if (_telegramLoggerProcessor == null)
-            {
-                _telegramLoggerProcessor = new TelegramLoggerProcessor(options);
-            }
+            _telegramLoggerProcessor = telegramLoggerProcessor;
         }
 
         public ILogger CreateLogger(string categoryName)

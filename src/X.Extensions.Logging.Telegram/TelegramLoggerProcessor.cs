@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace X.Extensions.Logging.Telegram
 {
@@ -10,24 +11,24 @@ namespace X.Extensions.Logging.Telegram
         private const int Timeout = 1500;
 
         private readonly BlockingCollection<string> _queue = new(MaxQueuedMessages);
-        private readonly Thread _outputThread;
+        private readonly Thread _thread;
         private readonly TelegramWriter _writer;
 
         public TelegramLoggerProcessor(TelegramLoggerOptions options)
         {
             _writer = new TelegramWriter(options.AccessToken, options.ChatId);
             
-            // Start Telegram message queue processor
-            _outputThread = new Thread(ProcessLogQueue)
+            // Start Telegram message queue process
+            _thread = new Thread(async () => { await ProcessLogQueue(); })
             {
                 IsBackground = true,
-                Name = "Telegram logger queue processing thread"
+                Name = "Telegram logger queue process thread",
             };
             
-            _outputThread.Start();
+            _thread.Start();
         }
 
-        public virtual void EnqueueMessage(string message)
+        public void EnqueueMessage(string message)
         {
             if (!_queue.IsAddingCompleted)
             {
@@ -51,13 +52,13 @@ namespace X.Extensions.Logging.Telegram
             }
         }
 
-        private void ProcessLogQueue()
+        private async Task ProcessLogQueue()
         {
             try
             {
                 foreach (var message in _queue.GetConsumingEnumerable())
                 {
-                    _writer.Write(message);
+                   await _writer.Write(message);
                 }
             }
             catch
@@ -78,7 +79,7 @@ namespace X.Extensions.Logging.Telegram
 
             try
             {
-                _outputThread.Join(Timeout); // with timeout in-case Telegram is not respond
+                _thread.Join(Timeout); // with timeout in-case Telegram is not respond
             }
             catch
             {

@@ -37,7 +37,9 @@ namespace X.Extensions.Logging.Telegram
         /// <returns></returns>
         public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options)
         {
-            builder.AddProvider(new TelegramLoggerProvider(options));
+            var telegramLoggerProcessor = new TelegramLoggerProcessor(options);
+            
+            builder.AddProvider(new TelegramLoggerProvider(options, telegramLoggerProcessor));
             
             return builder;
         }

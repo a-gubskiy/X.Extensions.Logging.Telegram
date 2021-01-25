@@ -4,7 +4,12 @@ using Telegram.Bot.Types.Enums;
 
 namespace X.Extensions.Logging.Telegram
 {
-    public class TelegramWriter
+    public interface ITelegramWriter
+    {
+        Task Write(string message);
+    }
+
+    public class TelegramWriter : ITelegramWriter
     {
         private readonly string _chatId;
         private readonly TelegramBotClient _client;
@@ -15,11 +20,7 @@ namespace X.Extensions.Logging.Telegram
             _client = new TelegramBotClient(accessToken);
         }
 
-        public void Write(string message)
-        {
-            var task = _client.SendTextMessageAsync(_chatId, message, ParseMode.Markdown);
-            
-            Task.WaitAll(task);
-        }
+        public async Task Write(string message) =>
+            await _client.SendTextMessageAsync(_chatId, message, ParseMode.Markdown);
     }
 }
