@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace X.Extensions.Logging.Telegram.Tests
 {
-    public class Tests
+    public class TelegramLoggingTests
     {
         [SetUp]
         public void Setup()
