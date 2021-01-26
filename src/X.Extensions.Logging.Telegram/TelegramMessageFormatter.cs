@@ -32,8 +32,15 @@ namespace X.Extensions.Logging.Telegram
             var level = _options.UseEmoji ? ToEmoji(logLevel) : ToString(logLevel);
 
             var sb = new StringBuilder();
-            
-            sb.Append($"*{DateTime.Now:hh:mm:ss}* {level} {message}");
+
+            if (_options.UseEmoji)
+            {
+                sb.Append($"{level} *{DateTime.Now:hh:mm:ss}* {message}");
+            }
+            else
+            {
+                sb.Append($"*{DateTime.Now:hh:mm:ss}* {level}: {message}");    
+            }
             
             if (exception != null)
             {

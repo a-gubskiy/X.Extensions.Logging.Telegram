@@ -21,16 +21,22 @@ namespace WebApp.Controllers
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+            
+            _logger.LogWarning("WeatherForecastController created");
         }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
+            var temperatureC = rng.Next(-20, 55);
+            
+            _logger.LogError($"Temperature: {temperatureC}");
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {
                     Date = DateTime.Now.AddDays(index),
-                    TemperatureC = rng.Next(-20, 55),
+                    TemperatureC = temperatureC,
                     Summary = Summaries[rng.Next(Summaries.Length)]
                 })
                 .ToArray();
