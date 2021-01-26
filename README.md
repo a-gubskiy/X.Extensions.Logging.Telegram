@@ -1,4 +1,4 @@
-![Nuget](https://img.shields.io/nuget/v/X.Extensions.Logging.Telegram)
+[![NuGet Version](http://img.shields.io/nuget/v/X.Extensions.Logging.Telegram.svg?style=flat)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram/)
 
 # X.Extensions.Logging.Telegram
 Telegram logging provider
