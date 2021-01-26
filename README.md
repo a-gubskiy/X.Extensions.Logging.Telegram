@@ -28,7 +28,8 @@ var options = new TelegramLoggerOptions
 {
     AccessToken = "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
     ChatId = "-0000000000000",
-    LogLevel = LogLevel.Information
+    LogLevel = LogLevel.Information,
+    Source = "Human Readable Project Name"
 };
 
 ...
@@ -55,6 +56,7 @@ or via appconfig.json file
       "LogLevel": "Warning",
       "AccessToken": "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
       "ChatId": "@channel_name",
+      "Source": "Human Readable Project Name"
     }
   },
   "AllowedHosts": "*"
