@@ -3,6 +3,11 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>9</LangVersion>
+        <Authors>Andrew Gubskiy</Authors>
+        <PackageLicenseUrl>https://github.com/ernado-x/X.Extensions.Logging.Telegram/blob/main/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
+        <PackageProjectUrl>https://github.com/ernado-x/X.Extensions.Logging.Telegram</PackageProjectUrl>
+        <Version>1.0.202101261652</Version>
     </PropertyGroup>
 
     <ItemGroup>
