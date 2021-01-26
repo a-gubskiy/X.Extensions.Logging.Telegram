@@ -21,7 +21,7 @@ namespace ConsoleApp
             {
                 AccessToken = "xxx",
                 ChatId = "-0000000000000",
-                MinimumLogLevel = LogLevel.Information
+                LogLevel = LogLevel.Information
             };
             
             var factory = LoggerFactory.Create(builder =>

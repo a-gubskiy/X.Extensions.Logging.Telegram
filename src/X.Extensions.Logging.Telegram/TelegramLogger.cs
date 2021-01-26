@@ -40,7 +40,7 @@ namespace X.Extensions.Logging.Telegram
             _queueProcessor.EnqueueMessage(message);
         }
 
-        public bool IsEnabled(LogLevel logLevel) => logLevel >= Options.MinimumLogLevel;
+        public bool IsEnabled(LogLevel logLevel) => logLevel >= Options.LogLevel;
 
         public IDisposable BeginScope<TState>(TState state) => default;
     }

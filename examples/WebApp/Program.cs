@@ -21,15 +21,10 @@ namespace WebApp
             Host.CreateDefaultBuilder(args)
                 .ConfigureLogging((context, builder) =>
                 {
-                    builder
-                        .AddTelegram(options =>
-                        {
-                            options.AccessToken = "";
-                            options.ChatId = "";
-                            options.UseEmoji = true;
-                            options.MinimumLogLevel = LogLevel.Warning;
-                        })
-                        .AddConsole();
+                    if (context.Configuration != null)
+                        builder
+                            .AddTelegram(context.Configuration)
+                            .AddConsole();
                 })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
