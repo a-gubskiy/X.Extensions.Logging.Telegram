@@ -13,7 +13,7 @@
         <PackageTags>telegram, logging, log, logs, tg</PackageTags>
         <Description>Telegram logging provider</Description>
         <RepositoryType>git</RepositoryType>
-        <Version>1.0.1.2</Version>
+        <Version>1.0.1.3</Version>
     </PropertyGroup>
 
     <ItemGroup>

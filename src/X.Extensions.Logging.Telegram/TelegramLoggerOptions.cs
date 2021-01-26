@@ -8,5 +8,6 @@ namespace X.Extensions.Logging.Telegram
         public string AccessToken { get; set; }
         public string ChatId { get; set; }
         public bool UseEmoji { get; set; } = true;
+        public string Source { get; set; }
     }
 }

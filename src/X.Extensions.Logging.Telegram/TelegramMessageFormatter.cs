@@ -42,14 +42,22 @@ namespace X.Extensions.Logging.Telegram
                 sb.Append($"*{DateTime.Now:hh:mm:ss}* {level}: {message}");    
             }
             
+            sb.AppendLine();
+            
             if (exception != null)
             {
                 sb.AppendLine();
-                sb.AppendLine();
                 sb.AppendLine($"`{exception}`");
+                sb.AppendLine();
             }
 
-            sb.AppendLine($"_Source: {_name}_");
+            sb.Append($"_Initiator : {_name}_");
+            
+            if (!string.IsNullOrWhiteSpace(_options.Source))
+            {
+                sb.Append($"\t\t\t_Source: {_options.Source}_");
+            }
+            
             sb.AppendLine();
             
             return sb.ToString();
