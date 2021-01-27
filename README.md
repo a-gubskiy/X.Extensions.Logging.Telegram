@@ -21,8 +21,9 @@ For private channel you can use [@JsonDumpBot](https://t.me/jsondumpbot) to get 
 
 ## Configure Telegram Logging provider
 
-You can configure Telegram logging provider by code:
+You can configure Telegram logging provider by code or by config file:
 
+### Code 
 ```csharp
 var options = new TelegramLoggerOptions
 {
@@ -38,11 +39,11 @@ var options = new TelegramLoggerOptions
 builder
   .ClearProviders()
   .AddTelegram(options)
-  .AddConsole();;
+  .AddConsole();
                         
 ```
 
-or via appconfig.json file
+### appconfig.json
 
 ```
 {
