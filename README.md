@@ -56,7 +56,7 @@ builder
     "Telegram": {
       "LogLevel": "Warning",
       "AccessToken": "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
-      "ChatId": "@channel_name",
+      "ChatId": "1234567890",
       "Source": "Human Readable Project Name"
     }
   },
