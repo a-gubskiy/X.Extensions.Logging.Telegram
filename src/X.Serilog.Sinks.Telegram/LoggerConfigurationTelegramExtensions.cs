@@ -14,13 +14,13 @@ namespace X.Serilog.Sinks.Telegram
         ///     Adds a sink that writes log events as telegram messages to a specified channel.
         ///     For appsettings configuration.
         /// </summary>
-        /// <returns></returns>
         public static LoggerConfiguration Telegram(
             this LoggerSinkConfiguration loggerConfiguration,
             string token,
             string chatId,
             string readableApplicationName = "",
             bool useEmoji = false,
+            IMessageFormatter messageFormatter = null,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             int batchPostingLimit = TelegramSinkDefaults.BatchPostingLimit,
             TimeSpan? period = null)
@@ -30,10 +30,11 @@ namespace X.Serilog.Sinks.Telegram
                 Token = token,
                 ChatId = chatId,
                 BatchPostingLimit = batchPostingLimit,
-                FormatterConfiguration = new TelegramMessageFormatterConfiguration()
+                FormatterConfiguration = new FormatterConfiguration()
                 {
                     UseEmoji = useEmoji,
                     ReadableApplicationName = readableApplicationName,
+                    Formatter = messageFormatter,
                 }
             };
 
@@ -44,7 +45,7 @@ namespace X.Serilog.Sinks.Telegram
 
             config.Validate();
 
-            return loggerConfiguration.Sink(new TelegramSinkBase(config),
+            return loggerConfiguration.Sink(new TelegramSink(config),
                 restrictedToMinimumLevel);
         }
 
@@ -77,6 +78,5 @@ namespace X.Serilog.Sinks.Telegram
                 new TelegramSink(config),
                 restrictedToMinimumLevel);
         }
-
     }
 }

@@ -66,7 +66,7 @@ namespace X.Serilog.Sinks.Telegram.Sinks.Telegram
             }
         }
 
-        public TelegramMessageFormatterConfiguration FormatterConfiguration { get; set; }
+        public FormatterConfiguration FormatterConfiguration { get; set; }
 
         public void Validate()
         {
