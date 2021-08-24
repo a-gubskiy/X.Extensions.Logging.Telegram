@@ -1,4 +1,6 @@
-﻿namespace X.Serilog.Sinks.Telegram.Sinks.Telegram
+﻿using X.Serilog.Sinks.Telegram.Sinks.Telegram.Formatters;
+
+namespace X.Serilog.Sinks.Telegram.Sinks.Telegram.Configuration
 {
     public class FormatterConfiguration
     {

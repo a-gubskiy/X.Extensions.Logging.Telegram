@@ -5,6 +5,8 @@ using Serilog.Configuration;
 using Serilog.Events;
 
 using X.Serilog.Sinks.Telegram.Sinks.Telegram;
+using X.Serilog.Sinks.Telegram.Sinks.Telegram.Configuration;
+using X.Serilog.Sinks.Telegram.Sinks.Telegram.Formatters;
 
 namespace X.Serilog.Sinks.Telegram
 {
@@ -21,6 +23,7 @@ namespace X.Serilog.Sinks.Telegram
             string readableApplicationName = "",
             bool useEmoji = false,
             IMessageFormatter messageFormatter = null,
+            LoggingMode mode = LoggingMode.Notifications,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             int batchPostingLimit = TelegramSinkDefaults.BatchPostingLimit,
             TimeSpan? period = null)
@@ -30,6 +33,7 @@ namespace X.Serilog.Sinks.Telegram
                 Token = token,
                 ChatId = chatId,
                 BatchPostingLimit = batchPostingLimit,
+                Mode = mode,
                 FormatterConfiguration = new FormatterConfiguration()
                 {
                     UseEmoji = useEmoji,

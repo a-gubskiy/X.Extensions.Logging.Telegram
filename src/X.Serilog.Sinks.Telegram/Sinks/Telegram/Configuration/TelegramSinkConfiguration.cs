@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace X.Serilog.Sinks.Telegram.Sinks.Telegram
+namespace X.Serilog.Sinks.Telegram.Sinks.Telegram.Configuration
 {
     public class TelegramSinkConfiguration
     {
@@ -67,6 +67,7 @@ namespace X.Serilog.Sinks.Telegram.Sinks.Telegram
         }
 
         public FormatterConfiguration FormatterConfiguration { get; set; }
+        public LoggingMode Mode { get; set; }
 
         public void Validate()
         {

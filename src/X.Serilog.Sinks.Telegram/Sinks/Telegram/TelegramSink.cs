@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,6 +8,9 @@ using Serilog.Sinks.PeriodicBatching;
 
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
+
+using X.Serilog.Sinks.Telegram.Sinks.Telegram.Configuration;
+using X.Serilog.Sinks.Telegram.Sinks.Telegram.Formatters;
 
 namespace X.Serilog.Sinks.Telegram.Sinks.Telegram
 {
@@ -33,20 +37,53 @@ namespace X.Serilog.Sinks.Telegram.Sinks.Telegram
             : base(config.BatchPostingLimit, config.BatchPeriod)
         {
             _config = config;
-            _messageFormatter = _config.FormatterConfiguration.Formatter ?? new DefaultMessageFormatter();
+            _messageFormatter = _config.FormatterConfiguration.Formatter ?? GetMessageFormatter();
             _botClient = new TelegramBotClient(_config.Token);
+        }
+
+        private IMessageFormatter GetMessageFormatter()
+        {
+            return _config.Mode switch
+            {
+                LoggingMode.Logs => new DefaultLogFormatter(),
+                LoggingMode.Notifications => new DefaultNotificationFormatter(),
+                LoggingMode.AggregatedNotifications => new DefaultAggregatedNotificationsFormatter(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         protected async Task SendLog<T>(IEnumerable<T> logEntries) where T: LogEntry
         {
             await Task.Run(() =>
             {
-                foreach (var entry in logEntries)
+                var messages = GetMessages(logEntries.ToList());
+                foreach (var message in messages)
                 {
-                    var message = _messageFormatter.Format(entry, _config.FormatterConfiguration);
                     _botClient.SendTextMessageAsync(_config.ChatId, message, ParseMode.Markdown);
                 }
             });
+        }
+
+        private List<string> GetMessages(IReadOnlyCollection<LogEntry> entries)
+        {
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch (_config.Mode)
+            {
+                case LoggingMode.Logs:
+                case LoggingMode.Notifications:
+                    var messages = new List<string>(entries.Count);
+                    messages.AddRange(entries.Select(entry =>
+                        _messageFormatter.Format(entry, _config.FormatterConfiguration)));
+
+                    return messages;
+                case LoggingMode.AggregatedNotifications:
+                    return new List<string>(1)
+                    {
+                        _messageFormatter.Format(entries, _config.FormatterConfiguration),
+                    };
+            }
+
+            return new List<string>();
         }
     }
 }
