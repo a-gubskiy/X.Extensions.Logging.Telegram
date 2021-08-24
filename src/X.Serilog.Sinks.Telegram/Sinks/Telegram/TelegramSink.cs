@@ -9,10 +9,10 @@ using Serilog.Sinks.PeriodicBatching;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
-using X.Serilog.Sinks.Telegram.Sinks.Telegram.Configuration;
-using X.Serilog.Sinks.Telegram.Sinks.Telegram.Formatters;
+using X.Serilog.Sinks.Telegram.Configuration;
+using X.Serilog.Sinks.Telegram.Formatters;
 
-namespace X.Serilog.Sinks.Telegram.Sinks.Telegram
+namespace X.Serilog.Sinks.Telegram
 {
     internal class TelegramSink : TelegramSinkBase
     {

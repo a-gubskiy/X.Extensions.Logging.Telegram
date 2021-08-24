@@ -4,9 +4,8 @@ using Serilog;
 using Serilog.Configuration;
 using Serilog.Events;
 
-using X.Serilog.Sinks.Telegram.Sinks.Telegram;
-using X.Serilog.Sinks.Telegram.Sinks.Telegram.Configuration;
-using X.Serilog.Sinks.Telegram.Sinks.Telegram.Formatters;
+using X.Serilog.Sinks.Telegram.Configuration;
+using X.Serilog.Sinks.Telegram.Formatters;
 
 namespace X.Serilog.Sinks.Telegram
 {

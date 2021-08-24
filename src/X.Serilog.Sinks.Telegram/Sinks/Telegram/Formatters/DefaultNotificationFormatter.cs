@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
 
-using X.Serilog.Sinks.Telegram.Sinks.Telegram.Configuration;
+using X.Serilog.Sinks.Telegram.Configuration;
 
-namespace X.Serilog.Sinks.Telegram.Sinks.Telegram.Formatters
+namespace X.Serilog.Sinks.Telegram.Formatters
 {
     public class DefaultNotificationFormatter : MessageFormatterBase
     {

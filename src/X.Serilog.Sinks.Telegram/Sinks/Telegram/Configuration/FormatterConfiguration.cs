@@ -1,6 +1,6 @@
-﻿using X.Serilog.Sinks.Telegram.Sinks.Telegram.Formatters;
+﻿using X.Serilog.Sinks.Telegram.Formatters;
 
-namespace X.Serilog.Sinks.Telegram.Sinks.Telegram.Configuration
+namespace X.Serilog.Sinks.Telegram.Configuration
 {
     public class FormatterConfiguration
     {

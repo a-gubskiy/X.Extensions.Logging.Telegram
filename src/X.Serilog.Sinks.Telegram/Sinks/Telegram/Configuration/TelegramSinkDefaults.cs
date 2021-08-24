@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace X.Serilog.Sinks.Telegram.Sinks.Telegram.Configuration
+namespace X.Serilog.Sinks.Telegram.Configuration
 {
     internal static class TelegramSinkDefaults
     {

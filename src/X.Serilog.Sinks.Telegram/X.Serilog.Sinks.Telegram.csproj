@@ -11,6 +11,8 @@
         <PackageLicenseUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram/blob/main/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram</RepositoryUrl>
         <PackageTags>serilog-sink, serilog, serilog-extensions</PackageTags>
+        <AssemblyName>X.Serilog</AssemblyName>
+        <RootNamespace>X.Serilog</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 using Serilog.Events;
 
-namespace X.Serilog.Sinks.Telegram.Sinks.Telegram
+namespace X.Serilog.Sinks.Telegram
 {
     public class LogEntry
     {
