@@ -57,7 +57,7 @@ Keys and values are case-insencitive. This is an example of configuring Telegram
     }
   ],
   "Properties": {
-    "Application": "File Receiver Bot v2.0"
+    "Application": "Human readable application name"
   }
 }
 ```
