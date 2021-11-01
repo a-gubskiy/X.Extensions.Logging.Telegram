@@ -29,21 +29,19 @@ namespace X.Extensions.Logging.Telegram
                 return string.Empty;
             }
             
-            var level = _options.UseEmoji ? ToEmoji(logLevel) : ToString(logLevel);
-
             var sb = new StringBuilder();
 
-            if (_options.UseEmoji)
-            {
-                sb.Append($"{level} *{DateTime.Now:hh:mm:ss}* {message}");
-            }
-            else
-            {
-                sb.Append($"*{DateTime.Now:hh:mm:ss}* {level}: {message}");    
-            }
+            sb.Append(_options.UseEmoji
+                ? $"{ToEmoji(logLevel)} *{DateTime.Now:HH:mm:ss}* {ToString(logLevel)}"
+                : $"*{DateTime.Now:HH:mm:ss}* {ToString(logLevel)}");
             
             sb.AppendLine();
-            
+            sb.Append($"`{_name}`");
+
+            sb.AppendLine();
+            sb.AppendLine($"Message: {message}");
+            sb.AppendLine();
+
             if (exception != null)
             {
                 sb.AppendLine();
@@ -51,11 +49,10 @@ namespace X.Extensions.Logging.Telegram
                 sb.AppendLine();
             }
 
-            sb.Append($"_Initiator : {_name}_");
-            
             if (!string.IsNullOrWhiteSpace(_options.Source))
             {
-                sb.Append($"\t\t\t_Source: {_options.Source}_");
+                sb.AppendLine();
+                sb.Append($"_Source: {_options.Source}_");
             }
             
             sb.AppendLine();

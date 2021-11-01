@@ -19,7 +19,7 @@ namespace X.Extensions.Logging.Telegram
 
         public ILogger CreateLogger(string categoryName)
         {
-            return _loggers.GetOrAdd(categoryName, name => new TelegramLogger(name, _options, _telegramLoggerProcessor));
+            return _loggers.GetOrAdd(categoryName, name => new TelegramLogger(name, _options, _telegramLoggerProcessor, categoryName));
         }
 
         public void Dispose() => _loggers.Clear();
