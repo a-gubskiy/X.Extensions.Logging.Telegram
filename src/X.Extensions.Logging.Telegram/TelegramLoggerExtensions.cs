@@ -1,9 +1,11 @@
 using System;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace X.Extensions.Logging.Telegram
 {
+    [PublicAPI]
     public static class TelegramLoggerExtensions
     {
         /// <summary>

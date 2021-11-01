@@ -1,9 +1,11 @@
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
 namespace X.Extensions.Logging.Telegram
 {
+    [PublicAPI]
     public interface ITelegramWriter
     {
         Task Write(string message);

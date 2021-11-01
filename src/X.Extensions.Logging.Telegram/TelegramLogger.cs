@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
 namespace X.Extensions.Logging.Telegram
@@ -19,6 +20,7 @@ namespace X.Extensions.Logging.Telegram
             Options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
+        [PublicAPI]
         public TelegramLoggerOptions Options { get; private set; }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
