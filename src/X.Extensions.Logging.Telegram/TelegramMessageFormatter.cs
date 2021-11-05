@@ -1,5 +1,7 @@
 using System;
+using System.Net;
 using System.Text;
+
 using Microsoft.Extensions.Logging;
 
 namespace X.Extensions.Logging.Telegram
@@ -45,7 +47,7 @@ namespace X.Extensions.Logging.Telegram
             if (exception != null)
             {
                 sb.AppendLine();
-                sb.AppendLine($"<pre>{exception}</pre>");
+                sb.AppendLine($"<pre>{WebUtility.HtmlEncode(exception.ToString())}</pre>");
                 sb.AppendLine();
             }
 
