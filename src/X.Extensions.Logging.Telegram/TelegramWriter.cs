@@ -14,12 +14,17 @@ namespace X.Extensions.Logging.Telegram
     public class TelegramWriter : ITelegramWriter
     {
         private readonly string _chatId;
-        private readonly TelegramBotClient _client;
+        private readonly ITelegramBotClient _client;
 
         public TelegramWriter(string accessToken, string chatId)
+            : this(new TelegramBotClient(accessToken), chatId)
+        {
+        }
+
+        public TelegramWriter(ITelegramBotClient client, string chatId)
         {
             _chatId = chatId;
-            _client = new TelegramBotClient(accessToken);
+            _client = client;
         }
 
         public async Task Write(string message) =>

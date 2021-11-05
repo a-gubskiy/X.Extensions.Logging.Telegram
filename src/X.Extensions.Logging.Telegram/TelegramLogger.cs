@@ -9,13 +9,26 @@ namespace X.Extensions.Logging.Telegram
     {
         private readonly TelegramLoggerProcessor _queueProcessor;
         private readonly string _category;
-        private readonly TelegramMessageFormatter _formatter;
+        private readonly ITelegramMessageFormatter _formatter;
 
-        internal TelegramLogger(string name, TelegramLoggerOptions options, TelegramLoggerProcessor loggerProcessor, string category)
+        internal TelegramLogger(
+            string name,
+            TelegramLoggerOptions options,
+            TelegramLoggerProcessor loggerProcessor,
+            string category)
+            : this(options, loggerProcessor, category, new TelegramMessageFormatter(options, name))
+        {
+        }
+
+        internal TelegramLogger(
+            TelegramLoggerOptions options,
+            TelegramLoggerProcessor loggerProcessor,
+            string category,
+            ITelegramMessageFormatter formatter)
         {
             _queueProcessor = loggerProcessor;
             _category = category;
-            _formatter = new TelegramMessageFormatter(options, name);
+            _formatter = formatter;
 
             Options = options ?? throw new ArgumentNullException(nameof(options));
         }
