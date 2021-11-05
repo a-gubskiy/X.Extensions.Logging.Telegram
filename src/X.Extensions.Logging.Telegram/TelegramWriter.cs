@@ -23,6 +23,6 @@ namespace X.Extensions.Logging.Telegram
         }
 
         public async Task Write(string message) =>
-            await _client.SendTextMessageAsync(_chatId, message, ParseMode.Markdown);
+            await _client.SendTextMessageAsync(_chatId, message, ParseMode.Html);
     }
 }

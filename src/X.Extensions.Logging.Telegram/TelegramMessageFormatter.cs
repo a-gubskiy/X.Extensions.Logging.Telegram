@@ -1,5 +1,7 @@
 using System;
+using System.Net;
 using System.Text;
+
 using Microsoft.Extensions.Logging;
 
 namespace X.Extensions.Logging.Telegram
@@ -32,11 +34,11 @@ namespace X.Extensions.Logging.Telegram
             var sb = new StringBuilder();
 
             sb.Append(_options.UseEmoji
-                ? $"{ToEmoji(logLevel)} *{DateTime.Now:HH:mm:ss}* {ToString(logLevel)}"
-                : $"*{DateTime.Now:HH:mm:ss}* {ToString(logLevel)}");
-            
+                ? $"{ToEmoji(logLevel)} <b>{DateTime.Now:HH:mm:ss}</b> {ToString(logLevel)}"
+                : $"<b>{DateTime.Now:HH:mm:ss}</b> {ToString(logLevel)}");
+
             sb.AppendLine();
-            sb.Append($"`{_name}`");
+            sb.Append($"<pre>{_name}</pre>");
 
             sb.AppendLine();
             sb.AppendLine($"Message: {message}");
@@ -45,14 +47,14 @@ namespace X.Extensions.Logging.Telegram
             if (exception != null)
             {
                 sb.AppendLine();
-                sb.AppendLine($"`{exception}`");
+                sb.AppendLine($"<pre>{WebUtility.HtmlEncode(exception.ToString())}</pre>");
                 sb.AppendLine();
             }
 
             if (!string.IsNullOrWhiteSpace(_options.Source))
             {
                 sb.AppendLine();
-                sb.Append($"_Source: {_options.Source}_");
+                sb.Append($"<i>Source: {_options.Source}</i>");
             }
             
             sb.AppendLine();
