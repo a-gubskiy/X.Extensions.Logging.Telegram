@@ -34,7 +34,7 @@ Log.Logger = new LoggerConfiguration()
 ```
 
 ### JSON *(Microsoft.Extensions.Configuration)*
-Keys and values are case-insencitive. This is an example of configuring Telegram sink from *appsettings.json*:
+Keys and values are case-insensitive. This is an example of configuring Telegram sink from *appsettings.json*:
 
 ```json
 "Serilog": {
