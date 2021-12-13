@@ -21,7 +21,9 @@ namespace ConsoleApp
             {
                 AccessToken = "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
                 ChatId = "-0000000000000",
-                LogLevel = LogLevel.Information
+                LogLevel = LogLevel.Information,
+                Source = "TEST APP",
+                UseEmoji = true
             };
             
             var factory = LoggerFactory.Create(builder =>
@@ -44,8 +46,8 @@ namespace ConsoleApp
 
                 try
                 {
-                    throw new SystemException("Exception message description");
-
+                    throw new SystemException("Exception message description. <br /> This message contains " +
+                                              "<html> <tags /> And some **special** symbols _");
                 }
                 catch (Exception exception)
                 {

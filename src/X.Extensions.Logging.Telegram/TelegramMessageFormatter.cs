@@ -1,10 +1,28 @@
 using System;
+using System.Net;
 using System.Text;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
 namespace X.Extensions.Logging.Telegram
 {
-    public class TelegramMessageFormatter
+    [PublicAPI]
+    public interface ITelegramMessageFormatter
+    {
+        string Format<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception exception,
+            Func<TState, Exception, string> formatter);
+
+        string Format(LogLevel logLevel, Exception exception, string message);
+        
+        string EncodeHtml(string text);
+    }
+
+    [PublicAPI]
+    public class TelegramMessageFormatter : ITelegramMessageFormatter
     {
         private readonly TelegramLoggerOptions _options;
         private readonly string _name;
@@ -20,10 +38,11 @@ namespace X.Extensions.Logging.Telegram
             EventId eventId,
             TState state,
             Exception exception,
-            Func<TState, Exception, string> formatter)
-        {
-            var message = formatter(state, exception);
+            Func<TState, Exception, string> formatter) =>
+            Format(logLevel, exception, formatter(state, exception));
 
+        public virtual string Format(LogLevel logLevel, Exception exception, string message)
+        {
             if (string.IsNullOrWhiteSpace(message))
             {
                 return string.Empty;
@@ -32,33 +51,35 @@ namespace X.Extensions.Logging.Telegram
             var sb = new StringBuilder();
 
             sb.Append(_options.UseEmoji
-                ? $"{ToEmoji(logLevel)} *{DateTime.Now:HH:mm:ss}* {ToString(logLevel)}"
-                : $"*{DateTime.Now:HH:mm:ss}* {ToString(logLevel)}");
-            
-            sb.AppendLine();
-            sb.Append($"`{_name}`");
+                ? $"{ToEmoji(logLevel)} <b>{DateTime.Now:HH:mm:ss}</b> {ToString(logLevel)}"
+                : $"<b>{DateTime.Now:HH:mm:ss}</b> {ToString(logLevel)}");
 
             sb.AppendLine();
-            sb.AppendLine($"Message: {message}");
+            sb.Append($"<pre>{_name}</pre>");
+
+            sb.AppendLine();
+            sb.AppendLine($"Message: {EncodeHtml(message)}");
             sb.AppendLine();
 
             if (exception != null)
             {
                 sb.AppendLine();
-                sb.AppendLine($"`{exception}`");
+                sb.AppendLine($"<pre>{EncodeHtml(exception.ToString())}</pre>");
                 sb.AppendLine();
             }
 
             if (!string.IsNullOrWhiteSpace(_options.Source))
             {
                 sb.AppendLine();
-                sb.Append($"_Source: {_options.Source}_");
+                sb.Append($"<i>Source: {_options.Source}</i>");
             }
             
             sb.AppendLine();
             
             return sb.ToString();
         }
+
+        public virtual string EncodeHtml(string text) => WebUtility.HtmlEncode(text);
 
         private static string ToString(LogLevel level) =>
             level switch

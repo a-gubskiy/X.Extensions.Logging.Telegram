@@ -12,7 +12,7 @@ namespace X.Extensions.Logging.Telegram
 
         private readonly BlockingCollection<string> _queue = new(MaxQueuedMessages);
         private readonly Thread _thread;
-        private readonly TelegramWriter _writer;
+        private readonly ITelegramWriter _writer;
 
         public TelegramLoggerProcessor(TelegramLoggerOptions options)
         {

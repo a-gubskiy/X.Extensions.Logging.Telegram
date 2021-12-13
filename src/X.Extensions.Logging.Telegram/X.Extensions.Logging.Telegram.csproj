@@ -12,11 +12,12 @@
         <PackageTags>telegram, logging, log, logs, tg</PackageTags>
         <Description>Telegram logging provider</Description>
         <RepositoryType>git</RepositoryType>
-        <Version>1.0.1.5</Version>
+        <Version>1.0.2.1</Version>
         <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" /
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
       <PackageReference Include="Telegram.Bot" Version="17.0.0" />
