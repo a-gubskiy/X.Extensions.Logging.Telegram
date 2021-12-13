@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <LangVersion>9</LangVersion>
+        <LangVersion>10</LangVersion>
         <Authors>Andrew Gubskiy</Authors>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>X.Extensions.Logging.Telegram</Title>
@@ -18,9 +18,9 @@
 
     <ItemGroup>
       <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-      <PackageReference Include="Telegram.Bot" Version="16.0.2" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+      <PackageReference Include="Telegram.Bot" Version="17.0.0" />
     </ItemGroup>
 
 </Project>
