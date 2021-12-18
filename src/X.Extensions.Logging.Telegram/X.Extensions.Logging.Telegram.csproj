@@ -12,7 +12,7 @@
         <PackageTags>telegram, logging, log, logs, tg</PackageTags>
         <Description>Telegram logging provider</Description>
         <RepositoryType>git</RepositoryType>
-        <Version>1.0.2.1</Version>
+        <Version>1.0.3.0</Version>
         <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
