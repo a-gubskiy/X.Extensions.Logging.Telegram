@@ -31,7 +31,7 @@ namespace ConsoleApp
                     builder
                         .ClearProviders()
                         .AddTelegram(options)
-                        .AddConsole();;
+                        .AddConsole();
                 }
             );
 
