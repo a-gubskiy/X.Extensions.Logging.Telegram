@@ -1,12 +1,12 @@
 using System;
-using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
 namespace X.Extensions.Logging.Telegram;
 
-public class TelegramLogger : ILogger
+internal class TelegramLogger : ILogger
 {
+    private readonly TelegramLoggerOptions _options;
     private readonly TelegramLoggerProcessor _queueProcessor;
     private readonly string _category;
     private readonly ITelegramMessageFormatter _formatter;
@@ -18,6 +18,7 @@ public class TelegramLogger : ILogger
         string category)
         : this(options, loggerProcessor, category, new TelegramMessageFormatter(options, name))
     {
+        _options = options;
     }
 
     internal TelegramLogger(
@@ -58,9 +59,25 @@ public class TelegramLogger : ILogger
         _queueProcessor.EnqueueMessage(message);
     }
 
-    public bool IsEnabled(LogLevel logLevel) => 
-        logLevel > Options.LogLevel || 
-        logLevel == Options.LogLevel && (Options.Categories == null || Options.Categories.Contains(_category));
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        if (logLevel != LogLevel.None)
+        {
+            LogLevel configuredLogLevel;
+
+            if (_options.LogLevel.TryGetValue(_category, out configuredLogLevel))
+            {
+                return logLevel >= configuredLogLevel;
+            }
+
+            if (_options.LogLevel.TryGetValue("Default", out configuredLogLevel))
+            {
+                return logLevel >= configuredLogLevel;
+            }
+        }
+
+        return false;
+    }
 
     public IDisposable BeginScope<TState>(TState state) => default;
 }

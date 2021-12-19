@@ -30,8 +30,10 @@ namespace WebApp.Controllers
         {
             var rng = new Random();
             var temperatureC = rng.Next(-20, 55);
-            
-            _logger.LogInformation($"Temperature: {temperatureC}");
+
+            _logger.LogInformation($"Temperature info: {temperatureC}");
+            _logger.LogWarning($"Temperature warn: {temperatureC}");
+            _logger.LogError($"Temperature error: {temperatureC}");
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {

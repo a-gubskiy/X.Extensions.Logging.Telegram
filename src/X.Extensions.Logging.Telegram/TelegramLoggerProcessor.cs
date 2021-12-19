@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace X.Extensions.Logging.Telegram;
 
-internal class TelegramLoggerProcessor : IDisposable
+public class TelegramLoggerProcessor : IDisposable
 {
     private const int MaxQueuedMessages = 1024;
     private const int Timeout = 1500;
@@ -14,9 +14,9 @@ internal class TelegramLoggerProcessor : IDisposable
     private readonly Thread _thread;
     private readonly ITelegramWriter _writer;
 
-    public TelegramLoggerProcessor(TelegramLoggerOptions options)
+    public TelegramLoggerProcessor(string accessToken, string chatId)
     {
-        _writer = new TelegramWriter(options.AccessToken, options.ChatId);
+        _writer = new TelegramWriter(accessToken, chatId);
             
         // Start Telegram message queue process
         _thread = new Thread(async () => { await ProcessLogQueue(); })
@@ -28,7 +28,7 @@ internal class TelegramLoggerProcessor : IDisposable
         _thread.Start();
     }
 
-    public void EnqueueMessage(string message)
+    public virtual void EnqueueMessage(string message)
     {
         if (!_queue.IsAddingCompleted)
         {

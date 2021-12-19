@@ -55,8 +55,17 @@ public static class TelegramLoggerExtensions
     /// <returns></returns>
     public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options)
     {
-        var telegramLoggerProcessor = new TelegramLoggerProcessor(options);
+        var telegramLoggerProcessor = new TelegramLoggerProcessor(options.AccessToken, options.ChatId);
             
+        builder.AddProvider(new TelegramLoggerProvider(options, telegramLoggerProcessor));
+            
+        return builder;
+    }
+    
+    public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, 
+        TelegramLoggerOptions options,
+        TelegramLoggerProcessor telegramLoggerProcessor)
+    {
         builder.AddProvider(new TelegramLoggerProvider(options, telegramLoggerProcessor));
             
         return builder;

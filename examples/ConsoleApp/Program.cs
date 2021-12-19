@@ -17,11 +17,10 @@ namespace ConsoleApp
         
         static void Main(string[] args)
         {
-            var options = new TelegramLoggerOptions
+            var options = new TelegramLoggerOptions(LogLevel.Information)
             {
                 AccessToken = "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
                 ChatId = "-0000000000000",
-                LogLevel = LogLevel.Information,
                 Source = "TEST APP",
                 UseEmoji = true
             };
@@ -58,7 +57,6 @@ namespace ConsoleApp
 
                 Task.WaitAll(Task.Delay(500));
             }
-
 
             Console.WriteLine("Hello World!");
             Console.ReadKey();
