@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
@@ -58,9 +57,13 @@ public class TelegramLogger : ILogger
         _queueProcessor.EnqueueMessage(message);
     }
 
-    public bool IsEnabled(LogLevel logLevel) => 
-        logLevel > Options.LogLevel || 
-        logLevel == Options.LogLevel && (Options.Categories == null || Options.Categories.Contains(_category));
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        return logLevel >= LogLevel.None;
+        
+            // logLevel > Options.LogLevel ||
+            //    logLevel == Options.LogLevel && (Options.Categories == null || Options.Categories.Contains(_category));
+    }
 
     public IDisposable BeginScope<TState>(TState state) => default;
 }

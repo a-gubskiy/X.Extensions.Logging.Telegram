@@ -14,12 +14,11 @@ namespace X.Extensions.Logging.Telegram.Tests
         [Test]
         public void Test_MessageFormatter_MessageNotNull()
         {
-            var options = new TelegramLoggerOptions
+            var options = new TelegramLoggerOptions(LogLevel.Trace)
             {
                 Source = "Project A",
                 AccessToken = "",
                 ChatId = "",
-                LogLevel = LogLevel.Trace,
                 UseEmoji = true
             };
             
@@ -33,13 +32,12 @@ namespace X.Extensions.Logging.Telegram.Tests
         [TestCase("<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
         public void ExceptionDescriptionWithRawHtmlTest(string description)
         {
-            ITelegramMessageFormatter formatter = new TelegramMessageFormatter(new TelegramLoggerOptions
+            ITelegramMessageFormatter formatter = new TelegramMessageFormatter(new TelegramLoggerOptions(LogLevel.Information)
             {
                 Categories = new[] { "test" },
                 Source = "Test API",
                 AccessToken = "none",
                 ChatId = "12345",
-                LogLevel = LogLevel.Information,
                 UseEmoji = true
             }, "test");
 
