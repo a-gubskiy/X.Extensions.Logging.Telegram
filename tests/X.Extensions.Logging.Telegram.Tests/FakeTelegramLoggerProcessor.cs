@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace X.Extensions.Logging.Telegram.Tests;
 
-public class FakeTelegramLoggerProcessor : ITelegramLoggerProcessor
+public class FakeLogQueueProcessor : ILogQueueProcessor
 {
     public List<string> Messages { get; private set; } = new List<string>();
 

@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot;
@@ -7,22 +6,22 @@ using Telegram.Bot.Types.Enums;
 namespace X.Extensions.Logging.Telegram;
 
 [PublicAPI]
-public interface ITelegramWriter
+public interface ILogWriter
 {
     Task Write(string message);
 }
 
-public class TelegramWriter : ITelegramWriter
+public class TelegramLogWriter : ILogWriter
 {
     private readonly string _chatId;
     private readonly ITelegramBotClient _client;
 
-    public TelegramWriter(string accessToken, string chatId)
+    public TelegramLogWriter(string accessToken, string chatId)
         : this(new TelegramBotClient(accessToken), chatId)
     {
     }
 
-    public TelegramWriter(ITelegramBotClient client, string chatId)
+    public TelegramLogWriter(ITelegramBotClient client, string chatId)
     {
         _chatId = chatId;
         _client = client;

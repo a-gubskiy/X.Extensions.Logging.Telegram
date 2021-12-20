@@ -7,22 +7,13 @@ namespace X.Extensions.Logging.Telegram;
 public class TelegramLogger : ILogger
 {
     private readonly ILogLevelChecker _logLevelChecker;
-    private readonly ITelegramLoggerProcessor _queueProcessor;
+    private readonly ILogQueueProcessor _queueProcessor;
     private readonly ITelegramMessageFormatter _formatter;
-
-    internal TelegramLogger(
-        string category,
-        TelegramLoggerOptions options,
-        ILogLevelChecker logLevelChecker,
-        ITelegramLoggerProcessor loggerProcessor)
-        : this(options, logLevelChecker, loggerProcessor, new TelegramMessageFormatter(options, category))
-    {
-    }
 
     internal TelegramLogger(
         TelegramLoggerOptions options,
         ILogLevelChecker  logLevelChecker,
-        ITelegramLoggerProcessor loggerProcessor,
+        ILogQueueProcessor loggerProcessor,
         ITelegramMessageFormatter formatter)
     {
         Options = options ?? throw new ArgumentNullException(nameof(options));

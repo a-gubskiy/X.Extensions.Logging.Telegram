@@ -47,7 +47,7 @@ namespace X.Extensions.Logging.Telegram.Tests
                 }
             };
 
-            var processor = new FakeTelegramLoggerProcessor();
+            var processor = new FakeLogQueueProcessor();
 
             var loggerFactory = LoggerFactory.Create(builder =>
             {

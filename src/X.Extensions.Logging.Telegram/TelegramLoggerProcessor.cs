@@ -7,23 +7,23 @@ using JetBrains.Annotations;
 namespace X.Extensions.Logging.Telegram;
 
 [PublicAPI]
-public interface ITelegramLoggerProcessor : IDisposable
+public interface ILogQueueProcessor : IDisposable
 {
     void EnqueueMessage(string message);
 }
 
-internal class TelegramLoggerProcessor : ITelegramLoggerProcessor
+internal class LogQueueProcessor : ILogQueueProcessor
 {
     private const int MaxQueuedMessages = 1024;
     private const int Timeout = 1500;
 
     private readonly BlockingCollection<string> _queue = new(MaxQueuedMessages);
     private readonly Thread _thread;
-    private readonly ITelegramWriter _writer;
+    private readonly ILogWriter _writer;
 
-    public TelegramLoggerProcessor(string accessToken, string chatId)
+    public LogQueueProcessor(string accessToken, string chatId)
     {
-        _writer = new TelegramWriter(accessToken, chatId);
+        _writer = new TelegramLogWriter(accessToken, chatId);
             
         // Start Telegram message queue process
         _thread = new Thread(async () => { await ProcessLogQueue(); })
