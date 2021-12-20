@@ -55,7 +55,15 @@ public static class TelegramLoggerExtensions
 
     public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options)
     {
-        return AddTelegram(builder, options, new TelegramLogLevelChecker());
+        var telegramLoggerProcessor = new TelegramLoggerProcessor(options.AccessToken, options.ChatId);
+
+        return AddTelegram(builder, options, new TelegramLogLevelChecker(), telegramLoggerProcessor);
+    }
+    
+    public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options, ITelegramLoggerProcessor telegramLoggerProcessor)
+    {
+
+        return AddTelegram(builder, options, new TelegramLogLevelChecker(), telegramLoggerProcessor);
     }
 
     /// <summary>
@@ -64,16 +72,16 @@ public static class TelegramLoggerExtensions
     /// <param name="builder"></param>
     /// <param name="options"></param>
     /// <param name="telegramLogLevelChecker"></param>
+    /// <param name="telegramLoggerProcessor"></param>
     /// <returns></returns>
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
-        ITelegramLogLevelChecker telegramLogLevelChecker)
+        ITelegramLogLevelChecker telegramLogLevelChecker,
+        ITelegramLoggerProcessor telegramLoggerProcessor)
     {
         builder.AddConfiguration();
         
-        var telegramLoggerProcessor = new TelegramLoggerProcessor(options.AccessToken, options.ChatId);
-
         foreach (var logLevelConfiguration in options.LogLevel)
         {
             var category = logLevelConfiguration.Key == "Default" ? "" : logLevelConfiguration.Key;
