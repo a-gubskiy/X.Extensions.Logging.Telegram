@@ -22,14 +22,14 @@ public static class TelegramLoggerExtensions
     /// Adds a Telegram logger named 'Telegram' to the factory.
     /// </summary>
     /// <param name="builder"></param>
-    /// <param name="options"></param>
+    /// <param name="configure"></param>
     /// <returns></returns>
-    public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, Action<TelegramLoggerOptions> options)
+    public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, Action<TelegramLoggerOptions> configure)
     {
-        var config = new TelegramLoggerOptions();
-        options(config);
+        var options = new TelegramLoggerOptions();
+        configure(options);
 
-        return builder.AddTelegram(config);
+        return builder.AddTelegram(options);
     }
         
     /// <summary>
