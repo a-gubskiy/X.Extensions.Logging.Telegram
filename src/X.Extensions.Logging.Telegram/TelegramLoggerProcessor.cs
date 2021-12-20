@@ -21,9 +21,9 @@ internal class TelegramLoggerProcessor : ITelegramLoggerProcessor
     private readonly Thread _thread;
     private readonly ITelegramWriter _writer;
 
-    public TelegramLoggerProcessor(TelegramLoggerOptions options)
+    public TelegramLoggerProcessor(string accessToken, string chatId)
     {
-        _writer = new TelegramWriter(options.AccessToken, options.ChatId);
+        _writer = new TelegramWriter(accessToken, chatId);
             
         // Start Telegram message queue process
         _thread = new Thread(async () => { await ProcessLogQueue(); })
