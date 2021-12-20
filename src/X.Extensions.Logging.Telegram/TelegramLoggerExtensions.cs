@@ -98,8 +98,9 @@ public static class TelegramLoggerExtensions
         TelegramLoggerOptions options, 
         ILogQueueProcessor logQueueProcessor)
     {
+        var levelChecker = new DefaultLogLevelChecker();
 
-        return AddTelegram(builder, options, new DefaultLogLevelChecker(), logQueueProcessor);
+        return AddTelegram(builder, options, levelChecker, logQueueProcessor);
     }
 
     /// <summary>
@@ -119,6 +120,18 @@ public static class TelegramLoggerExtensions
         ITelegramMessageFormatter CreateFormatter(string name) => new TelegramMessageFormatter(options, name);
 
         return AddTelegram(builder, options, logLevelChecker, logQueueProcessor, CreateFormatter);
+    }
+    
+    public static ILoggingBuilder AddTelegram(
+        this ILoggingBuilder builder,
+        TelegramLoggerOptions options,
+        Func<string, ITelegramMessageFormatter> createFormatter)
+    {
+        var logWriter = new TelegramLogWriter(options.AccessToken, options.ChatId);
+        var logLevelChecker = new DefaultLogLevelChecker();
+        var logQueueProcessor = new LogQueueProcessor(logWriter);
+
+        return AddTelegram(builder, options, logLevelChecker, logQueueProcessor, createFormatter);
     }
     
     /// <summary>
