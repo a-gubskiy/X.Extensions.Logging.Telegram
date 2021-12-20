@@ -1,5 +1,7 @@
 [![NuGet Version](http://img.shields.io/nuget/v/X.Extensions.Logging.Telegram.svg?style=flat)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram/)
 
+👉🏻 **Preview release:**  https://www.nuget.org/packages/X.Extensions.Logging.Telegram/1.0.4-preview ([Release notes](https://andrey-gubskiy.medium.com/net-logging-provider-for-telegram-now-open-and-extensible-1d4cfdd914fc))
+
 # X.Extensions.Logging.Telegram
 Telegram logging provider
 
