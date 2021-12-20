@@ -2,6 +2,7 @@ using System;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Configuration;
 
 namespace X.Extensions.Logging.Telegram;
 
@@ -26,12 +27,17 @@ public static class TelegramLoggerExtensions
     /// <returns></returns>
     public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, Action<TelegramLoggerOptions> configure)
     {
+        if (configure == null)
+        {
+            throw new ArgumentNullException(nameof(configure));
+        }
+
         var options = new TelegramLoggerOptions();
         configure(options);
 
         return AddTelegram(builder, options);
     }
-        
+
     /// <summary>
     /// Adds a Telegram logger named 'Telegram' to the factory.
     /// </summary>
@@ -55,7 +61,17 @@ public static class TelegramLoggerExtensions
     /// <returns></returns>
     public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options)
     {
+        builder.AddConfiguration();
+        
         var telegramLoggerProcessor = new TelegramLoggerProcessor(options.AccessToken, options.ChatId);
+
+        foreach (var logLevelConfiguration in options.LogLevel)
+        {
+            var category = logLevelConfiguration.Key == "Default" ? "" : logLevelConfiguration.Key;
+            var level = logLevelConfiguration.Value;
+            
+            builder.AddFilter<TelegramLoggerProvider>(category, level);
+        }
             
         builder.AddProvider(new TelegramLoggerProvider(options, telegramLoggerProcessor));
             
