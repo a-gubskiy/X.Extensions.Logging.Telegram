@@ -21,15 +21,15 @@ internal class LogQueueProcessor : ILogQueueProcessor
     private readonly Thread _thread;
     private readonly ILogWriter _writer;
 
-    public LogQueueProcessor(string accessToken, string chatId)
+    public LogQueueProcessor(ILogWriter logWriter)
     {
-        _writer = new TelegramLogWriter(accessToken, chatId);
+        _writer = logWriter;
             
-        // Start Telegram message queue process
+        // Start message queue thread
         _thread = new Thread(async () => { await ProcessLogQueue(); })
         {
             IsBackground = true,
-            Name = "Telegram logger queue process thread",
+            Name = $"{nameof(LogQueueProcessor)} thread",
         };
             
         _thread.Start();
@@ -46,6 +46,7 @@ internal class LogQueueProcessor : ILogQueueProcessor
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -76,6 +77,7 @@ internal class LogQueueProcessor : ILogQueueProcessor
             }
             catch
             {
+                // ignored
             }
         }
     }
@@ -90,6 +92,7 @@ internal class LogQueueProcessor : ILogQueueProcessor
         }
         catch
         {
+            // ignored
         }
     }
 }

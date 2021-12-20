@@ -62,11 +62,30 @@ public static class TelegramLoggerExtensions
     public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options)
     {
         var logLevelChecker = new DefaultLogLevelChecker();
-        var telegramLoggerProcessor = new LogQueueProcessor(options.AccessToken, options.ChatId);
+        var logWriter = new TelegramLogWriter(options.AccessToken, options.ChatId);
+        var logQueueProcessor = new LogQueueProcessor(logWriter);
 
-        return AddTelegram(builder, options, logLevelChecker, telegramLoggerProcessor);
+        return AddTelegram(builder, options, logLevelChecker, logQueueProcessor);
     }
-    
+
+    /// <summary>
+    /// Adds a Telegram logger to the factory
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="options"></param>
+    /// <param name="logWriter"></param>
+    /// <returns></returns>
+    public static ILoggingBuilder AddTelegram(
+        this ILoggingBuilder builder, 
+        TelegramLoggerOptions options,
+        ILogWriter logWriter)
+    {
+        var logLevelChecker = new DefaultLogLevelChecker();
+        var logQueueProcessor = new LogQueueProcessor(logWriter);
+
+        return AddTelegram(builder, options, logLevelChecker, logQueueProcessor);
+    }
+
     /// <summary>
     /// Adds a Telegram logger to the factory
     /// </summary>
