@@ -6,7 +6,7 @@ namespace X.Extensions.Logging.Telegram;
 internal class TelegramLoggerProvider : ILoggerProvider
 {
     private readonly ITelegramLoggerProcessor _telegramLoggerProcessor;
-    private readonly ITelegramLogLevelChecker _telegramLogLevelChecker;
+    private readonly ILogLevelChecker _logLevelChecker;
         
     private readonly TelegramLoggerOptions _options;
         
@@ -14,15 +14,15 @@ internal class TelegramLoggerProvider : ILoggerProvider
 
     public TelegramLoggerProvider(TelegramLoggerOptions options,
         ITelegramLoggerProcessor telegramLoggerProcessor,
-        ITelegramLogLevelChecker telegramLogLevelChecker)
+        ILogLevelChecker logLevelChecker)
     {
         _options = options;
         _telegramLoggerProcessor = telegramLoggerProcessor;
-        _telegramLogLevelChecker = telegramLogLevelChecker;
+        _logLevelChecker = logLevelChecker;
     }
 
     public TelegramLoggerProvider(TelegramLoggerOptions options, ITelegramLoggerProcessor telegramLoggerProcessor)
-        : this(options, telegramLoggerProcessor, new TelegramLogLevelChecker())
+        : this(options, telegramLoggerProcessor, new DefaultLogLevelChecker())
     {
         _options = options;
         _telegramLoggerProcessor = telegramLoggerProcessor;
@@ -35,7 +35,7 @@ internal class TelegramLoggerProvider : ILoggerProvider
 
     private TelegramLogger CreateTelegramLogger(string name)
     {
-        return new TelegramLogger(name, _options, _telegramLogLevelChecker, _telegramLoggerProcessor);
+        return new TelegramLogger(name, _options, _logLevelChecker, _telegramLoggerProcessor);
     }
 
     public void Dispose() => _loggers.Clear();

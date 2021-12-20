@@ -10,7 +10,7 @@ namespace X.Extensions.Logging.Telegram;
 public static class TelegramLoggerExtensions
 {
     /// <summary>
-    /// Adds a Telegram logger named 'Telegram' to the factory.
+    /// Adds a Telegram logger to the factory
     /// </summary>
     /// <param name="builder"></param>
     /// <returns></returns>
@@ -20,7 +20,7 @@ public static class TelegramLoggerExtensions
     }
 
     /// <summary>
-    /// Adds a Telegram logger named 'Telegram' to the factory.
+    /// Adds a Telegram logger to the factory
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="configure"></param>
@@ -39,7 +39,7 @@ public static class TelegramLoggerExtensions
     }
 
     /// <summary>
-    /// Adds a Telegram logger named 'Telegram' to the factory.
+    /// Adds a Telegram logger to the factory
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="configuration"></param>
@@ -53,31 +53,44 @@ public static class TelegramLoggerExtensions
         return AddTelegram(builder, options);
     }
 
+    /// <summary>
+    /// Adds a Telegram logger to the factory
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
     public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options)
     {
         var telegramLoggerProcessor = new TelegramLoggerProcessor(options.AccessToken, options.ChatId);
 
-        return AddTelegram(builder, options, new TelegramLogLevelChecker(), telegramLoggerProcessor);
+        return AddTelegram(builder, options, new DefaultLogLevelChecker(), telegramLoggerProcessor);
     }
     
-    public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options, ITelegramLoggerProcessor telegramLoggerProcessor)
-    {
-
-        return AddTelegram(builder, options, new TelegramLogLevelChecker(), telegramLoggerProcessor);
-    }
-
     /// <summary>
-    /// Adds a Telegram logger named 'Telegram' to the factory.
+    /// Adds a Telegram logger to the factory
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="options"></param>
-    /// <param name="telegramLogLevelChecker"></param>
+    /// <param name="telegramLoggerProcessor"></param>
+    /// <returns></returns>
+    public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options, ITelegramLoggerProcessor telegramLoggerProcessor)
+    {
+
+        return AddTelegram(builder, options, new DefaultLogLevelChecker(), telegramLoggerProcessor);
+    }
+
+    /// <summary>
+    /// Adds a Telegram logger to the factory
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="options"></param>
+    /// <param name="logLevelChecker"></param>
     /// <param name="telegramLoggerProcessor"></param>
     /// <returns></returns>
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
-        ITelegramLogLevelChecker telegramLogLevelChecker,
+        ILogLevelChecker logLevelChecker,
         ITelegramLoggerProcessor telegramLoggerProcessor)
     {
         builder.AddConfiguration();
@@ -90,7 +103,7 @@ public static class TelegramLoggerExtensions
             builder.AddFilter<TelegramLoggerProvider>(category, level);
         }
             
-        builder.AddProvider(new TelegramLoggerProvider(options, telegramLoggerProcessor, telegramLogLevelChecker));
+        builder.AddProvider(new TelegramLoggerProvider(options, telegramLoggerProcessor, logLevelChecker));
             
         return builder;
     }
