@@ -7,14 +7,14 @@ namespace X.Extensions.Logging.Telegram;
 
 public class TelegramLogger : ILogger
 {
-    private readonly TelegramLoggerProcessor _queueProcessor;
+    private readonly ITelegramLoggerProcessor _queueProcessor;
     private readonly string _category;
     private readonly ITelegramMessageFormatter _formatter;
 
     internal TelegramLogger(
         string name,
         TelegramLoggerOptions options,
-        TelegramLoggerProcessor loggerProcessor,
+        ITelegramLoggerProcessor loggerProcessor,
         string category)
         : this(options, loggerProcessor, category, new TelegramMessageFormatter(options, name))
     {
@@ -22,7 +22,7 @@ public class TelegramLogger : ILogger
 
     internal TelegramLogger(
         TelegramLoggerOptions options,
-        TelegramLoggerProcessor loggerProcessor,
+        ITelegramLoggerProcessor loggerProcessor,
         string category,
         ITelegramMessageFormatter formatter)
     {

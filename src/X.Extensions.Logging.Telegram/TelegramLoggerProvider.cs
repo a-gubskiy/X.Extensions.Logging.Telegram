@@ -5,13 +5,13 @@ namespace X.Extensions.Logging.Telegram;
 
 internal class TelegramLoggerProvider : ILoggerProvider
 {
-    private readonly TelegramLoggerProcessor _telegramLoggerProcessor;
+    private readonly ITelegramLoggerProcessor _telegramLoggerProcessor;
         
     private readonly TelegramLoggerOptions _options;
         
     private readonly ConcurrentDictionary<string, TelegramLogger> _loggers = new();
 
-    public TelegramLoggerProvider(TelegramLoggerOptions options, TelegramLoggerProcessor telegramLoggerProcessor)
+    public TelegramLoggerProvider(TelegramLoggerOptions options, ITelegramLoggerProcessor telegramLoggerProcessor)
     {
         _options = options;
         _telegramLoggerProcessor = telegramLoggerProcessor;

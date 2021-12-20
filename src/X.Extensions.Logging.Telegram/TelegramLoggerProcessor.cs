@@ -2,10 +2,17 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace X.Extensions.Logging.Telegram;
 
-internal class TelegramLoggerProcessor : IDisposable
+[PublicAPI]
+public interface ITelegramLoggerProcessor : IDisposable
+{
+    void EnqueueMessage(string message);
+}
+
+internal class TelegramLoggerProcessor : ITelegramLoggerProcessor
 {
     private const int MaxQueuedMessages = 1024;
     private const int Timeout = 1500;
