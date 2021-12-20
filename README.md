@@ -80,3 +80,24 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
         })
         .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 ````
+
+### Use custom log writer
+Now developers can use their own implementation for writing data to Telegram. Custom writer should implement ILogWriter interface:
+
+```` cs
+var customLogWriter = new CustomLogWriter();
+logBuilder.AddTelegram(options, customLogWriter);
+````
+### Use custom message formatter
+For implement custom message formatting ITelegramMessageFormatter can be used now.
+
+```` cs
+private ITelegramMessageFormatter CreateFormatter(string name)
+{
+    return new CustomAceTelegramMessageFormatter(name);
+}
+
+logBuilder.AddTelegram(options, CreateFormatter);
+```
+
+For using custom message formatter delegate Func<string, ITelegramMessageFormatter> should be passed to extensions method AddTelegram. Delegate should be used because formatter needs to know which category is used for rendering the message.
