@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 namespace X.Extensions.Logging.Telegram;
 
 [PublicAPI]
-public class TelegramLoggerOptions
+public record TelegramLoggerOptions
 {
     public TelegramLoggerOptions()
         : this(Microsoft.Extensions.Logging.LogLevel.Information)
@@ -22,5 +22,4 @@ public class TelegramLoggerOptions
     public string ChatId { get; set; }
     public bool UseEmoji { get; set; } = true;
     public string Source { get; set; }
-    public string[] Categories { get; set; }
 }

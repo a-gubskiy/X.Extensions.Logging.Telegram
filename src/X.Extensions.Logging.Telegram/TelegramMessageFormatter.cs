@@ -25,12 +25,12 @@ public interface ITelegramMessageFormatter
 public class TelegramMessageFormatter : ITelegramMessageFormatter
 {
     private readonly TelegramLoggerOptions _options;
-    private readonly string _name;
+    private readonly string _category;
 
-    public TelegramMessageFormatter(TelegramLoggerOptions options, string name)
+    public TelegramMessageFormatter(TelegramLoggerOptions options, string category)
     {
         _options = options;
-        _name = name;
+        _category = category;
     }
 
     public string Format<TState>(
@@ -55,7 +55,7 @@ public class TelegramMessageFormatter : ITelegramMessageFormatter
             : $"<b>{DateTime.Now:HH:mm:ss}</b> {ToString(logLevel)}");
 
         sb.AppendLine();
-        sb.Append($"<pre>{_name}</pre>");
+        sb.Append($"<pre>{_category}</pre>");
 
         sb.AppendLine();
         sb.AppendLine($"Message: {EncodeHtml(message)}");

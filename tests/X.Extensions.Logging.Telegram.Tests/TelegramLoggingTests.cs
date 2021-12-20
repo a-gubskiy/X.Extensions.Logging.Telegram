@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 
@@ -32,13 +33,16 @@ namespace X.Extensions.Logging.Telegram.Tests
         [TestCase("<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
         public void ExceptionDescriptionWithRawHtmlTest(string description)
         {
-            ITelegramMessageFormatter formatter = new TelegramMessageFormatter(new TelegramLoggerOptions(LogLevel.Information)
+            ITelegramMessageFormatter formatter = new TelegramMessageFormatter(new TelegramLoggerOptions()
             {
-                Categories = new[] { "test" },
                 Source = "Test API",
                 AccessToken = "none",
                 ChatId = "12345",
-                UseEmoji = true
+                UseEmoji = true,
+                LogLevel = new Dictionary<string, LogLevel>
+                {
+                    {"test", LogLevel.Information}
+                }
             }, "test");
 
             var result = formatter.EncodeHtml(description);

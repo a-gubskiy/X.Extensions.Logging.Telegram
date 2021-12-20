@@ -24,7 +24,7 @@ internal class TelegramLoggerProvider : ILoggerProvider
 
     private TelegramLogger CreateTelegramLogger(string name)
     {
-        return new TelegramLogger(name, _options, _telegramLoggerProcessor, name);
+        return new TelegramLogger(name, _options, _telegramLoggerProcessor);
     }
 
     public void Dispose() => _loggers.Clear();

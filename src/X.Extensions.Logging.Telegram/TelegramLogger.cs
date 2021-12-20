@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
@@ -11,25 +12,24 @@ public class TelegramLogger : ILogger
     private readonly ITelegramMessageFormatter _formatter;
 
     internal TelegramLogger(
-        string name,
+        string category,
         TelegramLoggerOptions options,
-        ITelegramLoggerProcessor loggerProcessor,
-        string category)
-        : this(options, loggerProcessor, category, new TelegramMessageFormatter(options, name))
+        ITelegramLoggerProcessor loggerProcessor)
+        : this(category, options, loggerProcessor, new TelegramMessageFormatter(options, category))
     {
     }
 
     internal TelegramLogger(
+        string category,
         TelegramLoggerOptions options,
         ITelegramLoggerProcessor loggerProcessor,
-        string category,
         ITelegramMessageFormatter formatter)
     {
+        Options = options ?? throw new ArgumentNullException(nameof(options));
+        
         _queueProcessor = loggerProcessor;
         _category = category;
         _formatter = formatter;
-
-        Options = options ?? throw new ArgumentNullException(nameof(options));
     }
 
     [PublicAPI]
@@ -59,10 +59,31 @@ public class TelegramLogger : ILogger
 
     public bool IsEnabled(LogLevel logLevel)
     {
-        return logLevel >= LogLevel.None;
         
-            // logLevel > Options.LogLevel ||
-            //    logLevel == Options.LogLevel && (Options.Categories == null || Options.Categories.Contains(_category));
+        if (logLevel >= LogLevel.None)
+        {
+            var defaultLogLevel = GetValueOrDefault(Options.LogLevel, "Default", LogLevel.Information);
+
+            if (Options.LogLevel.TryGetValue(_category, out var categoryLogLevel))
+            {
+                return logLevel >= categoryLogLevel;
+            }
+
+            return logLevel >= defaultLogLevel;
+
+        }
+
+        return false;
+    }
+
+    private static T GetValueOrDefault<T>(IReadOnlyDictionary<string, T> dictionary, string key, T defaultValue)
+    {
+        if (dictionary.TryGetValue(key, out var result))
+        {
+            return result;
+        }
+
+        return defaultValue;
     }
 
     public IDisposable BeginScope<TState>(TState state) => default;
