@@ -82,7 +82,7 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 ````
 
 ### Use custom log writer
-Now developers can use their own implementation for writing data to Telegram. Custom writer should implement ILogWriter interface:
+Now developers can use their own implementation for writing data to Telegram. Custom writer should implement _ILogWriter_ interface:
 
 ``` cs
 var customLogWriter = new CustomLogWriter();
@@ -90,12 +90,12 @@ logBuilder.AddTelegram(options, customLogWriter);
 ```
 
 ### Use custom message formatter
-For implement custom message formatting ITelegramMessageFormatter can be used now.
+For implement custom message formatting _ITelegramMessageFormatter_ can be used now.
 
 ``` cs
 private ITelegramMessageFormatter CreateFormatter(string name)
 {
-    return new CustomAceTelegramMessageFormatter(name);
+    return new CustomTelegramMessageFormatter(name);
 }
 
 logBuilder.AddTelegram(options, CreateFormatter);
