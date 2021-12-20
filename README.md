@@ -25,11 +25,10 @@ You can configure Telegram logging provider by code or by config file:
 
 ### Code 
 ```csharp
-var options = new TelegramLoggerOptions
+var options = new TelegramLoggerOptions(LogLevel.Information)
 {
     AccessToken = "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
     ChatId = "-0000000000000",
-    LogLevel = LogLevel.Information,
     Source = "Human Readable Project Name"
 };
 
@@ -54,7 +53,10 @@ builder
       "Microsoft.Hosting.Lifetime": "Information"
     },
     "Telegram": {
-      "LogLevel": "Warning",
+      "LogLevel": {
+        "Default": "Error",
+        "WebApp.Controllers": "Warning"
+      },
       "AccessToken": "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
       "ChatId": "1234567890",
       "Source": "Human Readable Project Name"
