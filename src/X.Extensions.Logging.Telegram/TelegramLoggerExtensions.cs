@@ -15,7 +15,7 @@ public static class TelegramLoggerExtensions
     /// <returns></returns>
     public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder)
     {
-        return builder.AddTelegram(new TelegramLoggerOptions());
+        return AddTelegram(builder, new TelegramLoggerOptions());
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public static class TelegramLoggerExtensions
         var options = new TelegramLoggerOptions();
         configure(options);
 
-        return builder.AddTelegram(options);
+        return AddTelegram(builder, options);
     }
         
     /// <summary>
@@ -44,7 +44,7 @@ public static class TelegramLoggerExtensions
 
         configuration.GetSection("Logging:Telegram")?.Bind(options);
 
-        return builder.AddTelegram(options);
+        return AddTelegram(builder, options);
     }
 
     /// <summary>
