@@ -1,10 +1,7 @@
-﻿using System;
+﻿namespace X.Serilog.Sinks.Telegram.Configuration;
 
-namespace X.Serilog.Sinks.Telegram.Configuration
+internal static class TelegramSinkDefaults
 {
-    internal static class TelegramSinkDefaults
-    {
-        public const int BatchPostingLimit = 20;
-        public static readonly TimeSpan BatchPostingPeriod = new TimeSpan(0, 0, 20);
-    }
+    public const int BatchPostingLimit = 20;
+    public static readonly TimeSpan BatchPostingPeriod = new(0, 0, 20);
 }
