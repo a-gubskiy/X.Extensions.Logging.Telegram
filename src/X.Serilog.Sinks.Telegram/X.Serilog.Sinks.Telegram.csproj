@@ -8,7 +8,6 @@
         <Description>This is a sink for Serilog logger that allows you to write logs or notifications just to your Telegram. This logger is fully compatible with Serilog's infrastructure and supports all its features. For more info and examples, visit sink's repository</Description>
         <Copyright>Copyright (c) 2021 Vladislav Bardin</Copyright>
         <PackageProjectUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram/blob/main/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram</RepositoryUrl>
         <PackageTags>serilog-sink, serilog, serilog-extensions</PackageTags>
     </PropertyGroup>

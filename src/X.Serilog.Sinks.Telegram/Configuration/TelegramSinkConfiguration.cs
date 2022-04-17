@@ -65,6 +65,7 @@ public class TelegramSinkConfiguration
     }
 
     public FormatterConfiguration FormatterConfiguration { get; set; }
+
     public LoggingMode Mode { get; set; }
 
     public void Validate()

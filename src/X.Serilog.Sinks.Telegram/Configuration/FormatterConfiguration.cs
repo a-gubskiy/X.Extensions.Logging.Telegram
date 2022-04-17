@@ -1,10 +1,7 @@
-﻿using X.Serilog.Sinks.Telegram.Formatters;
-
-namespace X.Serilog.Sinks.Telegram.Configuration;
+﻿namespace X.Serilog.Sinks.Telegram.Configuration;
 
 public class FormatterConfiguration
 {
     public bool UseEmoji { get; set; }
     public string ReadableApplicationName { get; set; }
-    public IMessageFormatter Formatter { get; set; }
 }

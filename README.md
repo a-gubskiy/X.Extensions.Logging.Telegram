@@ -5,7 +5,7 @@ A Serilog sink that writes events to [Telegram](https://telegram.org/). <br/>
 **NuGet Package** - [X.Serilog.Sinks.Telegram](https://www.nuget.org/packages/X.Serilog.Sinks.Telegram/)
 
 ### Configuration
-In the examples bellow, the sink is writing to the Telegram channel. **Important:** Telegram bot token and chat id are absolutely required parameters! If they won't be passed, an exception will be thrown. As other Serilog's sinks this one can be configured in two way, by fluent configuration or by appsettings file.
+In the examples below, the sink is writing to the Telegram channel. Important: Telegram bot token and chat id are absolutely required parameters! If they won't be passed, an exception will be thrown. Like other Serilog sinks, this one can be configured in two ways, by fluent configuration or by appsettings file.
 ```csharp
 // write events to the given channel
 Log.Logger = new LoggerConfiguration()
@@ -26,10 +26,11 @@ Log.Logger = new LoggerConfiguration()
             ChatId = "",
             FormatterConfiguration = new FormatterConfiguration()
             {
-                UseEmoji = true, ReadableApplicationName = "",
+                UseEmoji = true,
+                ReadableApplicationName = "",
             },
         };
-    })
+    }, messageFormatter: null!)
     .CreateLogger();
 ```
 
@@ -47,11 +48,11 @@ Keys and values are case-insensitive. This is an example of configuring Telegram
       "Args": {
         "Token": "0000000000:0000_000000000000000000000000000000",
         "ChatId": "-0000000000000",
+        "BatchPostingLimit": 5,
+        "BatchPeriod": "0.00:00:20",
         "ReadableApplicationName": "Sample Application",
         "UseEmoji": true,
         "RestrictedToMinimumLevel": "Information",
-        "BatchPostingLimit": 5,
-        "Period": "0.00:00:20",
         "Mode": "Logs"
       }
     }
@@ -63,7 +64,7 @@ Keys and values are case-insensitive. This is an example of configuring Telegram
 ```
 
 ### Settings description
- - Token — Telegram bot token. Requires for interacting with bot API.
+ - Token — Telegram bot token.
  - ChatId — Telegram channel/chat id. Identifies the channel where events will be written.
  - BatchPostingLimit — The minimum amount of events that should be collected before they will be written.
  - BatchPeriod — The minimum time which should pass between events of writing.
@@ -71,7 +72,6 @@ Keys and values are case-insensitive. This is an example of configuring Telegram
  - Mode — [Events representing mode](https://github.com/Bardin08/X.Serilog.Sinks.Telegram/new/main?readme=1#events-representing-modes).
  - UseEmoji — This allows replacing text log level representing with an emoji.
  - ReadableApplicationName — Text from this field will be used as a human-readable application name.
- - Formatter — Custom message formatter.
 
 ### Events representing modes
 Now supported 3 modes of message formatting: logs, notifications and aggregated notifications.

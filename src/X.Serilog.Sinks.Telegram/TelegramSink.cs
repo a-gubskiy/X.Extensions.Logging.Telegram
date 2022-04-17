@@ -10,8 +10,8 @@ namespace X.Serilog.Sinks.Telegram;
 
 internal class TelegramSink : TelegramSinkBase
 {
-    public TelegramSink(TelegramSinkConfiguration config)
-        : base(config)
+    public TelegramSink(IMessageFormatter messageFormatter, TelegramSinkConfiguration config)
+        : base(messageFormatter, config)
     {
     }
 
@@ -27,23 +27,12 @@ internal class TelegramSinkBase : PeriodicBatchingSink
     private readonly TelegramSinkConfiguration _config;
     private readonly ITelegramBotClient _botClient;
 
-    protected TelegramSinkBase(TelegramSinkConfiguration config)
+    protected TelegramSinkBase(IMessageFormatter messageFormatter, TelegramSinkConfiguration config)
         : base(config.BatchPostingLimit, config.BatchPeriod)
     {
         _config = config;
-        _messageFormatter = _config.FormatterConfiguration.Formatter ?? GetMessageFormatter();
+        _messageFormatter = messageFormatter ?? TelegramSinkDefaults.GetDefaultMessageFormatter(_config.Mode);
         _botClient = new TelegramBotClient(_config.Token);
-    }
-
-    private IMessageFormatter GetMessageFormatter()
-    {
-        return _config.Mode switch
-        {
-            LoggingMode.Logs => new DefaultLogFormatter(),
-            LoggingMode.Notifications => new DefaultNotificationFormatter(),
-            LoggingMode.AggregatedNotifications => new DefaultAggregatedNotificationsFormatter(),
-            _ => throw new ArgumentOutOfRangeException()
-        };
     }
 
     protected async Task SendLog<T>(IEnumerable<T> logEntries) where T: LogEntry
