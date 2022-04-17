@@ -1,7 +1,10 @@
-﻿using X.Serilog.Sinks.Telegram.Configuration;
+﻿using Serilog;
+using Serilog.Configuration;
+using Serilog.Events;
+using X.Serilog.Sinks.Telegram.Configuration;
 using X.Serilog.Sinks.Telegram.Formatters;
 
-namespace X.Serilog.Sinks.Telegram
+namespace X.Serilog.Sinks.Telegram.Extensions
 {
     public static class LoggerConfigurationTelegramExtensions
     {
@@ -15,19 +18,19 @@ namespace X.Serilog.Sinks.Telegram
             string chatId,
             string readableApplicationName = "",
             bool useEmoji = false,
-            IMessageFormatter messageFormatter = null,
+            IMessageFormatter messageFormatter = null!,
             LoggingMode mode = LoggingMode.Notifications,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             int batchPostingLimit = TelegramSinkDefaults.BatchPostingLimit,
             TimeSpan? period = null)
         {
-            var config = new TelegramSinkConfiguration()
+            var config = new TelegramSinkConfiguration
             {
                 Token = token,
                 ChatId = chatId,
                 BatchPostingLimit = batchPostingLimit,
                 Mode = mode,
-                FormatterConfiguration = new FormatterConfiguration()
+                FormatterConfiguration = new FormatterConfiguration
                 {
                     UseEmoji = useEmoji,
                     ReadableApplicationName = readableApplicationName,

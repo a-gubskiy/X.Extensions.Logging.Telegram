@@ -4,6 +4,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{652C6F31-3E8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Serilog.Sinks.Telegram", "src\X.Serilog.Sinks.Telegram\X.Serilog.Sinks.Telegram.csproj", "{807F309C-4CE3-4E68-8D46-9044A0A7BD6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Serilog.Sinks.Telegram.Extensions", "src\X.Serilog.Sinks.Telegram.Extensions\X.Serilog.Sinks.Telegram.Extensions.csproj", "{A54DD560-7055-44F4-A30D-E29CDC7951BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,8 +16,13 @@ Global
 		{807F309C-4CE3-4E68-8D46-9044A0A7BD6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{807F309C-4CE3-4E68-8D46-9044A0A7BD6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{807F309C-4CE3-4E68-8D46-9044A0A7BD6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A54DD560-7055-44F4-A30D-E29CDC7951BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A54DD560-7055-44F4-A30D-E29CDC7951BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A54DD560-7055-44F4-A30D-E29CDC7951BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A54DD560-7055-44F4-A30D-E29CDC7951BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{807F309C-4CE3-4E68-8D46-9044A0A7BD6A} = {652C6F31-3E8C-400E-9716-ACF591E48E6F}
+		{A54DD560-7055-44F4-A30D-E29CDC7951BD} = {652C6F31-3E8C-400E-9716-ACF591E48E6F}
 	EndGlobalSection
 EndGlobal

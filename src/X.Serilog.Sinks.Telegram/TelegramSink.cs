@@ -8,7 +8,7 @@ using X.Serilog.Sinks.Telegram.Formatters;
 
 namespace X.Serilog.Sinks.Telegram;
 
-internal class TelegramSink : TelegramSinkBase
+public class TelegramSink : TelegramSinkBase
 {
     public TelegramSink(IMessageFormatter messageFormatter, TelegramSinkConfiguration config)
         : base(messageFormatter, config)
@@ -21,7 +21,7 @@ internal class TelegramSink : TelegramSinkBase
     }
 }
 
-internal class TelegramSinkBase : PeriodicBatchingSink
+public class TelegramSinkBase : PeriodicBatchingSink
 {
     private readonly IMessageFormatter _messageFormatter;
     private readonly TelegramSinkConfiguration _config;
