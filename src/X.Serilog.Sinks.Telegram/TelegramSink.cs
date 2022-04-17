@@ -42,7 +42,7 @@ public class TelegramSinkBase : PeriodicBatchingSink
             var messages = GetMessages(logEntries.ToList());
             foreach (var message in messages)
             {
-                _botClient.SendTextMessageAsync(_config.ChatId, message, ParseMode.Markdown);
+                _botClient.SendTextMessageAsync(_config.ChatId, message, ParseMode.Html);
             }
         });
     }

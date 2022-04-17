@@ -31,14 +31,14 @@ public class DefaultNotificationFormatter : MessageFormatterBase
 
         var sb = new StringBuilder();
 
-        sb.Append("*[").AppendFormat("{0:G}", logEntry.UtcTimeStamp).Append(' ').Append(level).Append("]*").Append(' ').Append(config.ReadableApplicationName);
+        sb.Append("<em>[").AppendFormat("{0:G}", logEntry.UtcTimeStamp).Append(' ').Append(level).Append("]</em>").Append(' ').Append(config.ReadableApplicationName);
 
         sb.AppendLine();
         sb.AppendLine();
 
         if (NotEmpty(logEntry.RenderedMessage))
         {
-            sb.Append('*').Append("Message: ").Append('*').Append('`').Append(logEntry.RenderedMessage).Append('`').AppendLine();
+            sb.Append("<em>").Append("Message: ").Append("</em>").Append("<code>").Append(logEntry.RenderedMessage).Append("</code>").AppendLine();
         }
 
         return sb.ToString();

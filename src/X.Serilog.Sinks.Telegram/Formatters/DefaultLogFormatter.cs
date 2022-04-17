@@ -33,25 +33,25 @@ internal class DefaultLogFormatter : MessageFormatterBase
 
         var sb = new StringBuilder();
 
-        sb.Append("*[").AppendFormat("{0:G}", logEntry.UtcTimeStamp).Append(' ').Append(level).Append("]*").Append(' ').Append(config.ReadableApplicationName);
+        sb.Append("<em>[").Append($"{logEntry.UtcTimeStamp:G}").Append(' ').Append(level).Append("]</em>").Append(' ').Append(config.ReadableApplicationName);
 
         sb.AppendLine();
         sb.AppendLine();
 
         if (NotEmpty(logEntry.RenderedMessage))
         {
-            sb.Append('*').Append("Message: ").Append('*').Append('`').Append(logEntry.RenderedMessage).Append('`').AppendLine();
+            sb.Append("<em>").Append("Message: ").Append("</em>").Append("<code>").Append(logEntry.RenderedMessage).Append("</code>").AppendLine();
         }
 
         if (NotEmpty(logEntry.Exception))
         {
-            sb.Append('*').Append("Exception: ").Append('*').Append('`').Append(logEntry.Exception).Append('`').AppendLine();
+            sb.Append("<em>").Append("Exception: ").Append("</em>").Append("<code>").Append(logEntry.Exception).Append("</code>").AppendLine();
         }
 
         if (NotEmpty(logEntry.Properties))
         {
-            sb.Append('*').Append("Properties: ").Append('*').AppendLine()
-                .Append('`').Append(logEntry.Properties).Append('`').AppendLine();
+            sb.Append("<em>").Append("Properties: ").Append("</em>").AppendLine()
+                .Append("<code>").Append(logEntry.Properties).Append("</code>").AppendLine();
         }
 
         return sb.ToString();

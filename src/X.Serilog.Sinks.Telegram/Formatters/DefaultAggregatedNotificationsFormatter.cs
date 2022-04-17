@@ -32,7 +32,7 @@ public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
         var beginTs = logEntries.First().UtcTimeStamp;
         var endTs = logEntries.Last().UtcTimeStamp;
 
-        sb.Append("*[").AppendFormat("{0:G}", beginTs).Append('—').AppendFormat("{0:G}", endTs).Append("]*").Append(' ').Append(config.ReadableApplicationName)
+        sb.Append("<em>[").Append($"{beginTs:G}").Append('—').Append($"{endTs:G}").Append("]</em>").Append(' ').Append(config.ReadableApplicationName)
             .AppendLine()
             .AppendLine();
 
@@ -42,11 +42,11 @@ public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
 
             var level = config.UseEmoji ? ToEmoji(logEntry.Level) : ToString(logEntry.Level);
 
-            sb.Append("*[").AppendFormat("{0:T}", logEntry.UtcTimeStamp).Append(' ').Append(level).Append("]*");
+            sb.Append("<em>[").Append($"{logEntry.UtcTimeStamp:T}").Append(' ').Append(level).Append("]</em>");
 
             if (NotEmpty(logEntry.RenderedMessage))
             {
-                sb.Append(" `").Append(logEntry.RenderedMessage).Append("`;")
+                sb.Append(" <code>").Append(logEntry.RenderedMessage).Append("</code>;")
                     .AppendLine();
             }
         }
