@@ -1,41 +1,43 @@
 # X.Serilog.Sinks.Telegram
+X.Serilog.Sinks.Telegram is a Serilog sink that write events to [Telegram](https://telegram.org/) channel or chat.
+
+## Current Statuses
 [![Build status](https://ci.appveyor.com/api/projects/status/n4uj9qfuywrkdrhb/branch/main?svg=true)](https://ci.appveyor.com/project/Bardin08/x-serilog-sinks-telegram/branch/main)
+[![NuGet Badge](https://buildstats.info/nuget/X.Serilog.Sinks.Telegram)](https://www.nuget.org/packages/X.Serilog.Sinks.Telegram/)
 
-A Serilog sink that writes events to [Telegram](https://telegram.org/). <br/>
-**NuGet Package** - [X.Serilog.Sinks.Telegram](https://www.nuget.org/packages/X.Serilog.Sinks.Telegram/)
+## Installation
 
-### Configuration
-In the examples below, the sink is writing to the Telegram channel. Important: Telegram bot token and chat id are absolutely required parameters! If they won't be passed, an exception will be thrown. Like other Serilog sinks, this one can be configured in two ways, by fluent configuration or by appsettings file.
-```csharp
-// write events to the given channel
+The package can be installed by NuGet manually or within one of the listed commands.
+
+```ps
+PM> Install-Package X.Serilog.Sinks.Telegram -Version 1.0.0
+```
+
+```sh
+$ dotnet add package X.Serilog.Sinks.Telegram --version 1.0.0
+```
+
+## Usage
+
+Check [docs](./docs) folder to find more interesting things that can be useful.
+
+### Code-Based Configuration
+The simplest configuration require [Telegram bot token](https://core.telegram.org/bots#generating-an-authentication-token) and [channel ID](https://community.jamaicans.dev/t/get-the-telegram-channel-id/427). Check the enclosed links to understand how to receive them.
+
+```cs
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Telegram(
-        token: "",
-        chatId: "",
-        readableApplicationName: "",
-        useEmoji: true)
-    .CreateLogger();
-    
-// manual configuration creating
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Telegram(config =>
-    {
-        config = new TelegramSinkConfiguration()
-        {
-            Token = "",
-            ChatId = "",
-            FormatterConfiguration = new FormatterConfiguration()
-            {
-                UseEmoji = true,
-                ReadableApplicationName = "",
-            },
-        };
-    }, messageFormatter: null!)
+        token: "0000000000:0000_000000000000000000000000000000",
+        chatId: "-0000000000000")
     .CreateLogger();
 ```
 
-### JSON *(Microsoft.Extensions.Configuration)*
-Keys and values are case-insensitive. This is an example of configuring Telegram sink from *appsettings.json*:
+For more complex configuration examples please check the related wiki page or browse the examples folder.
+
+Sink also can be configured by JSON configuration file.
+### JSON-Based Configuration
+#### *Microsoft.Extensions.Configuration* package required
+Keys and values are case-insensitive.
 
 ```json
 "Serilog": {
@@ -48,33 +50,15 @@ Keys and values are case-insensitive. This is an example of configuring Telegram
       "Args": {
         "Token": "0000000000:0000_000000000000000000000000000000",
         "ChatId": "-0000000000000",
-        "BatchPostingLimit": 5,
-        "BatchPeriod": "0.00:00:20",
-        "ReadableApplicationName": "Sample Application",
-        "UseEmoji": true,
-        "RestrictedToMinimumLevel": "Information",
-        "Mode": "Logs"
       }
     }
   ],
-  "Properties": {
-    "Application": "Human readable application name"
-  }
 }
 ```
 
-### Settings description
- - Token — Telegram bot token.
- - ChatId — Telegram channel/chat id. Identifies the channel where events will be written.
- - BatchPostingLimit — The minimum amount of events that should be collected before they will be written.
- - BatchPeriod — The minimum time which should pass between events of writing.
- - FormatterConfiguration — Message formatter configuration. Requires for passing additional info or a formatter as is.
- - Mode — [Events representing mode](https://github.com/Bardin08/X.Serilog.Sinks.Telegram/new/main?readme=1#events-representing-modes).
- - UseEmoji — This allows replacing text log level representing with an emoji.
- - ReadableApplicationName — Text from this field will be used as a human-readable application name.
+## Roadmap
+Project's roadmap described at [Roadmap](./docs/roadmap.md).
 
-### Events representing modes
-Now supported 3 modes of message formatting: logs, notifications and aggregated notifications.
- - Logs — Represents a common log message with a great amount of additional information.
- - Notifications — Represents a short message without any details.
- - Aggregated notifications —  Represents a bench of short messages without any details.
+## Contributing
+Feel free to add any improvements you want via pull requests. All pull requests must be linked to an issue.
+
