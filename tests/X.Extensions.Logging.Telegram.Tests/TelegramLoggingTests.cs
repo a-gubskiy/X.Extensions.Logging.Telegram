@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 
@@ -14,12 +16,11 @@ namespace X.Extensions.Logging.Telegram.Tests
         [Test]
         public void Test_MessageFormatter_MessageNotNull()
         {
-            var options = new TelegramLoggerOptions
+            var options = new TelegramLoggerOptions(LogLevel.Trace)
             {
                 Source = "Project A",
                 AccessToken = "",
                 ChatId = "",
-                LogLevel = LogLevel.Trace,
                 UseEmoji = true
             };
             
@@ -28,19 +29,64 @@ namespace X.Extensions.Logging.Telegram.Tests
 
             Assert.NotNull(message);
         }
+        
+        [Test]
+        public void Test_MessageFormatter_MessageIsNull()
+        {
+            var options = new TelegramLoggerOptions()
+            {
+                Source = "Project A",
+                AccessToken = "",
+                ChatId = "",
+                UseEmoji = true,
+                LogLevel = new Dictionary<string, LogLevel>
+                {
+                    { "Default", LogLevel.Warning },
+                    { "Some.Namespace.SomeClassName", LogLevel.Error },
+                    { "Some.Namespace.AnotherClassName", LogLevel.Trace },
+                }
+            };
+
+            var processor = new FakeLogQueueProcessor();
+
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder
+                    .ClearProviders()
+                    .AddTelegram(options, processor);
+            });
+
+            var telegramLogger0 = loggerFactory.CreateLogger("System");
+            var telegramLogger1 = loggerFactory.CreateLogger("Some.Namespace.SomeClassName");
+            var telegramLogger2 = loggerFactory.CreateLogger("Some.Namespace.AnotherClassName");
+
+
+            telegramLogger0.LogWarning("Message from System");
+            telegramLogger1.LogInformation("Message from Some.Namespace.SomeClassName");
+            telegramLogger2.LogInformation("Message from Some.Namespace.AnotherClassName");
+
+
+            Assert.AreEqual(2, processor.Messages.Count);
+            Assert.True(processor.Messages.Any(o => o.Contains("System")));
+            Assert.True(processor.Messages.Any(o => o.Contains("Message from Some.Namespace.AnotherClassName")));
+
+            Assert.False(processor.Messages.Any(o => o.Contains("Some.Namespace.SomeClassName")));
+        }
 
         [TestCase("<p style=\"font-family='Lucida Console'\">Exception message description</p>")]
         [TestCase("<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
         public void ExceptionDescriptionWithRawHtmlTest(string description)
         {
-            ITelegramMessageFormatter formatter = new TelegramMessageFormatter(new TelegramLoggerOptions
+            ITelegramMessageFormatter formatter = new TelegramMessageFormatter(new TelegramLoggerOptions()
             {
-                Categories = new[] { "test" },
                 Source = "Test API",
                 AccessToken = "none",
                 ChatId = "12345",
-                LogLevel = LogLevel.Information,
-                UseEmoji = true
+                UseEmoji = true,
+                LogLevel = new Dictionary<string, LogLevel>
+                {
+                    {"test", LogLevel.Information}
+                }
             }, "test");
 
             var result = formatter.EncodeHtml(description);

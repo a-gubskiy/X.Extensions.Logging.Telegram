@@ -2,27 +2,34 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace X.Extensions.Logging.Telegram;
 
-internal class TelegramLoggerProcessor : IDisposable
+[PublicAPI]
+public interface ILogQueueProcessor : IDisposable
+{
+    void EnqueueMessage(string message);
+}
+
+internal class LogQueueProcessor : ILogQueueProcessor
 {
     private const int MaxQueuedMessages = 1024;
     private const int Timeout = 1500;
 
     private readonly BlockingCollection<string> _queue = new(MaxQueuedMessages);
     private readonly Thread _thread;
-    private readonly ITelegramWriter _writer;
+    private readonly ILogWriter _writer;
 
-    public TelegramLoggerProcessor(TelegramLoggerOptions options)
+    public LogQueueProcessor(ILogWriter logWriter)
     {
-        _writer = new TelegramWriter(options.AccessToken, options.ChatId);
+        _writer = logWriter;
             
-        // Start Telegram message queue process
+        // Start message queue thread
         _thread = new Thread(async () => { await ProcessLogQueue(); })
         {
             IsBackground = true,
-            Name = "Telegram logger queue process thread",
+            Name = $"{nameof(LogQueueProcessor)} thread",
         };
             
         _thread.Start();
@@ -39,6 +46,7 @@ internal class TelegramLoggerProcessor : IDisposable
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -69,6 +77,7 @@ internal class TelegramLoggerProcessor : IDisposable
             }
             catch
             {
+                // ignored
             }
         }
     }
@@ -83,6 +92,7 @@ internal class TelegramLoggerProcessor : IDisposable
         }
         catch
         {
+            // ignored
         }
     }
 }

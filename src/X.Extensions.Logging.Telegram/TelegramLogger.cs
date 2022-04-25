@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
@@ -7,30 +6,20 @@ namespace X.Extensions.Logging.Telegram;
 
 public class TelegramLogger : ILogger
 {
-    private readonly TelegramLoggerProcessor _queueProcessor;
-    private readonly string _category;
+    private readonly ILogLevelChecker _logLevelChecker;
+    private readonly ILogQueueProcessor _queueProcessor;
     private readonly ITelegramMessageFormatter _formatter;
 
     internal TelegramLogger(
-        string name,
         TelegramLoggerOptions options,
-        TelegramLoggerProcessor loggerProcessor,
-        string category)
-        : this(options, loggerProcessor, category, new TelegramMessageFormatter(options, name))
-    {
-    }
-
-    internal TelegramLogger(
-        TelegramLoggerOptions options,
-        TelegramLoggerProcessor loggerProcessor,
-        string category,
+        ILogLevelChecker  logLevelChecker,
+        ILogQueueProcessor loggerProcessor,
         ITelegramMessageFormatter formatter)
     {
-        _queueProcessor = loggerProcessor;
-        _category = category;
-        _formatter = formatter;
-
         Options = options ?? throw new ArgumentNullException(nameof(options));
+        _logLevelChecker = logLevelChecker;
+        _queueProcessor = loggerProcessor;
+        _formatter = formatter;
     }
 
     [PublicAPI]
@@ -58,9 +47,7 @@ public class TelegramLogger : ILogger
         _queueProcessor.EnqueueMessage(message);
     }
 
-    public bool IsEnabled(LogLevel logLevel) => 
-        logLevel > Options.LogLevel || 
-        logLevel == Options.LogLevel && (Options.Categories == null || Options.Categories.Contains(_category));
+    public bool IsEnabled(LogLevel logLevel) => _logLevelChecker.IsEnabled(logLevel);
 
     public IDisposable BeginScope<TState>(TState state) => default;
 }

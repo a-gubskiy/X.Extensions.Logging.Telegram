@@ -25,11 +25,10 @@ You can configure Telegram logging provider by code or by config file:
 
 ### Code 
 ```csharp
-var options = new TelegramLoggerOptions
+var options = new TelegramLoggerOptions(LogLevel.Information)
 {
     AccessToken = "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
     ChatId = "-0000000000000",
-    LogLevel = LogLevel.Information,
     Source = "Human Readable Project Name"
 };
 
@@ -54,7 +53,10 @@ builder
       "Microsoft.Hosting.Lifetime": "Information"
     },
     "Telegram": {
-      "LogLevel": "Warning",
+      "LogLevel": {
+        "Default": "Error",
+        "WebApp.Controllers": "Warning"
+      },
       "AccessToken": "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
       "ChatId": "1234567890",
       "Source": "Human Readable Project Name"
@@ -78,3 +80,25 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
         })
         .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 ````
+
+### Use custom log writer
+Now developers can use their own implementation for writing data to Telegram. Custom writer should implement _ILogWriter_ interface:
+
+``` cs
+var customLogWriter = new CustomLogWriter();
+logBuilder.AddTelegram(options, customLogWriter);
+```
+
+### Use custom message formatter
+For implement custom message formatting _ITelegramMessageFormatter_ can be used now.
+
+``` cs
+private ITelegramMessageFormatter CreateFormatter(string name)
+{
+    return new CustomTelegramMessageFormatter(name);
+}
+
+logBuilder.AddTelegram(options, CreateFormatter);
+```
+
+For using custom message formatter delegate Func<string, ITelegramMessageFormatter> should be passed to extensions method AddTelegram. Delegate should be used because formatter needs to know which category is used for rendering the message.
