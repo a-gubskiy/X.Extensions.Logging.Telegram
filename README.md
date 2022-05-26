@@ -19,8 +19,9 @@ In telegram there are two types of channels: public and private. For public chan
 
 For private channel you can use [@JsonDumpBot](https://t.me/jsondumpbot) to get private channel id. Just forward any message from private channelto this bot. Additional information you can find [here](https://botostore.com/c/jsondumpbot/).
 
-## Configure Telegram Logging provider
+**Do not forgot** to add your bot as admin with _write messages_ permission to channel.
 
+## Configure Telegram Logging provider
 You can configure Telegram logging provider by code or by config file:
 
 ### Code 
@@ -33,7 +34,6 @@ var options = new TelegramLoggerOptions(LogLevel.Information)
 };
 
 ...
-
 
 builder
   .ClearProviders()
