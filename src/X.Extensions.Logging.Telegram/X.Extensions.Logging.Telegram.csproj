@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <LangVersion>10</LangVersion>
+        <LangVersion>default</LangVersion>
         <Authors>Andrew Gubskiy</Authors>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>X.Extensions.Logging.Telegram</Title>
