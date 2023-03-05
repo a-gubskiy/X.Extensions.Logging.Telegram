@@ -12,8 +12,8 @@
         <PackageTags>telegram, logging, log, logs, tg</PackageTags>
         <Description>Telegram logging provider</Description>
         <RepositoryType>git</RepositoryType>
-        <Version>1.0.5.1</Version>
-        <PackageVersion>1.0.5.1</PackageVersion>
+        <Version>1.0.6.1</Version>
+        <PackageVersion>1.0.6.1</PackageVersion>
         <TargetFrameworks>net6.0;net7.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     </PropertyGroup>
 

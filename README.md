@@ -102,3 +102,9 @@ logBuilder.AddTelegram(options, CreateFormatter);
 ```
 
 For using custom message formatter delegate Func<string, ITelegramMessageFormatter> should be passed to extensions method AddTelegram. Delegate should be used because formatter needs to know which category is used for rendering the message.
+
+
+## Get a digital subscription for project news
+[Subscribe](https://twitter.com/intent/user?screen_name=andrew_gubskiy) to my Twitter to keep up-to-date with project news and receive announcements.
+
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/andrew_gubskiy.svg?style=social&label=Follow%20%40andrew_gubskiy)](https://twitter.com/andrew_gubskiy)
