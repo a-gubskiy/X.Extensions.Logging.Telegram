@@ -1,4 +1,5 @@
 [![NuGet Version](http://img.shields.io/nuget/v/X.Extensions.Logging.Telegram.svg?style=flat)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram/)
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/andrew_gubskiy.svg?style=social&label=Follow%20me!)](https://twitter.com/intent/user?screen_name=andrew_gubskiy)
 
 # X.Extensions.Logging.Telegram
 Telegram logging provider
@@ -106,5 +107,3 @@ For using custom message formatter delegate Func<string, ITelegramMessageFormatt
 
 ## Get a digital subscription for project news
 [Subscribe](https://twitter.com/intent/user?screen_name=andrew_gubskiy) to my Twitter to keep up-to-date with project news and receive announcements.
-
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/andrew_gubskiy.svg?style=social&label=Follow%20%40andrew_gubskiy)](https://twitter.com/andrew_gubskiy)
