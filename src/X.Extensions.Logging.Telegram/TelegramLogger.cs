@@ -17,6 +17,7 @@ public class TelegramLogger : ILogger
         ITelegramMessageFormatter formatter)
     {
         Options = options ?? throw new ArgumentNullException(nameof(options));
+        
         _logLevelChecker = logLevelChecker;
         _queueProcessor = loggerProcessor;
         _formatter = formatter;
