@@ -3,19 +3,29 @@ using X.Serilog.Sinks.Telegram.Configuration;
 
 namespace X.Serilog.Sinks.Telegram.Formatters;
 
-public class MessageFormatterBase : IMessageFormatter
+public abstract class MessageFormatterBase : IMessageFormatter
 {
-    /// <inheritdoc />
-    public virtual string Format(
-        LogEntry logEntry,
-        FormatterConfiguration config,
-        Func<LogEntry, FormatterConfiguration, string> formatter = null) => string.Empty;
+    protected static readonly List<string> Empty = Enumerable.Empty<string>().ToList();
 
     /// <inheritdoc />
-    public virtual string Format(
-        IEnumerable<LogEntry> logEntries,
+    public virtual List<string> Format(ICollection<LogEntry> logEntries,
         FormatterConfiguration config,
-        Func<IEnumerable<LogEntry>, FormatterConfiguration, string> formatter = null) => string.Empty;
+        Func<ICollection<LogEntry>, FormatterConfiguration, List<string>> formatter = null)
+    {
+        if (!NotEmpty(logEntries))
+        {
+            throw new ArgumentException(null, nameof(logEntries));
+        }
+
+        if (formatter is null)
+        {
+            return Empty;
+        }
+
+        var messages = formatter(logEntries, config);
+        messages = messages.Where(msg => !string.IsNullOrEmpty(msg)).ToList();
+        return messages;
+    }
 
     protected virtual bool NotEmpty<T>(T value)
     {
@@ -54,7 +64,7 @@ public class MessageFormatterBase : IMessageFormatter
             LogEventLevel.Information => "ℹ️",
             LogEventLevel.Warning => "⚠️",
             LogEventLevel.Error => "❗",
-            LogEventLevel.Fatal => "‼️",
+            LogEventLevel.Fatal => "☠️️",
             _ => throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, null)
         };
     }

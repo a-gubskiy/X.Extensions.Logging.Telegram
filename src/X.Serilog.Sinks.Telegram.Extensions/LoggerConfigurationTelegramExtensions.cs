@@ -19,7 +19,7 @@ namespace X.Serilog.Sinks.Telegram.Extensions
             string readableApplicationName = "",
             bool useEmoji = false,
             IMessageFormatter messageFormatter = null!,
-            LoggingMode mode = LoggingMode.Notifications,
+            LoggingMode mode = LoggingMode.Logs,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             int batchPostingLimit = TelegramSinkDefaults.BatchPostingLimit,
             TimeSpan? period = null)
@@ -34,6 +34,8 @@ namespace X.Serilog.Sinks.Telegram.Extensions
                 {
                     UseEmoji = useEmoji,
                     ReadableApplicationName = readableApplicationName,
+                    IncludeException = true,
+                    IncludeProperties = true
                 }
             };
 

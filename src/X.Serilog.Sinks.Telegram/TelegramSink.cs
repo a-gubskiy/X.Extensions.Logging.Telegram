@@ -1,8 +1,6 @@
 ﻿using Serilog.Sinks.PeriodicBatching;
-
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
-
 using X.Serilog.Sinks.Telegram.Configuration;
 using X.Serilog.Sinks.Telegram.Formatters;
 
@@ -23,9 +21,9 @@ public class TelegramSink : TelegramSinkBase
 
 public class TelegramSinkBase : PeriodicBatchingSink
 {
-    private readonly IMessageFormatter _messageFormatter;
-    private readonly TelegramSinkConfiguration _config;
     private readonly ITelegramBotClient _botClient;
+    private readonly TelegramSinkConfiguration _config;
+    private readonly IMessageFormatter _messageFormatter;
 
     protected TelegramSinkBase(IMessageFormatter messageFormatter, TelegramSinkConfiguration config)
         : base(config.BatchPostingLimit, config.BatchPeriod)
@@ -35,37 +33,15 @@ public class TelegramSinkBase : PeriodicBatchingSink
         _botClient = new TelegramBotClient(_config.Token);
     }
 
-    protected async Task SendLog<T>(IEnumerable<T> logEntries) where T: LogEntry
+    protected async Task SendLog<T>(IEnumerable<T> logEntries) where T : LogEntry
     {
-        await Task.Run(() =>
-        {
-            var messages = GetMessages(logEntries.ToList());
-            foreach (var message in messages)
-            {
-                _botClient.SendTextMessageAsync(_config.ChatId, message, ParseMode.Html);
-            }
-        });
-    }
+        var messages = _messageFormatter.Format(
+            logEntries.ToList() as ICollection<LogEntry>,
+            _config.FormatterConfiguration);
 
-    private List<string> GetMessages(IReadOnlyCollection<LogEntry> entries)
-    {
-        // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
-        switch (_config.Mode)
+        foreach (var message in messages)
         {
-            case LoggingMode.Logs:
-            case LoggingMode.Notifications:
-                var messages = new List<string>(entries.Count);
-                messages.AddRange(entries.Select(entry =>
-                    _messageFormatter.Format(entry, _config.FormatterConfiguration)));
-
-                return messages;
-            case LoggingMode.AggregatedNotifications:
-                return new List<string>(1)
-                {
-                    _messageFormatter.Format(entries, _config.FormatterConfiguration),
-                };
+            await _botClient.SendTextMessageAsync(_config.ChatId, message, parseMode: ParseMode.Html);
         }
-
-        return new List<string>();
     }
 }

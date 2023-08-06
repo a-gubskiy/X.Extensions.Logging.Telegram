@@ -24,15 +24,6 @@ public enum LoggingMode
     /// </example>
     Logs,
     /// <summary>
-    ///     Short messages without any details will be published.
-    /// </summary>
-    /// <example>
-    ///     <b>[23.08.21 21:52:42 ERR️]</b> Logger
-    ///     <br/><br/>
-    ///     <b>Message:</b> An error occured while handling user request
-    /// </example>
-    Notifications,
-    /// <summary>
     ///     Messages will contain an info about all notifications which were received during a batch period or batch limit.
     /// </summary>
     /// <example>

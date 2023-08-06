@@ -4,25 +4,15 @@ namespace X.Serilog.Sinks.Telegram.Formatters;
 
 public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
 {
-    public override string Format(
-        IEnumerable<LogEntry> logEntries,
+    public override List<string> Format(ICollection<LogEntry> logEntries,
         FormatterConfiguration config,
-        Func<IEnumerable<LogEntry>, FormatterConfiguration, string> formatter = null)
+        Func<ICollection<LogEntry>, FormatterConfiguration, List<string>> formatter = null)
     {
-        if (logEntries is null) throw new ArgumentNullException(nameof(logEntries));
-
         formatter ??= DefaultFormatter;
-
-        var message = formatter(logEntries, config);
-        if (!NotEmpty(message))
-        {
-            throw new ArgumentException(nameof(message));
-        }
-
-        return message;
+        return base.Format(logEntries, config, formatter);
     }
 
-    private string DefaultFormatter(IEnumerable<LogEntry> logEntries, FormatterConfiguration config)
+    private List<string> DefaultFormatter(IEnumerable<LogEntry> logEntries, FormatterConfiguration config)
     {
         var entries = logEntries as LogEntry[] ?? logEntries.ToArray();
 
@@ -32,7 +22,8 @@ public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
         var beginTs = logEntries.First().UtcTimeStamp;
         var endTs = logEntries.Last().UtcTimeStamp;
 
-        sb.Append("<em>[").Append($"{beginTs:G}").Append('—').Append($"{endTs:G}").Append("]</em>").Append(' ').Append(config.ReadableApplicationName)
+        sb.Append("<em>[").Append($"{beginTs:G}").Append('—').Append($"{endTs:G}").Append("]</em>").Append(' ')
+            .Append(config.ReadableApplicationName)
             .AppendLine()
             .AppendLine();
 
@@ -42,7 +33,7 @@ public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
 
             var level = config.UseEmoji ? ToEmoji(logEntry.Level) : ToString(logEntry.Level);
 
-            sb.Append("<em>[").Append($"{logEntry.UtcTimeStamp:T}").Append(' ').Append(level).Append("]</em>");
+            sb.Append(level).Append(' ').Append("<em>[").Append($"{logEntry.UtcTimeStamp:T}").Append("]</em>");
 
             if (NotEmpty(logEntry.RenderedMessage))
             {
@@ -51,6 +42,6 @@ public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
             }
         }
 
-        return sb.ToString();
+        return new List<string> { sb.ToString() };
     }
 }
