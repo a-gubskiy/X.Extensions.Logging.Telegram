@@ -5,7 +5,8 @@ namespace X.Serilog.Sinks.Telegram.Configuration;
 public static class TelegramSinkDefaults
 {
     public const int BatchPostingLimit = 20;
-    public static readonly TimeSpan BatchPostingPeriod = new(0, 0, 20);
+    public static readonly TimeSpan BatchPostingPeriod = TimeSpan.FromSeconds(20);
+    public static readonly TimeSpan RulesCheckPeriod = TimeSpan.FromSeconds(5);
 
     internal static IMessageFormatter GetDefaultMessageFormatter(LoggingMode loggingMode)
     {

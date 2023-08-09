@@ -11,7 +11,7 @@ internal class DefaultLogFormatter : MessageFormatterBase
         FormatterConfiguration config,
         Func<ICollection<LogEntry>, FormatterConfiguration, List<string>> formatter = null)
     {
-        if (NotEmpty(logEntries))
+        if (!NotEmpty(logEntries))
         {
             return Empty;
         }
