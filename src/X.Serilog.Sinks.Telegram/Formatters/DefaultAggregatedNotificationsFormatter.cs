@@ -4,7 +4,8 @@ namespace X.Serilog.Sinks.Telegram.Formatters;
 
 public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
 {
-    public override List<string> Format(ICollection<LogEntry> logEntries,
+    public override List<string> Format(
+        ICollection<LogEntry> logEntries,
         FormatterConfiguration config,
         Func<ICollection<LogEntry>, FormatterConfiguration, List<string>> formatter = null)
     {

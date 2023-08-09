@@ -2,10 +2,11 @@
 
 public class TelegramSinkConfiguration
 {
-    private string _token;
-    private string _chatId;
-    private int _batchPostingLimit;
     private TimeSpan _batchPeriod = TelegramSinkDefaults.BatchPostingPeriod;
+    private int _batchPostingLimit = TelegramSinkDefaults.BatchPostingLimit;
+    private string _chatId;
+    private TimeSpan _rulesCheckPeriod = TelegramSinkDefaults.RulesCheckPeriod;
+    private string _token;
 
     public string Token
     {
@@ -61,6 +62,21 @@ public class TelegramSinkConfiguration
             }
 
             _batchPeriod = value;
+        }
+    }
+
+    public TimeSpan RuleCheckPeriod
+    {
+        get => _rulesCheckPeriod;
+        set
+        {
+            if (value <= TimeSpan.Zero)
+            {
+                throw new ArgumentException(
+                    "Invalid batch emit rules check period! It must be greater than TimeSpan.Zero!");
+            }
+
+            _rulesCheckPeriod = value;
         }
     }
 
