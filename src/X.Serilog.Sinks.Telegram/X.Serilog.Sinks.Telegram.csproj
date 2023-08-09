@@ -11,6 +11,7 @@
         <RepositoryUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram</RepositoryUrl>
         <PackageTags>serilog-sink, serilog, serilog-extensions</PackageTags>
         <LangVersion>11</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>

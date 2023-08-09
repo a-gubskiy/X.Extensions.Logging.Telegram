@@ -14,6 +14,11 @@ public class OncePerTimeRule : IRule, IExecutionHook
 
     public OncePerTimeRule(TimeSpan delay)
     {
+        if (delay <= TimeSpan.Zero)
+        {
+            throw new ArgumentException("Invalid batch period! It must be greater than TimeSpan.Zero!");
+        }
+
         _delay = delay;
         _nextExecution = Now + delay;
     }

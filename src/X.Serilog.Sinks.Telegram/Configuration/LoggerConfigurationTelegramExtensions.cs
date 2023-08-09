@@ -1,7 +1,5 @@
-﻿using System.Collections.Immutable;
-using System.Threading.Channels;
+﻿using System.Threading.Channels;
 using X.Serilog.Sinks.Telegram.Batch;
-using X.Serilog.Sinks.Telegram.Batch.Rules;
 using X.Serilog.Sinks.Telegram.Formatters;
 
 namespace X.Serilog.Sinks.Telegram.Configuration;
@@ -28,22 +26,17 @@ public static class LoggerConfigurationTelegramExtensions
             throw new ArgumentNullException(nameof(configureAction));
         }
 
-        var config = new TelegramSinkConfiguration();
-        configureAction(config);
-        config.Validate();
-
         var channel = Channel.CreateUnbounded<LogEvent>();
         var logsAccessor = new LogsQueueAccessContext(channel.Reader);
 
-        var batchSizeRule = new BatchSizeRule(logsAccessor, config.BatchPostingLimit);
-        var timerRule = new OncePerTimeRule(config.BatchPeriod);
+        var config = new TelegramSinkConfiguration(logsAccessor);
+        configureAction(config);
+        config.Validate();
 
         return loggerConfiguration.Sink(
             new TelegramSink(
                 channel.Writer,
                 logsAccessor,
-                new IRule[] { batchSizeRule, timerRule }.ToImmutableList(),
-                new IExecutionHook[] { timerRule }.ToImmutableList(),
                 config,
                 messageFormatter),
             restrictedToMinimumLevel);

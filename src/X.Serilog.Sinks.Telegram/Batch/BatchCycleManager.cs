@@ -11,15 +11,12 @@ internal class BatchCycleManager : IDisposable
     private readonly IImmutableList<IExecutionHook> _executionHooks;
     private readonly PeriodicTimer _timer;
 
-    public BatchCycleManager(
-        TelegramSinkConfiguration sinkConfiguration,
-        IImmutableList<IRule> batchPositingRules,
-        IImmutableList<IExecutionHook> executionHooks)
+    public BatchCycleManager(BatchEmittingRulesConfiguration configuration)
     {
-        _batchPositingRules = batchPositingRules;
-        _executionHooks = executionHooks;
+        _batchPositingRules = configuration.BatchProcessingRules;
+        _executionHooks = configuration.BatchProcessingExecutionHooks;
 
-        _timer = new PeriodicTimer(sinkConfiguration.RuleCheckPeriod);
+        _timer = new PeriodicTimer(configuration.RuleCheckPeriod);
     }
 
     public void Dispose()

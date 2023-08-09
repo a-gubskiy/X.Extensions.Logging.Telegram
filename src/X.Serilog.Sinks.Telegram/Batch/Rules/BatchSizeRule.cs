@@ -13,6 +13,11 @@ public class BatchSizeRule : IRule
 
     public BatchSizeRule(ILogsQueueAccessor accessContext, int batchSize)
     {
+        if (batchSize <= 0)
+        {
+            throw new ArgumentException("Invalid batch size! It must be greater than 0!");
+        }
+
         _batchSize = batchSize;
         _accessContext = accessContext;
     }

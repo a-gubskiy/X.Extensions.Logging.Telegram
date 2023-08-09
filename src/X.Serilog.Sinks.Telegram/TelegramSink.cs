@@ -5,8 +5,8 @@ using System.Threading.Channels;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using X.Serilog.Sinks.Telegram.Batch;
-using X.Serilog.Sinks.Telegram.Batch.Rules;
 using X.Serilog.Sinks.Telegram.Configuration;
+using X.Serilog.Sinks.Telegram.Filters;
 using X.Serilog.Sinks.Telegram.Formatters;
 
 namespace X.Serilog.Sinks.Telegram;
@@ -17,28 +17,36 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
 
     private readonly ITelegramBotClient _botClient;
     private readonly CancellationTokenSource _cancellationTokenSource;
+
     private readonly ChannelWriter<LogEvent> _channelWriter;
+    private readonly LogFilterManager? _logFilterManager;
     private readonly ILogsQueueAccessor _logsQueueAccessor;
+
     private readonly IMessageFormatter _messageFormatter;
+
     private readonly TelegramSinkConfiguration _sinkConfiguration;
 
     public TelegramSink(
         ChannelWriter<LogEvent> channelWriter,
         ILogsQueueAccessor logsQueueAccessor,
-        IImmutableList<IRule> batchPostingRules,
-        IImmutableList<IExecutionHook> executionHooks,
         TelegramSinkConfiguration sinkConfiguration,
-        IMessageFormatter messageFormatter)
+        IMessageFormatter? messageFormatter)
     {
         _channelWriter = channelWriter;
         _logsQueueAccessor = logsQueueAccessor;
         _sinkConfiguration = sinkConfiguration;
-        _messageFormatter =
-            messageFormatter ?? TelegramSinkDefaults.GetDefaultMessageFormatter(_sinkConfiguration.Mode);
+        _messageFormatter = messageFormatter ??
+                            TelegramSinkDefaults.GetDefaultMessageFormatter(_sinkConfiguration.Mode);
 
         _cancellationTokenSource = new CancellationTokenSource();
+
         _botClient = new TelegramBotClient(_sinkConfiguration.Token);
-        _batchCycleManager = new BatchCycleManager(sinkConfiguration, batchPostingRules, executionHooks);
+
+        _batchCycleManager = new BatchCycleManager(sinkConfiguration.BatchEmittingRulesConfiguration);
+        if (sinkConfiguration.LogFiltersConfiguration.ApplyLogFilters)
+        {
+            _logFilterManager = new LogFilterManager(sinkConfiguration.LogFiltersConfiguration);
+        }
 
         ExecuteLogsProcessingLoop(CancellationToken);
     }
@@ -66,6 +74,12 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
     public void Emit(LogEvent logEvent)
     {
         ArgumentNullException.ThrowIfNull(logEvent);
+
+        var isFilterPassed = _logFilterManager?.ApplyFilter(logEvent);
+        if (isFilterPassed is false)
+        {
+            return;
+        }
 
         _channelWriter.TryWrite(logEvent);
     }
