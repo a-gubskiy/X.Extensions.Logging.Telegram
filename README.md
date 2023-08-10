@@ -17,6 +17,10 @@ PM> Install-Package X.Serilog.Sinks.Telegram -Version 1.0.0
 $ dotnet add package X.Serilog.Sinks.Telegram --version 1.0.0
 ```
 
+## Documentation
+For more comprehensive and detailed documentation, please visit our [GitHub Wiki](https://github.com/Bardin08/X.Serilog.Sinks.Telegram/wiki/Overview) pages. Here, you'll find in-depth information about configuration options, usage examples, troubleshooting guides, and more to help you effectively integrate and utilize the X.Serilog.Sinks.Telegram sink in your projects.
+
+
 ## Usage
 
 Check [docs](./docs) folder to find more interesting things that can be useful.
