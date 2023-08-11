@@ -39,8 +39,9 @@ builder.Host.UseSerilog((_, lc) => lc
         {
             UseEmoji = true,
             ReadableApplicationName = "WebApp Example",
-            IncludeException = true,
-            IncludeProperties = true
+            IncludeException = false,
+            IncludeProperties = false,
+            TimeZone = TimeZoneInfo.Utc
         };
         config.BatchPostingLimit = 10;
         config.Mode = LoggingMode.Logs;
