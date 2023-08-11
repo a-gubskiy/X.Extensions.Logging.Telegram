@@ -15,15 +15,21 @@ public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
 
     private List<string> DefaultFormatter(IEnumerable<LogEntry> logEntries, FormatterConfiguration config)
     {
-        var entries = logEntries as LogEntry[] ?? logEntries.ToArray();
-
         var sb = new StringBuilder();
-        logEntries = entries.OrderBy(x => x.UtcTimeStamp);
 
-        var beginTs = logEntries.First().UtcTimeStamp;
-        var endTs = logEntries.Last().UtcTimeStamp;
+        logEntries = logEntries.OrderBy(x => x.UtcTimeStamp).ToList();
 
-        sb.Append("<em>[").Append($"{beginTs:G}").Append('—').Append($"{endTs:G}").Append("]</em>").Append(' ')
+        var batchBeginTimestamp = logEntries.First().UtcTimeStamp;
+        var batchEndTimestamp = logEntries.Last().UtcTimeStamp;
+
+        if (config.TimeZone is not null)
+        {
+            batchBeginTimestamp = TimeZoneInfo.ConvertTime(batchBeginTimestamp, config.TimeZone);
+            batchEndTimestamp = TimeZoneInfo.ConvertTime(batchBeginTimestamp, config.TimeZone);
+        }
+
+        sb.Append("<em>[").Append($"{batchBeginTimestamp:G}").Append('—').Append($"{batchEndTimestamp:G}")
+            .Append("]</em>").Append(' ')
             .Append(config.ReadableApplicationName)
             .AppendLine()
             .AppendLine();

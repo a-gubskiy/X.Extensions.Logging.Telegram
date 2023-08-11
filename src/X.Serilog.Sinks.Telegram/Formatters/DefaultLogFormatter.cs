@@ -54,7 +54,13 @@ internal class DefaultLogFormatter : MessageFormatterBase
 
         var sb = new StringBuilder();
 
-        sb.Append(level).Append(' ').Append("<em>[").Append($"{logEntry.UtcTimeStamp:G}").Append("]</em>").Append(' ')
+        var timestamp = logEntry.UtcTimeStamp;
+        if (config.TimeZone is not null)
+        {
+            timestamp = TimeZoneInfo.ConvertTime(timestamp, config.TimeZone);
+        }
+
+        sb.Append(level).Append(' ').Append("<em>[").Append($"{timestamp:G}").Append("]</em>").Append(' ')
             .Append(config.ReadableApplicationName);
 
         sb.AppendLine();

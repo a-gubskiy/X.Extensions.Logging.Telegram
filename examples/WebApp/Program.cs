@@ -14,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((_, lc) => lc
     .WriteTo.Telegram(config =>
     {
-        config.Token = "0000000000:0000000000000000000-0000000-0000000";
-        config.ChatId = "-000000000000";
+        config.Token = "5330489044:AAEpHnHO52U3d1URLr-i0xGLGXJ-koyZenQ";
+        config.ChatId = "-1001979998372";
         config.BatchEmittingRulesConfiguration = new BatchEmittingRulesConfiguration
         {
             RuleCheckPeriod = TimeSpan.FromSeconds(5),
@@ -39,8 +39,9 @@ builder.Host.UseSerilog((_, lc) => lc
         {
             UseEmoji = true,
             ReadableApplicationName = "WebApp Example",
-            IncludeException = true,
-            IncludeProperties = true
+            IncludeException = false,
+            IncludeProperties = false,
+            TimeZone = TimeZoneInfo.Utc
         };
         config.BatchPostingLimit = 10;
         config.Mode = LoggingMode.Logs;
