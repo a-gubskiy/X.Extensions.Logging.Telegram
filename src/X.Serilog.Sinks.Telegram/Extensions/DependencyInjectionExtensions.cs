@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using X.Serilog.Sinks.Telegram.Batch.Rules;
 using X.Serilog.Sinks.Telegram.Configuration;
+using X.Serilog.Sinks.Telegram.Filters;
 
 namespace X.Serilog.Sinks.Telegram.Extensions;
 
@@ -22,7 +23,10 @@ public static class DependencyInjectionExtensions
         return sinkConfig;
     }
 
-    private static void TelegramCoreInternal(LoggerSinkConfiguration sinkConfig, string token, string chatId,
+    private static void TelegramCoreInternal(
+        LoggerSinkConfiguration sinkConfig,
+        string token,
+        string chatId,
         LogEventLevel logLevel)
     {
         sinkConfig.Telegram(config =>
@@ -43,6 +47,11 @@ public static class DependencyInjectionExtensions
                     }
                 };
                 config.FormatterConfiguration = TelegramSinkDefaults.DefaultFormatterConfiguration;
+                config.LogFiltersConfiguration = new LogsFiltersConfiguration()
+                {
+                    ApplyLogFilters = false,
+                    Filters = new ImmutableArray<IFilter>()
+                };
             },
             messageFormatter: null!,
             restrictedToMinimumLevel: logLevel);
