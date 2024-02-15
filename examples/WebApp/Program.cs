@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 using X.Serilog.Sinks.Telegram;
 using X.Serilog.Sinks.Telegram.Batch.Rules;
 using X.Serilog.Sinks.Telegram.Configuration;
+using X.Serilog.Sinks.Telegram.Extensions;
 using X.Serilog.Sinks.Telegram.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
