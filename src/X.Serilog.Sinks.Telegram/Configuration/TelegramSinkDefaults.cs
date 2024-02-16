@@ -8,6 +8,32 @@ namespace X.Serilog.Sinks.Telegram.Configuration;
 public static class TelegramSinkDefaults
 {
     /// <summary>
+    /// Gets the logging mode for the application.
+    /// </summary>
+    /// <value>
+    /// The logging mode determines how log messages are processed and formatted before being sent. 
+    /// In this case, it is set to return <see cref="LoggingMode.Logs"/>, which indicates that log messages 
+    /// will be published individually to the specified Telegram channel.
+    /// </value>
+    /// <remarks>
+    /// This property is read-only and returns the default logging mode of the system. 
+    /// It is crucial for configuring the overall logging strategy of the application. 
+    /// For example, when set to <see cref="LoggingMode.Logs"/>, each log message is sent as it occurs. 
+    /// Other modes, like <see cref="LoggingMode.AggregatedNotifications"/>, could aggregate messages over a period 
+    /// or until a certain condition is met before sending.
+    /// </remarks>
+    public static LoggingMode DefaultFormatterMode => LoggingMode.AggregatedNotifications;
+
+    public static FormatterConfiguration DefaultFormatterConfiguration => new()
+    {
+        UseEmoji = true,
+        ReadableApplicationName = "X.Serilog.Telegram.Sink",
+        IncludeException = false,
+        IncludeProperties = false,
+        TimeZone = TimeZoneInfo.Utc
+    };
+
+    /// <summary>
     /// The limit on the number of log events to be included in a single batch.
     /// </summary>
     public const int BatchPostingLimit = 20;

@@ -1,8 +1,9 @@
 ﻿using System.Threading.Channels;
 using X.Serilog.Sinks.Telegram.Batch;
+using X.Serilog.Sinks.Telegram.Configuration;
 using X.Serilog.Sinks.Telegram.Formatters;
 
-namespace X.Serilog.Sinks.Telegram.Configuration;
+namespace X.Serilog.Sinks.Telegram.Extensions;
 
 public static class LoggerConfigurationTelegramExtensions
 {

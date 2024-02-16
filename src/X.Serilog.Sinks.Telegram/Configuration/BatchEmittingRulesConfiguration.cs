@@ -40,15 +40,7 @@ public class BatchEmittingRulesConfiguration
     /// </summary>
     public IImmutableList<IExecutionHook> BatchProcessingExecutionHooks
         => BatchProcessingRules
-            .Select(rule =>
-            {
-                if (rule is IExecutionHook hook)
-                {
-                    return hook;
-                }
-
-                return null;
-            })
-            .Where(hook => hook != null)
-            .ToImmutableList()!;
+            .Where(rule => rule is IExecutionHook)
+            .Cast<IExecutionHook>()
+            .ToImmutableList();
 }
