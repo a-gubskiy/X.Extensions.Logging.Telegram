@@ -6,7 +6,6 @@ const string botToken = "TELEGRAM_BOT_TOKEN";
 const string loggingChatId = "CHANNEL_OR_CHAT_ID";
 
 Log.Logger = new LoggerConfiguration()
-    // add console as logging target
     .WriteTo.TelegramCore(
         token: botToken,
         chatId: loggingChatId,
