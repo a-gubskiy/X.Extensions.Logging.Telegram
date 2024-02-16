@@ -13,10 +13,13 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
 
-
-while (true)
+var logsCounter = 0;
+const int logsThreshold = 100;
+while (logsCounter <= logsThreshold)
 {
     var level = Random.Shared.NextInt64(0, 6);
     Log.Logger.Write((LogEventLevel)level, "Message");
     await Task.Delay(500);
+
+    logsCounter++;
 }
