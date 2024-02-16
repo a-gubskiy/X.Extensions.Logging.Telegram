@@ -7,7 +7,7 @@ public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
     public override List<string> Format(
         ICollection<LogEntry> logEntries,
         FormatterConfiguration config,
-        Func<ICollection<LogEntry>, FormatterConfiguration, List<string>> formatter = null)
+        Func<ICollection<LogEntry>, FormatterConfiguration, List<string>>? formatter = null)
     {
         formatter ??= DefaultFormatter;
         return base.Format(logEntries, config, formatter);

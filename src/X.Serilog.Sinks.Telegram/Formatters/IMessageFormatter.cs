@@ -13,5 +13,5 @@ public interface IMessageFormatter
     /// <returns>Human-readable message.</returns>
     List<string> Format(ICollection<LogEntry> logEntries,
         FormatterConfiguration config,
-        Func<ICollection<LogEntry>, FormatterConfiguration, List<string>> formatter = null);
+        Func<ICollection<LogEntry>, FormatterConfiguration, List<string>>? formatter = null);
 }

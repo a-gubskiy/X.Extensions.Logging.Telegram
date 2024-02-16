@@ -10,7 +10,7 @@ public abstract class MessageFormatterBase : IMessageFormatter
     /// <inheritdoc />
     public virtual List<string> Format(ICollection<LogEntry> logEntries,
         FormatterConfiguration config,
-        Func<ICollection<LogEntry>, FormatterConfiguration, List<string>> formatter = null)
+        Func<ICollection<LogEntry>, FormatterConfiguration, List<string>>? formatter = null)
     {
         if (!NotEmpty(logEntries))
         {

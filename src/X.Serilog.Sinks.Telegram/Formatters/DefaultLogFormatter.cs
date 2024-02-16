@@ -9,7 +9,7 @@ internal class DefaultLogFormatter : MessageFormatterBase
     /// <exception cref="ArgumentException">Throws when, after using the formatter, the message is null, empty, or whitespace.</exception>
     public override List<string> Format(ICollection<LogEntry> logEntries,
         FormatterConfiguration config,
-        Func<ICollection<LogEntry>, FormatterConfiguration, List<string>> formatter = null)
+        Func<ICollection<LogEntry>, FormatterConfiguration, List<string>>? formatter = null)
     {
         if (!NotEmpty(logEntries))
         {
