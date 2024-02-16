@@ -112,7 +112,8 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
     private async Task<IImmutableList<string>> GetMessagesFromQueueAsync(int amount)
     {
         var logsBatch = await _logsQueueAccessor.DequeueSeveralAsync(amount);
-        var events = logsBatch.Where(log => log is not null)
+        var events = logsBatch
+            .Where(log => log is not null)
             .Select(LogEntry.MapFrom)
             .ToList();
 
