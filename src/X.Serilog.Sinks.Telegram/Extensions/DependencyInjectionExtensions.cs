@@ -7,7 +7,7 @@ namespace X.Serilog.Sinks.Telegram.Extensions;
 
 public static class DependencyInjectionExtensions
 {
-    public static LoggerSinkConfiguration TelegramCore(
+    public static LoggerConfiguration TelegramCore(
         this LoggerSinkConfiguration sinkConfig,
         string token,
         string chatId,
@@ -18,18 +18,16 @@ public static class DependencyInjectionExtensions
         ArgumentNullException.ThrowIfNull(token);
         ArgumentNullException.ThrowIfNull(chatId);
 
-        TelegramCoreInternal(sinkConfig, token, chatId, logLevel);
-
-        return sinkConfig;
+        return TelegramCoreInternal(sinkConfig, token, chatId, logLevel);
     }
 
-    private static void TelegramCoreInternal(
+    private static LoggerConfiguration TelegramCoreInternal(
         LoggerSinkConfiguration sinkConfig,
         string token,
         string chatId,
         LogEventLevel logLevel)
     {
-        sinkConfig.Telegram(config =>
+        return sinkConfig.Telegram(config =>
             {
                 config.Token = token;
                 config.ChatId = chatId;
@@ -40,11 +38,12 @@ public static class DependencyInjectionExtensions
                 config.BatchEmittingRulesConfiguration = new BatchEmittingRulesConfiguration
                 {
                     RuleCheckPeriod = TelegramSinkDefaults.RulesCheckPeriod,
-                    BatchProcessingRules = new ImmutableArray<IRule>
+                    BatchProcessingRules = new List<IRule>
                     {
+                        new BatchSizeRule(config.LogsAccessor, batchSize: config.BatchPostingLimit),
                         // send logs to the Telegram once per 250 seconds
                         new OncePerTimeRule(TelegramSinkDefaults.RulesCheckPeriod * 50)
-                    }
+                    }.ToImmutableList()
                 };
                 config.FormatterConfiguration = TelegramSinkDefaults.DefaultFormatterConfiguration;
                 config.LogFiltersConfiguration = new LogsFiltersConfiguration()

@@ -22,7 +22,7 @@ public static class TelegramSinkDefaults
     /// Other modes, like <see cref="LoggingMode.AggregatedNotifications"/>, could aggregate messages over a period 
     /// or until a certain condition is met before sending.
     /// </remarks>
-    public static LoggingMode DefaultFormatterMode => LoggingMode.Logs;
+    public static LoggingMode DefaultFormatterMode => LoggingMode.AggregatedNotifications;
 
     public static FormatterConfiguration DefaultFormatterConfiguration => new()
     {
