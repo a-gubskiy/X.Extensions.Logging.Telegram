@@ -10,7 +10,7 @@
         <PackageProjectUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram</RepositoryUrl>
         <PackageTags>serilog-sink, serilog, serilog-extensions</PackageTags>
-        <LangVersion>11</LangVersion>
+        <LangVersion>12</LangVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 

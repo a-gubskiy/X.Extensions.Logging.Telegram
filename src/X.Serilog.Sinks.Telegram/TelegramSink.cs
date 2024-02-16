@@ -117,7 +117,7 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
             .Select(LogEntry.MapFrom)
             .ToList();
 
-        if (!events.Any())
+        if (events.Count == 0)
         {
             return ImmutableArray<string>.Empty;
         }
