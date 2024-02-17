@@ -8,5 +8,3 @@ global using System.Threading.Tasks;
 global using Serilog;
 global using Serilog.Configuration;
 global using Serilog.Events;
-
-global using Newtonsoft.Json;

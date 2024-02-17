@@ -50,40 +50,34 @@ internal class DefaultLogFormatter : MessageFormatterBase
     {
         if (logEntry is null) throw new ArgumentNullException(nameof(logEntry));
 
-        var level = config.UseEmoji ? ToEmoji(logEntry.Level) : ToString(logEntry.Level);
-
         var sb = new StringBuilder();
+        var timestamp = config.TimeZone != null
+            ? TimeZoneInfo.ConvertTime(logEntry.UtcTimeStamp, config.TimeZone)
+            : logEntry.UtcTimeStamp;
 
-        var timestamp = logEntry.UtcTimeStamp;
-        if (config.TimeZone is not null)
-        {
-            timestamp = TimeZoneInfo.ConvertTime(timestamp, config.TimeZone);
-        }
-
-        sb.Append(level).Append(' ').Append("<em>[").Append($"{timestamp:G}").Append("]</em>").Append(' ')
-            .Append(config.ReadableApplicationName);
-
-        sb.AppendLine();
-        sb.AppendLine();
+        sb.Append(config.UseEmoji ? ToEmoji(logEntry.Level) + logEntry.Level: logEntry.Level.ToString())
+            .Append(' ').Append('[').Append(config.ReadableApplicationName ?? "YourApp").Append(']')
+            .Append(' ').Append('[').Append($"{timestamp:yyyy-MM-dd HH:mm:ss UTC}").Append(']')
+            .AppendLine();
 
         if (NotEmpty(logEntry.RenderedMessage))
         {
-            sb.Append("<em>").Append("Message: ").Append("</em>").Append("<code>").Append(logEntry.RenderedMessage)
-                .Append("</code>").AppendLine();
+            sb.AppendLine().Append("<b>Message:</b> <code>").Append(logEntry.RenderedMessage).Append("</code>").AppendLine();
         }
 
-        if (config.IncludeException &&
-            NotEmpty(logEntry.Exception))
+        if (config.IncludeException && NotEmpty(logEntry.Exception))
         {
-            sb.Append("<em>").Append("Exception: ").Append("</em>").Append("<code>").Append(logEntry.Exception)
-                .Append("</code>").AppendLine();
+            sb.AppendLine().Append("Exception: `").Append(logEntry.Exception).Append("`").AppendLine();
         }
 
-        if (config.IncludeProperties &&
-            NotEmpty(logEntry.Properties))
+        if (config.IncludeProperties && logEntry.Properties != null && logEntry.Properties.Count != 0)
         {
-            sb.Append("<em>").Append("Properties: ").Append("</em>").AppendLine()
-                .Append("<code>").Append(logEntry.Properties).Append("</code>").AppendLine();
+            sb.AppendLine().Append("<b>").Append("Properties: ").Append("</b>").AppendLine();
+            foreach (var property in logEntry.Properties)
+            {
+                sb.Append("<code>").Append(property.Key).Append(": ").Append(property.Value).Append("</code>")
+                    .AppendLine();
+            }
         }
 
         return sb.ToString();
