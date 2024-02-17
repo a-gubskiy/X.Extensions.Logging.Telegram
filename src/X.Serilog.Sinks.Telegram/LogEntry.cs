@@ -2,21 +2,21 @@
 
 public class LogEntry
 {
-    public LogEventLevel Level { get; set; }
+    public LogEventLevel Level { get; init; }
 
-    public DateTime UtcTimeStamp { get; set; }
+    public DateTime UtcTimeStamp { get; init; }
 
-    public MessageTemplate MessageTemplate { get; set; }
+    public MessageTemplate? MessageTemplate { get; init; }
 
-    public string RenderedMessage { get; set; }
+    public string? RenderedMessage { get; init; }
 
-    public string Properties { get; set; }
+    public string? Properties { get; init; }
 
-    public string Exception { get; set; }
+    public string? Exception { get; init; }
 
     public static LogEntry MapFrom(LogEvent logEvent)
     {
-        if (logEvent == null) throw new ArgumentNullException(nameof(logEvent));
+        ArgumentNullException.ThrowIfNull(logEvent);
 
         return new LogEntry
         {

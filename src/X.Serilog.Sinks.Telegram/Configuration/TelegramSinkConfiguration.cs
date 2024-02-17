@@ -95,7 +95,7 @@ public class TelegramSinkConfiguration
     /// <summary>
     /// Gets or sets the configuration for filtering logs.
     /// </summary>
-    public LogsFiltersConfiguration LogFiltersConfiguration { get; set; } = null!;
+    public LogsFiltersConfiguration? LogFiltersConfiguration { get; set; }
 
     /// <summary>
     /// Validates the current configuration.

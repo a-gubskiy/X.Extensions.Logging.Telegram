@@ -1,4 +1,4 @@
-﻿namespace X.Serilog.Sinks.Telegram;
+﻿namespace X.Serilog.Sinks.Telegram.Filters;
 
 public enum LogFiltersOperator
 {
