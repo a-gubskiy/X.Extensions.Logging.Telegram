@@ -2,17 +2,19 @@
 
 public class LogEntry
 {
-    public LogEventLevel Level { get; init; }
+    private  LogEntry()
+    {
+    }
 
-    public DateTime UtcTimeStamp { get; init; }
+    public LogEventLevel Level { get; private init; }
 
-    public MessageTemplate? MessageTemplate { get; init; }
+    public DateTime UtcTimeStamp { get; private init; }
 
-    public string? RenderedMessage { get; init; }
+    public string? RenderedMessage { get; private init; }
 
-    public string? Properties { get; init; }
+    public Dictionary<string, string>? Properties { get; private init; }
 
-    public string? Exception { get; init; }
+    public string? Exception { get; private init; }
 
     public static LogEntry MapFrom(LogEvent logEvent)
     {
@@ -20,12 +22,11 @@ public class LogEntry
 
         return new LogEntry
         {
-            MessageTemplate = logEvent.MessageTemplate,
             RenderedMessage = logEvent.RenderMessage(),
             Level = logEvent.Level,
             UtcTimeStamp = logEvent.Timestamp.ToUniversalTime().UtcDateTime,
             Exception = logEvent.Exception?.ToString(),
-            Properties = JsonConvert.SerializeObject(logEvent.Properties, Formatting.Indented)
+            Properties = logEvent.Properties.ToDictionary(x => x.Key, x => x.Value.ToString())
         };
     }
 }
