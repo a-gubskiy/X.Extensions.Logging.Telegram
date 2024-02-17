@@ -24,15 +24,6 @@ public static class TelegramSinkDefaults
     /// </remarks>
     public static LoggingMode DefaultFormatterMode => LoggingMode.AggregatedNotifications;
 
-    public static FormatterConfiguration DefaultFormatterConfiguration => new()
-    {
-        UseEmoji = true,
-        ReadableApplicationName = "X.Serilog.Telegram.Sink",
-        IncludeException = false,
-        IncludeProperties = false,
-        TimeZone = TimeZoneInfo.Utc
-    };
-
     /// <summary>
     /// The limit on the number of log events to be included in a single batch.
     /// </summary>

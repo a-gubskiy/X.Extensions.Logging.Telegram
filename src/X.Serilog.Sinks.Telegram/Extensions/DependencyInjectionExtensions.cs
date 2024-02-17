@@ -45,8 +45,8 @@ public static class DependencyInjectionExtensions
                         new OncePerTimeRule(TelegramSinkDefaults.RulesCheckPeriod * 50)
                     }.ToImmutableList()
                 };
-                config.FormatterConfiguration = TelegramSinkDefaults.DefaultFormatterConfiguration;
-                config.LogFiltersConfiguration = new LogsFiltersConfiguration()
+                config.FormatterConfiguration = FormatterConfiguration.Default;
+                config.LogFiltersConfiguration = new LogsFiltersConfiguration
                 {
                     ApplyLogFilters = false,
                     Filters = new ImmutableArray<IFilter>()

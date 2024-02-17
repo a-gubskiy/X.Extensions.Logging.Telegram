@@ -43,7 +43,8 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
         _botClient = new TelegramBotClient(_sinkConfiguration.Token);
 
         _batchCycleManager = new BatchCycleManager(sinkConfiguration.BatchEmittingRulesConfiguration);
-        if (sinkConfiguration.LogFiltersConfiguration.ApplyLogFilters)
+
+        if (sinkConfiguration.LogFiltersConfiguration is { ApplyLogFilters: true })
         {
             _logFilterManager = new LogFilterManager(sinkConfiguration.LogFiltersConfiguration);
         }
@@ -111,9 +112,13 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
 
     private async Task<IImmutableList<string>> GetMessagesFromQueueAsync(int amount)
     {
+        var logsCustomFiltersPredicate = (LogEvent log) => true;
+        var logsFilteringPredicate = (LogEvent log) => log != null &&
+                                                       logsCustomFiltersPredicate(log); 
+
         var logsBatch = await _logsQueueAccessor.DequeueSeveralAsync(amount);
         var events = logsBatch
-            .Where(log => log is not null)
+            .Where(logsFilteringPredicate)
             .Select(LogEntry.MapFrom)
             .ToList();
 

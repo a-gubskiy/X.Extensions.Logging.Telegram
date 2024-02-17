@@ -54,4 +54,13 @@ public class FormatterConfiguration
     /// Please note that each sink might handle log timestamps based on its individual configuration. To ensure the desired time zone is applied to your logs, you need to set this property for each necessary sink.
     /// </remarks>
     public TimeZoneInfo? TimeZone { get; init; }
+
+    public static FormatterConfiguration Default => new()
+    {
+        UseEmoji = true,
+        ReadableApplicationName = "YourApp",
+        IncludeException = false,
+        IncludeProperties = false,
+        TimeZone = TimeZoneInfo.Utc
+    };
 }
