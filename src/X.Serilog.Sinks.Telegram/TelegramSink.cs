@@ -112,13 +112,9 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
 
     private async Task<IImmutableList<string>> GetMessagesFromQueueAsync(int amount)
     {
-        var logsCustomFiltersPredicate = (LogEvent log) => true;
-        var logsFilteringPredicate = (LogEvent log) => log != null &&
-                                                       logsCustomFiltersPredicate(log); 
-
         var logsBatch = await _logsQueueAccessor.DequeueSeveralAsync(amount);
         var events = logsBatch
-            .Where(logsFilteringPredicate)
+            .Where(LogFilteringPredicate)
             .Select(LogEntry.MapFrom)
             .ToList();
 
@@ -130,6 +126,9 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
         return _messageFormatter
             .Format(events, _sinkConfiguration.FormatterConfiguration)
             .ToImmutableList();
+
+        bool LogFilteringPredicate(LogEvent log) =>
+            _logFilterManager == null || _logFilterManager.ApplyFilter(log);
     }
 
     private async Task SendMessagesAsync(CancellationToken cancellationToken, IImmutableList<string> messages)

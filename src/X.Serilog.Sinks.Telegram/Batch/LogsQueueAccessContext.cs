@@ -2,22 +2,16 @@
 
 namespace X.Serilog.Sinks.Telegram.Batch;
 
-public class LogsQueueAccessContext : ILogsQueueAccessor
+public class LogsQueueAccessContext(
+    ChannelReader<LogEvent> logsChannelReader) : ILogsQueueAccessor
 {
-    private readonly ChannelReader<LogEvent> _logsChannelReader;
-
-    public LogsQueueAccessContext(ChannelReader<LogEvent> logsChannelReader)
-    {
-        _logsChannelReader = logsChannelReader;
-    }
-
     public Task<List<LogEvent>> DequeueSeveralAsync(int amount)
     {
         var logs = new List<LogEvent>();
 
-        while (amount-- > 0 && _logsChannelReader.Count > 0)
+        while (amount-- > 0 && logsChannelReader.Count > 0)
         {
-            var isDequeued = _logsChannelReader.TryRead(out var log);
+            var isDequeued = logsChannelReader.TryRead(out var log);
             if (!isDequeued || log is null)
             {
                 break;
@@ -31,12 +25,6 @@ public class LogsQueueAccessContext : ILogsQueueAccessor
 
     public int GetSize()
     {
-        return _logsChannelReader.Count;
+        return logsChannelReader.Count;
     }
-}
-
-public interface ILogsQueueAccessor
-{
-    public Task<List<LogEvent>> DequeueSeveralAsync(int amount);
-    public int GetSize();
 }
