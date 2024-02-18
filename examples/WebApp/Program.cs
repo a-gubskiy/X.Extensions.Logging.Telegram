@@ -4,11 +4,9 @@ using Newtonsoft.Json.Converters;
 using Serilog;
 using Serilog.Events;
 using System.Collections.Immutable;
-using X.Serilog.Sinks.Telegram;
 using X.Serilog.Sinks.Telegram.Batch.Rules;
 using X.Serilog.Sinks.Telegram.Configuration;
 using X.Serilog.Sinks.Telegram.Extensions;
-using X.Serilog.Sinks.Telegram.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,12 +27,6 @@ builder.Host.UseSerilog((_, lc) => lc
         config.LogFiltersConfiguration = new LogsFiltersConfiguration
         {
             ApplyLogFilters = false,
-            FiltersOperator = LogFiltersOperator.And,
-            Filters = new IFilter[]
-            {
-                new LogMessageContainsFilter("absolutely required term"),
-                new LogMessageNotContainsFilter("term to skip")
-            }.ToImmutableList()
         };
         config.FormatterConfiguration = new FormatterConfiguration
         {

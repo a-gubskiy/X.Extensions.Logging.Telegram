@@ -18,7 +18,7 @@ const int logsThreshold = 100;
 while (logsCounter <= logsThreshold)
 {
     var level = Random.Shared.NextInt64(0, 6);
-    Log.Logger.Write((LogEventLevel)level, "Message");
+    Log.Logger.Write((LogEventLevel)level, "Message {counter}", logsCounter);
     await Task.Delay(500);
 
     logsCounter++;
