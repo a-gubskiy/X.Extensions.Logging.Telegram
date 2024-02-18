@@ -4,7 +4,8 @@ public class LogQueryBuilder :
     IMessageRuleBuilder,
     IExceptionRuleBuilder,
     IPropertiesRuleBuilder,
-    ILevelRuleBuilder
+    ILevelRuleBuilder,
+    IFilterExecutor
 {
     private ConditionGroup _currentGroup = new();
     private readonly List<ConditionGroup> _groups = [];
@@ -14,7 +15,7 @@ public class LogQueryBuilder :
     public IPropertiesRuleBuilder Properties => this;
     public ILevelRuleBuilder Level => this;
 
-    public LogQueryBuilder()
+    private LogQueryBuilder()
     {
         _groups.Add(_currentGroup);
     }
@@ -28,21 +29,7 @@ public class LogQueryBuilder :
         return this;
     }
 
-    // public LogQueryBuilder And(LogEntryPredicate predicate)
-    // {
-    //     _currentGroup.Conditions.Add(new Condition(predicate));
-    //     return this;
-    // }
-
-    // public LogQueryBuilder Or(LogEntryPredicate predicate)
-    // {
-    //     _currentGroup = new ConditionGroup(isOrGroup: true);
-    //     _groups.Add(_currentGroup);
-    //     _currentGroup.Conditions.Add(new Condition(predicate));
-    //     return this;
-    // }
-
-    public bool Evaluate(LogEntry entry)
+    public bool Evaluate(LogEvent entry)
     {
         foreach (var group in _groups)
         {
@@ -61,7 +48,7 @@ public class LogQueryBuilder :
         return false;
     }
 
-    private bool EvaluateCondition(object condition, LogEntry entry)
+    private bool EvaluateCondition(object condition, LogEvent entry)
     {
         return condition switch
         {
@@ -75,44 +62,46 @@ public class LogQueryBuilder :
 
     #region IMessageRuleBuilder
 
-    ILogQueryBuilder IMessageRuleBuilder.Contains(string key)
+    ILogQueryBuilder IMessageRuleBuilder.Contains(string substring)
     {
-        var condition = new Condition(e => e.RenderedMessage?.Contains(key) ?? false);
+        var condition = new Condition(e => e.RenderMessage().Contains(substring));
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IMessageRuleBuilder.NotContains(string substring)
     {
-        var condition = new Condition(e => !e.RenderedMessage?.Contains(substring) ?? false);
+        var condition = new Condition(e => !e.RenderMessage().Contains(substring));
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IMessageRuleBuilder.Equals(string substring, StringComparison comparison)
     {
-        var condition = new Condition(e => e.RenderedMessage?.Equals(substring, comparison) ?? false);
+        var condition = new Condition(e => e.RenderMessage().Equals(substring, comparison));
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IMessageRuleBuilder.NotEquals(string substring, StringComparison comparison)
     {
-        var condition = new Condition(e => !e.RenderedMessage?.Equals(substring, comparison) ?? false);
+        var condition = new Condition(e => !e.RenderMessage().Equals(substring, comparison));
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IMessageRuleBuilder.Null()
     {
-        var condition = new Condition(e => e.RenderedMessage is null);
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        var condition = new Condition(e => e.RenderMessage() is null);
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IMessageRuleBuilder.NotNull()
     {
-        var condition = new Condition(e => e.RenderedMessage is not null);
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        var condition = new Condition(e => e.RenderMessage() is not null);
         _currentGroup.Conditions.Add(condition);
         return this;
     }
@@ -121,30 +110,30 @@ public class LogQueryBuilder :
 
     #region IExceptionRuleBuilder
 
-    ILogQueryBuilder IExceptionRuleBuilder.Contains(string key)
+    ILogQueryBuilder IExceptionRuleBuilder.Contains(string substring)
     {
-        var condition = new Condition(e => e.Exception?.Contains(key) ?? false);
+        var condition = new Condition(e => e.Exception?.Message.Contains(substring) ?? false);
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IExceptionRuleBuilder.NotContains(string substring)
     {
-        var condition = new Condition(e => !e.Exception?.Contains(substring) ?? false);
+        var condition = new Condition(e => !e.Exception?.Message.Contains(substring) ?? false);
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IExceptionRuleBuilder.Equals(string substring, StringComparison comparison)
     {
-        var condition = new Condition(e => e.Exception?.Equals(substring, comparison) ?? false);
+        var condition = new Condition(e => e.Exception?.Message.Equals(substring, comparison) ?? false);
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IExceptionRuleBuilder.NotEquals(string substring, StringComparison comparison)
     {
-        var condition = new Condition(e => !e.Exception?.Equals(substring, comparison) ?? false);
+        var condition = new Condition(e => !e.Exception?.Message.Equals(substring, comparison) ?? false);
         _currentGroup.Conditions.Add(condition);
         return this;
     }
@@ -167,52 +156,41 @@ public class LogQueryBuilder :
 
     #region IPropertiesRuleBuilder
 
-    ILogQueryBuilder IPropertiesRuleBuilder.Contains(string key)
+    ILogQueryBuilder IPropertiesRuleBuilder.Contains(string substring)
     {
-        var condition = new Condition(e => e.Properties?.ContainsKey(key) ?? false);
+        var condition = new Condition(e => e.Properties.ContainsKey(substring));
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IPropertiesRuleBuilder.NotContains(string key)
     {
-        var condition = new Condition(e => !e.Properties?.ContainsKey(key) ?? false);
+        var condition = new Condition(e => !e.Properties.ContainsKey(key));
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IPropertiesRuleBuilder.Equals(string key, string value, StringComparison comparison)
     {
-        var condition = new Condition(e =>
-        {
-            if (!e.Properties?.ContainsKey(key) ?? true)
-            {
-                return false;
-            }
-
-            return e.Properties![key].Equals(value, comparison);
-        });
+        var condition = new Condition(
+            e => e.Properties.TryGetValue(key, out var prop) &&
+                 prop.ToString().Equals(value, comparison));
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IPropertiesRuleBuilder.NotEquals(string key, string value, StringComparison comparison)
     {
-        var condition = new Condition(e =>
-        {
-            if (!e.Properties?.ContainsKey(key) ?? true)
-            {
-                return false;
-            }
-
-            return e.Properties![key].Equals(value, comparison);
-        });
+        var condition = new Condition(
+            e => !(e.Properties.TryGetValue(key, out var prop) &&
+                   prop.ToString().Equals(value, comparison)));
         _currentGroup.Conditions.Add(condition);
         return this;
     }
 
     ILogQueryBuilder IPropertiesRuleBuilder.Null()
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         var condition = new Condition(e => e.Properties is null);
         _currentGroup.Conditions.Add(condition);
         return this;
@@ -220,6 +198,7 @@ public class LogQueryBuilder :
 
     ILogQueryBuilder IPropertiesRuleBuilder.NotNull()
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         var condition = new Condition(e => e.Properties is not null);
         _currentGroup.Conditions.Add(condition);
         return this;
@@ -231,12 +210,32 @@ public class LogQueryBuilder :
 
     ILogQueryBuilder ILevelRuleBuilder.InRange(LogEventLevel min, LogEventLevel max)
     {
-        throw new NotImplementedException();
+        var minInt = (int)min;
+        var maxInt = (int)max;
+
+        var condition = new Condition(e =>
+        {
+            var logLevelInt = (int)e.Level;
+            return minInt <= logLevelInt && logLevelInt <= maxInt;
+        });
+
+        _currentGroup.Conditions.Add(condition);
+        return this;
     }
 
     ILogQueryBuilder ILevelRuleBuilder.NotInRange(LogEventLevel min, LogEventLevel max)
     {
-        throw new NotImplementedException();
+        var minInt = (int)min;
+        var maxInt = (int)max;
+
+        var condition = new Condition(e =>
+        {
+            var logLevelInt = (int)e.Level;
+            return !(logLevelInt >= minInt && logLevelInt <= maxInt);
+        });
+
+        _currentGroup.Conditions.Add(condition);
+        return this;
     }
 
     ILogQueryBuilder ILevelRuleBuilder.Equals(LogEventLevel level)
@@ -254,4 +253,9 @@ public class LogQueryBuilder :
     }
 
     #endregion
+
+    public static LogQueryBuilder Create()
+    {
+        return new LogQueryBuilder();
+    }
 }
