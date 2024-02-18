@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using X.Serilog.Sinks.Telegram.Batch.Rules;
 using X.Serilog.Sinks.Telegram.Configuration;
-using X.Serilog.Sinks.Telegram.Filters;
+using X.Serilog.Sinks.Telegram.Filters.Fluent;
 
 namespace X.Serilog.Sinks.Telegram.Extensions;
 
@@ -48,8 +48,7 @@ public static class DependencyInjectionExtensions
                 config.FormatterConfiguration = FormatterConfiguration.Default;
                 config.LogFiltersConfiguration = new LogsFiltersConfiguration
                 {
-                    ApplyLogFilters = false,
-                    Filters = new ImmutableArray<IFilter>()
+                    ApplyLogFilters = false
                 };
             },
             messageFormatter: null!,

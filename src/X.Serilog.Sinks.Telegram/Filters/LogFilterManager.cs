@@ -1,25 +1,14 @@
-﻿using System.Collections.Immutable;
-using X.Serilog.Sinks.Telegram.Configuration;
+﻿using X.Serilog.Sinks.Telegram.Configuration;
+using X.Serilog.Sinks.Telegram.Filters.Fluent;
 
 namespace X.Serilog.Sinks.Telegram.Filters;
 
 public class LogFilterManager(LogsFiltersConfiguration configuration)
 {
-    private readonly IImmutableList<IFilter> _logsFilters = configuration.Filters ??
-                                                            ImmutableArray<IFilter>.Empty;
+    private readonly IFilterExecutor _logsFilter = (IFilterExecutor)configuration.QueryBuilder!;
 
     public bool ApplyFilter(LogEvent logEvent)
     {
-        var filterResults = _logsFilters
-            .Select(filter => filter.IsPassedAsync(logEvent));
-
-        var isPassed = configuration.FiltersOperator switch
-        {
-            LogFiltersOperator.And => filterResults.All(result => result),
-            LogFiltersOperator.Or => filterResults.Any(result => result),
-            _ => throw new ArgumentOutOfRangeException()
-        };
-
-        return isPassed;
+        return _logsFilter.Evaluate(logEvent);
     }
 }

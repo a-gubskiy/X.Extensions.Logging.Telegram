@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using X.Serilog.Sinks.Telegram.Filters;
+﻿using X.Serilog.Sinks.Telegram.Filters.Fluent;
 
 namespace X.Serilog.Sinks.Telegram.Configuration;
 
@@ -14,12 +13,7 @@ public class LogsFiltersConfiguration
     public bool ApplyLogFilters { get; init; }
 
     /// <summary>
-    /// Gets or initializes the operator used for combining filters. The default is 'And'.
+    /// Logs filtering query builder
     /// </summary>
-    public LogFiltersOperator FiltersOperator { get; init; } = LogFiltersOperator.And;
-
-    /// <summary>
-    /// Gets or initializes the list of filters to be applied.
-    /// </summary>
-    public IImmutableList<IFilter>? Filters { get; init; }
+    public ILogQueryBuilder? QueryBuilder { get; set; }
 }
