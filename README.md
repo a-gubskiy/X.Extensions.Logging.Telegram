@@ -23,11 +23,11 @@ X.Serilog.Sinks.Telegram is an open-source Serilog sink that allows you to send 
 
 - **Real-time Logging**: The sink offers the ability to send log events to a Telegram channel in real-time, ensuring that you can stay up-to-date with your application's behavior and any issues as they arise.
 
-- **Customizable Formatting**: You have the flexibility to configure the format of log messages sent to the Telegram channel, allowing you to tailor them to your preferences and specific requirements.
+- **Customizable Formatting**: You can configure the format of log messages sent to the Telegram channel, allowing you to tailor them to your preferences and specific requirements.
 
 - **Filtering**: The sink supports filtering log events before they are dispatched to the Telegram channel, ensuring that only pertinent information is shared.
 
-- **Asynchronous Sending**: Log events are sent asynchronously to the Telegram channel, minimizing any potential impact on your application's performance.
+- **Asynchronous Sending**: Log events are sent asynchronously to the Telegram channel, minimizing potential impact on your application's performance.
 
 - **Easy Configuration**: Configuring the sink to work with your Telegram channel is straightforward, and you can find comprehensive information in the [Configuration Wiki](https://github.com/Bardin08/X.Serilog.Sinks.Telegram/wiki/Configuration).
 
@@ -40,46 +40,25 @@ To begin using the X.Serilog.Sinks.Telegram sink, follow these steps:
 dotnet add package X.Serilog.Sinks.Telegram
 ```
 
-2. **Configure the Sink**: In your application's configuration, set up the Telegram sink with the appropriate settings. Here's an example configuration in C#:
+2. **Configure the Sink**: Set up the Telegram sink with the appropriate settings in your application's configuration. Here's an example configuration in C#:
 
 ```c#
-var logger = new LoggerConfiguration()
-    .Telegram(config =>
-    {
-        config.Token = "your_telegram_bot_token";
-        config.ChatId = "your_chat_id";
-        config.BatchPostingLimit = 10;
-        config.Mode = LoggingMode.Logs;
-        config.FormatterConfiguration = new FormatterConfiguration
-        {
-            UseEmoji = true,
-            ReadableApplicationName = "MyTestApp",
-            IncludeException = true,
-            IncludeProperties = true
-        };
-        config.BatchEmittingRulesConfiguration = new BatchEmittingRulesConfiguration
-        {
-            // Batch Emitting rules configuration here...
-        };
-        config.LogFiltersConfiguration = new LogsFiltersConfiguration
-        {
-            ApplyLogFilters = true,
-            FiltersOperator = LogFiltersOperator.Or,
-            Filters = new List<IFilter> {
-                // Your filters here...
-            }
-        };
-    }, null, LogEventLevel.Debug)
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.TelegramCore(
+        token: botToken,
+        chatId: loggingChatId,
+        logLevel: LogEventLevel.Verbose)
+    .WriteTo.Console()
     .CreateLogger();
 ```
 
-3. **Start Logging**: Once the sink is configured, you can start logging using Serilog as you normally would. Log events will be sent to your Telegram channel.
+3. **Start Logging**: Once the sink is configured, you can log in using Serilog as usual. Log events will be sent to your Telegram channel.
 
 For more detailed configuration options, please refer to the [Configuration Wiki](https://github.com/Bardin08/X.Serilog.Sinks.Telegram/wiki/Configuration).
 
 ## Examples
 
-This repository includes a number of example projects that demonstrate how to use X.Serilog.Sinks.Telegram in various scenarios. These examples can be very helpful if you're just getting started or looking to use a specific feature.
+This repository includes several example projects that demonstrate how to use X.Serilog.Sinks.Telegram in various scenarios. These examples can be helpful if you're starting or looking to use a specific feature.
 
 You can find the examples in the following location: [X.Serilog.Sinks.Telegram Examples](https://github.com/Bardin08/X.Serilog.Sinks.Telegram/tree/main/examples)
 
