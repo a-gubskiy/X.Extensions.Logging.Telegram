@@ -1,17 +1,15 @@
-﻿using Serilog;
+﻿using System.Collections.Immutable;
+using Serilog;
 using Serilog.Events;
+using X.Serilog.Sinks.Telegram.Batch.Rules;
+using X.Serilog.Sinks.Telegram.Configuration;
 using X.Serilog.Sinks.Telegram.Extensions;
+using X.Serilog.Sinks.Telegram.Filters.Fluent;
 
 const string botToken = "TELEGRAM_BOT_TOKEN";
 const string loggingChatId = "CHANNEL_OR_CHAT_ID";
 
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.TelegramCore(
-        token: botToken,
-        chatId: loggingChatId,
-        logLevel: LogEventLevel.Verbose)
-    .WriteTo.Console()
-    .CreateLogger();
+ConfigAsMinimal(botToken, loggingChatId);
 
 var logsCounter = 0;
 const int logsThreshold = 100;
@@ -22,4 +20,49 @@ while (logsCounter <= logsThreshold)
     await Task.Delay(500);
 
     logsCounter++;
+}
+
+return;
+
+void ConfigAsMinimal(string token, string tgChatId)
+{
+    Log.Logger = new LoggerConfiguration()
+        .WriteTo.TelegramCore(
+            token: token,
+            chatId: tgChatId,
+            logLevel: LogEventLevel.Verbose)
+        .CreateLogger();
+}
+
+void ConfigAsExtended(string token, string tgChatId)
+{
+    Log.Logger = new LoggerConfiguration()
+        .WriteTo.Telegram(config =>
+        {
+            config.Token = token;
+            config.ChatId = tgChatId;
+
+            config.Mode = LoggingMode.Logs;
+
+            config.BatchPostingLimit = TelegramSinkDefaults.BatchPostingLimit;
+            config.BatchEmittingRulesConfiguration = new BatchEmittingRulesConfiguration();
+            config.FormatterConfiguration = new FormatterConfiguration
+            {
+                UseEmoji = true,
+                ReadableApplicationName = "MyTestApp",
+                IncludeException = true,
+                IncludeProperties = true,
+                TimeZone = TimeZoneInfo.Utc
+            };
+            config.LogFiltersConfiguration = new LogsFiltersConfiguration
+            {
+                ApplyLogFilters = true,
+                QueryBuilder = LogQueryBuilder.Create()
+                    .Exception.NotNull()
+                    .And().Level.Equals(LogEventLevel.Fatal)
+                    .And().Message.Contains("Payment API failed")
+            };
+        }, null!, LogEventLevel.Debug)
+        .WriteTo.Console()
+        .CreateLogger();
 }
