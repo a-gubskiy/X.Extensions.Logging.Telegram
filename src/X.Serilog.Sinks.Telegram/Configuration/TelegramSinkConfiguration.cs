@@ -90,7 +90,7 @@ public class TelegramSinkConfiguration
     /// <summary>
     /// Gets or sets the configuration for rules on emitting batches.
     /// </summary>
-    public BatchEmittingRulesConfiguration BatchEmittingRulesConfiguration { get; set; } = null!;
+    public BatchEmittingRulesConfiguration BatchEmittingRulesConfiguration { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the configuration for filtering logs.
