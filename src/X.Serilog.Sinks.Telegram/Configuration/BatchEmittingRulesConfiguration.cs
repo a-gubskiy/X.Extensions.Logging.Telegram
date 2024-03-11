@@ -33,7 +33,7 @@ public class BatchEmittingRulesConfiguration
     /// <summary>
     /// Gets or initializes the batch processing rules to be applied.
     /// </summary>
-    public IImmutableList<IRule> BatchProcessingRules { get; init; } = null!;
+    public IImmutableList<IRule> BatchProcessingRules { get; init; } = [];
 
     /// <summary>
     /// Gets the execution hooks that are extracted from the batch processing rules.
