@@ -3,15 +3,18 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <IsPackable>true</IsPackable>
+
         <Title>X.Serilog.Sinks.Telegram</Title>
-        <Authors>Vladislav Bardin</Authors>
+        <Authors>Vladyslav Bardin</Authors>
         <Description>This is a sink for Serilog logger that allows you to write logs or notifications just to your Telegram. This logger is fully compatible with Serilog's infrastructure and supports all its features. For more info and examples, visit sink's repository</Description>
-        <Copyright>Copyright (c) 2021 Vladislav Bardin</Copyright>
+        <Copyright>Copyright (c) 2024 Vladyslav Bardin</Copyright>
         <PackageProjectUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram</RepositoryUrl>
         <PackageTags>serilog-sink, serilog, serilog-extensions</PackageTags>
         <LangVersion>12</LangVersion>
         <Nullable>enable</Nullable>
+        <Version>3.0.1</Version>
     </PropertyGroup>
 
     <ItemGroup>
