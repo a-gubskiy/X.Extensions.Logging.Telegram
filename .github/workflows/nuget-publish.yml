@@ -30,7 +30,7 @@ jobs:
         run: dotnet test --no-restore --verbosity normal
 
       - name: Pack
-        run: dotnet pack --configuration Release --no-build --output nupkgs /p:PackageVersion=${{ env.RELEASE_VERSION }}
+        run: dotnet pack ./src/X.Serilog.Sinks.Telegram/X.Serilog.Sinks.Telegram.csproj --configuration Release --no-build --output nupkgs /p:PackageVersion=${{ env.RELEASE_VERSION }}
 
       - name: Push to NuGet
         run: dotnet nuget push "nupkgs/**/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
