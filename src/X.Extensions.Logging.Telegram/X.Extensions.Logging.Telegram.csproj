@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <LangVersion>10</LangVersion>
+        <LangVersion>default</LangVersion>
         <Authors>Andrew Gubskiy</Authors>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>X.Extensions.Logging.Telegram</Title>
@@ -12,16 +12,16 @@
         <PackageTags>telegram, logging, log, logs, tg</PackageTags>
         <Description>Telegram logging provider</Description>
         <RepositoryType>git</RepositoryType>
-        <Version>1.0.5.1</Version>        
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <PackageVersion>1.0.5.1</PackageVersion>
+        <Version>1.0.6.1</Version>
+        <PackageVersion>1.0.6.1</PackageVersion>
+        <TargetFrameworks>net6.0;net7.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="6.0.0" />
+      <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" PrivateAssets="All" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="7.0.0" />
       <PackageReference Include="Telegram.Bot" Version="19.0.0" />
     </ItemGroup>
 
