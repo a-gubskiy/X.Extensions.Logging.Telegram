@@ -13,10 +13,10 @@ public interface ITelegramMessageFormatter
         LogLevel logLevel,
         EventId eventId,
         TState state,
-        Exception exception,
-        Func<TState, Exception, string> formatter);
+        Exception? exception,
+        Func<TState, Exception?, string> formatter);
 
-    string Format(LogLevel logLevel, Exception exception, string message);
+    string Format(LogLevel logLevel, Exception? exception, string message);
         
     string EncodeHtml(string text);
 }
@@ -37,11 +37,11 @@ public class TelegramMessageFormatter : ITelegramMessageFormatter
         LogLevel logLevel,
         EventId eventId,
         TState state,
-        Exception exception,
-        Func<TState, Exception, string> formatter) =>
+        Exception? exception,
+        Func<TState, Exception?, string> formatter) =>
         Format(logLevel, exception, formatter(state, exception));
 
-    public virtual string Format(LogLevel logLevel, Exception exception, string message)
+    public virtual string Format(LogLevel logLevel, Exception? exception, string message)
     {
         if (string.IsNullOrWhiteSpace(message))
         {

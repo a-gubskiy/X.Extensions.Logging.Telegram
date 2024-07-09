@@ -57,6 +57,7 @@ internal class LogQueueProcessor : ILogQueueProcessor
         }
         catch
         {
+            // ignored
         }
     }
 

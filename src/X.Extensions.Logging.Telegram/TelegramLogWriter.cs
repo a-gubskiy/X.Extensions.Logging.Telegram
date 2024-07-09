@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot;
@@ -27,6 +28,10 @@ public class TelegramLogWriter : ILogWriter
         _client = client;
     }
 
-    public async Task Write(string message) =>
-        await _client.SendTextMessageAsync(_chatId, message, ParseMode.Html);
+    public async Task Write(string message)
+    {
+        var messageThreadId = Convert.ToInt32(ParseMode.Html);
+        
+        await _client.SendTextMessageAsync(_chatId, message, messageThreadId);
+    }
 }

@@ -26,7 +26,7 @@ public class TelegramLogger : ILogger
     [PublicAPI]
     public TelegramLoggerOptions Options { get; private set; }
 
-    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception, string> formatter)
     {
         if (!IsEnabled(logLevel))
         {
@@ -50,5 +50,5 @@ public class TelegramLogger : ILogger
 
     public bool IsEnabled(LogLevel logLevel) => _logLevelChecker.IsEnabled(logLevel);
 
-    public IDisposable BeginScope<TState>(TState state) => default;
+    public IDisposable? BeginScope<TState>(TState state) where TState : notnull => default;
 }
