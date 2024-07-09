@@ -7,6 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,10 +19,6 @@
 
     <ItemGroup>
         <Using Include="Xunit"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\X.Extensions.Logging.Telegram\X.Extensions.Logging.Telegram.csproj" />
     </ItemGroup>
 
     <ItemGroup>

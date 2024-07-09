@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace X.Extensions.Logging.Telegram.Tests;
 
 public class FakeLogQueueProcessor : ILogQueueProcessor
