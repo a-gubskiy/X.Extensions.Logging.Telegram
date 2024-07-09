@@ -1,19 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using NUnit.Framework;
+using Xunit;
 
 namespace X.Extensions.Logging.Telegram.Tests
 {
     public class TelegramLoggingTests
     {
-        [SetUp]
-        public void Setup()
+        public TelegramLoggingTests()
         {
-            
+            Setup();
         }
 
-        [Test]
+        public void Setup()
+        {
+        }
+
+        [Fact]
         public void Test_MessageFormatter_MessageNotNull()
         {
             var options = new TelegramLoggerOptions(LogLevel.Trace)
@@ -23,14 +26,15 @@ namespace X.Extensions.Logging.Telegram.Tests
                 ChatId = "",
                 UseEmoji = true
             };
-            
+
             var formatter = new TelegramMessageFormatter(options, "Some.Namespace.SomeClassName");
             var message = formatter.Format(LogLevel.Warning, new EventId(), "Message", null, (s, _) => s);
 
+
             Assert.NotNull(message);
         }
-        
-        [Test]
+
+        [Fact]
         public void Test_MessageFormatter_MessageIsNull()
         {
             var options = new TelegramLoggerOptions()
@@ -66,15 +70,17 @@ namespace X.Extensions.Logging.Telegram.Tests
             telegramLogger2.LogInformation("Message from Some.Namespace.AnotherClassName");
 
 
-            Assert.AreEqual(2, processor.Messages.Count);
-            Assert.True(processor.Messages.Any(o => o.Contains("System")));
-            Assert.True(processor.Messages.Any(o => o.Contains("Message from Some.Namespace.AnotherClassName")));
+            Assert.Equal(2, processor.Messages.Count);
+            Assert.Contains(processor.Messages, o => o.Contains("System"));
+            Assert.Contains(processor.Messages, o => o.Contains("Message from Some.Namespace.AnotherClassName"));
 
-            Assert.False(processor.Messages.Any(o => o.Contains("Some.Namespace.SomeClassName")));
+            Assert.DoesNotContain(processor.Messages, o => o.Contains("Some.Namespace.SomeClassName"));
         }
 
-        [TestCase("<p style=\"font-family='Lucida Console'\">Exception message description</p>")]
-        [TestCase("<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
+        [Theory]
+        [InlineData("<p style=\"font-family='Lucida Console'\">Exception message description</p>")]
+        [InlineData(
+            "<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
         public void ExceptionDescriptionWithRawHtmlTest(string description)
         {
             ITelegramMessageFormatter formatter = new TelegramMessageFormatter(new TelegramLoggerOptions()
@@ -85,12 +91,12 @@ namespace X.Extensions.Logging.Telegram.Tests
                 UseEmoji = true,
                 LogLevel = new Dictionary<string, LogLevel>
                 {
-                    {"test", LogLevel.Information}
+                    { "test", LogLevel.Information }
                 }
             }, "test");
 
             var result = formatter.EncodeHtml(description);
-            
+
             var containsRawHtml = result.Contains("<p style=\"font-family='Lucida Console'\">") ||
                                   result.Contains("</p>") ||
                                   result.Contains("<br/>") ||
