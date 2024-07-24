@@ -1,6 +1,9 @@
-# X.Extensions.Logging.Telegram & X.Serilog.Sinks.Telegram
+# Telegram logging extensions
 
-Telegram logging provider for Serilog and standard .NET logging.
+* X.Extensions.Logging.Telegram 
+* X.Extensions.Serilog.Sinks.Telegram
+
+Telegram logging providers for Serilog and standard .NET logging.
 
 ## What is Telegram?
 What is Telegram? What do I do here?
@@ -112,10 +115,10 @@ For using custom message formatter delegate Func<string, ITelegramMessageFormatt
 
 
 
-# X.Serilog.Sinks.Telegram
+# X.Extensions.Serilog.Sinks.Telegram
 
-[![NuGet](https://img.shields.io/nuget/v/X.Serilog.Sinks.Telegram)](https://www.nuget.org/packages/X.Serilog.Sinks.Telegram)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/X.Serilog.Sinks.Telegram)](https://www.nuget.org/packages/X.Serilog.Sinks.Telegram)
+[![NuGet](https://img.shields.io/nuget/v/X.Extensions.Serilog.Sinks.Telegram)](https://www.nuget.org/packages/X.Extensions.Serilog.Sinks.Telegram)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/X.Extensions.Serilog.Sinks.Telegram)](https://www.nuget.org/packages/X.Extensions.Serilog.Sinks.Telegram)
 
 
 X.Serilog.Sinks.Telegram is an open-source Serilog sink that allows you to send log events to Telegram. It's a convenient way to integrate Telegram as a logging output, enabling you to receive important log information directly in your chat.
