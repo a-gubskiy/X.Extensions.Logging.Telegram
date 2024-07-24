@@ -7,13 +7,16 @@
         <LangVersion>default</LangVersion>
         <TargetFrameworks>net6.0;net8.0;netstandard2.0;netstandard2.1</TargetFrameworks>
 
-        <PackageTags>telegram logging log logs tg</PackageTags>
+        <PackageTags>telegram logging log logs</PackageTags>
 
         <Nullable>enable</Nullable>
+
+        <Authors>Andrew Gubskiy</Authors>
+        <Copyright>Andrew Gubskiy © 2024</Copyright>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\..\LICENSE" Pack="true" PackagePath=""/>
+        <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
         <None Include="..\..\README.md" Pack="true" PackagePath=""/>
     </ItemGroup>
 

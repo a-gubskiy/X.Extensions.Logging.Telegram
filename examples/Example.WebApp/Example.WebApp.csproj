@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\X.Extensions.Logging.Telegram\X.Extensions.Logging.Telegram.csproj" />
+        <ProjectReference Include="..\..\src\X.Extensions.Logging.Telegram\X.Extensions.Logging.Telegram.csproj"/>
     </ItemGroup>
 
 </Project>

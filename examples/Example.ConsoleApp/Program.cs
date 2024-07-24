@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using X.Extensions.Logging.Telegram;
 
-namespace ConsoleApp;
+namespace Example.ConsoleApp;
 
 class Program
 {
