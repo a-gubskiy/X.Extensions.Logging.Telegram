@@ -31,7 +31,7 @@ builder.Host.UseSerilog((_, lc) => lc
         config.FormatterConfiguration = new FormatterConfiguration
         {
             UseEmoji = true,
-            ReadableApplicationName = "WebApp Example",
+            ReadableApplicationName = "Example.WebApp.Serilog  Example",
             IncludeException = false,
             IncludeProperties = false,
             TimeZone = TimeZoneInfo.Utc
