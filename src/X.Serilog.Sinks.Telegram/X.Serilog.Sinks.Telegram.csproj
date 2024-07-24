@@ -1,25 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <IsPackable>true</IsPackable>
-
         <Title>X.Serilog.Sinks.Telegram</Title>
-        <Authors>Vladyslav Bardin</Authors>
         <Description>This is a sink for Serilog logger that allows you to write logs or notifications just to your Telegram. This logger is fully compatible with Serilog's infrastructure and supports all its features. For more info and examples, visit sink's repository</Description>
-        <Copyright>Copyright (c) 2024 Vladyslav Bardin</Copyright>
-        <PackageProjectUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/Bardin08/X.Serilog.Sinks.Telegram</RepositoryUrl>
-        <PackageTags>serilog-sink, serilog, serilog-extensions</PackageTags>
-        <LangVersion>12</LangVersion>
+
+        <LangVersion>default</LangVersion>
+        <TargetFrameworks>net6.0;net8.0;</TargetFrameworks>
+
+        <PackageTags>telegram logging log logs serilog-sink serilog serilog-extensions</PackageTags>
+
         <Nullable>enable</Nullable>
-        <Version>3.0.1</Version>
+
+        <Authors>Vladyslav Bardin</Authors>
+        <Copyright>Vladyslav Bardin © 2024</Copyright>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Serilog" Version="3.1.1" />
-        <PackageReference Include="Telegram.Bot" Version="19.0.0"/>
+        <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
+        <None Include="..\..\README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Serilog" Version="3.1.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\X.Extensions.Logging.Telegram\X.Extensions.Logging.Telegram.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -23,6 +23,7 @@ public enum LoggingMode
     ///     }
     /// </example>
     Logs,
+        
     /// <summary>
     ///     Messages will contain an info about all notifications which were received during a batch period or batch limit.
     /// </summary>

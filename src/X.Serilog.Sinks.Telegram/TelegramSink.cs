@@ -2,8 +2,7 @@
 using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Channels;
-using Telegram.Bot;
-using Telegram.Bot.Types.Enums;
+using X.Extensions.Logging.Telegram;
 using X.Serilog.Sinks.Telegram.Batch;
 using X.Serilog.Sinks.Telegram.Configuration;
 using X.Serilog.Sinks.Telegram.Filters;
@@ -15,7 +14,6 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
 {
     private readonly BatchCycleManager _batchCycleManager;
 
-    private readonly ITelegramBotClient _botClient;
     private readonly CancellationTokenSource _cancellationTokenSource;
 
     private readonly ChannelWriter<LogEvent> _channelWriter;
@@ -23,6 +21,7 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
     private readonly ILogsQueueAccessor _logsQueueAccessor;
 
     private readonly IMessageFormatter _messageFormatter;
+    private readonly ILogWriter _logWriter;
 
     private readonly TelegramSinkConfiguration _sinkConfiguration;
 
@@ -40,7 +39,7 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
 
         _cancellationTokenSource = new CancellationTokenSource();
 
-        _botClient = new TelegramBotClient(_sinkConfiguration.Token);
+        _logWriter = new TelegramLogWriter(_sinkConfiguration.Token, _sinkConfiguration.ChatId);
 
         _batchCycleManager = new BatchCycleManager(sinkConfiguration.BatchEmittingRulesConfiguration);
 
@@ -140,11 +139,7 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
 
         foreach (var message in messages)
         {
-            await _botClient.SendTextMessageAsync(
-                chatId: _sinkConfiguration.ChatId,
-                text: message,
-                parseMode: ParseMode.Html,
-                cancellationToken: cancellationToken);
+            await _logWriter.Write(message, cancellationToken);
         }
     }
 
