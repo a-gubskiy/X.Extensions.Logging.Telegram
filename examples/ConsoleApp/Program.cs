@@ -1,65 +1,68 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using X.Extensions.Logging.Telegram;
+﻿using System.Collections.Immutable;
+using Serilog;
+using Serilog.Events;
+using X.Serilog.Sinks.Telegram.Batch.Rules;
+using X.Serilog.Sinks.Telegram.Configuration;
+using X.Serilog.Sinks.Telegram.Extensions;
+using X.Serilog.Sinks.Telegram.Filters.Fluent;
 
-namespace ConsoleApp;
+const string botToken = "TELEGRAM_BOT_TOKEN";
+const string loggingChatId = "CHANNEL_OR_CHAT_ID";
 
-class Program
+ConfigAsMinimal(botToken, loggingChatId);
+
+var logsCounter = 0;
+const int logsThreshold = 100;
+while (logsCounter <= logsThreshold)
 {
-    public class ExampleClass
-    {
-    }
-        
-    public class AnotherExampleClass
-    {
-    }
-        
-    static void Main(string[] args)
-    {
-        var options = new TelegramLoggerOptions(LogLevel.Information)
+    var level = Random.Shared.NextInt64(0, 6);
+    Log.Logger.Write((LogEventLevel)level, "Message {counter}", logsCounter);
+    await Task.Delay(500);
+
+    logsCounter++;
+}
+
+return;
+
+void ConfigAsMinimal(string token, string tgChatId)
+{
+    Log.Logger = new LoggerConfiguration()
+        .WriteTo.TelegramCore(
+            token: token,
+            chatId: tgChatId,
+            logLevel: LogEventLevel.Verbose)
+        .CreateLogger();
+}
+
+void ConfigAsExtended(string token, string tgChatId)
+{
+    Log.Logger = new LoggerConfiguration()
+        .WriteTo.Telegram(config =>
         {
-            AccessToken = "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
-            ChatId = "-0000000000000",
-            Source = "TEST APP",
-            UseEmoji = true
-        };
-            
-        var factory = LoggerFactory.Create(builder =>
+            config.Token = token;
+            config.ChatId = tgChatId;
+
+            config.Mode = LoggingMode.Logs;
+
+            config.BatchPostingLimit = TelegramSinkDefaults.BatchPostingLimit;
+            config.BatchEmittingRulesConfiguration = new BatchEmittingRulesConfiguration();
+            config.FormatterConfiguration = new FormatterConfiguration
             {
-                builder
-                    .ClearProviders()
-                    .AddTelegram(options)
-                    .AddConsole();
-            }
-        );
-
-        var logger1 = factory.CreateLogger<ExampleClass>();
-        var logger2 = factory.CreateLogger<AnotherExampleClass>();
-
-        for (var i = 0; i < 1; i++)
-        {
-            logger1.LogTrace($"Message {i}");
-            logger2.LogDebug($"Debug message text {i}");
-            logger1.LogInformation($"Information message text {i}");
-
-            try
+                UseEmoji = true,
+                ReadableApplicationName = "MyTestApp",
+                IncludeException = true,
+                IncludeProperties = true,
+                TimeZone = TimeZoneInfo.Utc
+            };
+            config.LogFiltersConfiguration = new LogsFiltersConfiguration
             {
-                throw new SystemException("Exception message description. <br /> This message contains " +
-                                          "<html> <tags /> And some **special** symbols _");
-            }
-            catch (Exception exception)
-            {
-                logger2.LogWarning(exception, $"Warning message text {i}");
-                logger1.LogError(exception, $"Error message  text {i}");
-                logger2.LogCritical(exception, $"Critical error message  text {i}");    
-            }
-
-            Task.WaitAll(Task.Delay(500));
-        }
-
-
-        Console.WriteLine("Hello World!");
-        Console.ReadKey();
-    }
+                ApplyLogFilters = true,
+                QueryBuilder = LogQueryBuilder.Create()
+                    .Exception.NotNull()
+                    .And().Level.Equals(LogEventLevel.Fatal)
+                    .And().Message.Contains("Payment API failed")
+            };
+        }, null!, LogEventLevel.Debug)
+        .WriteTo.Console()
+        .CreateLogger();
 }

@@ -4,15 +4,17 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
+
     <ItemGroup>
-        <ProjectReference Include="..\..\src\X.Extensions.Logging.Telegram\X.Extensions.Logging.Telegram.csproj" />
+        <ProjectReference Include="..\..\src\X.Serilog.Sinks.Telegram\X.Serilog.Sinks.Telegram.csproj"/>
     </ItemGroup>
 
 </Project>
