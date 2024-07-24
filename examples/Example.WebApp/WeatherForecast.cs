@@ -1,4 +1,4 @@
-namespace Example.WebApp.Serilog_;
+namespace Example.WebApp;
 
 public class WeatherForecast
 {

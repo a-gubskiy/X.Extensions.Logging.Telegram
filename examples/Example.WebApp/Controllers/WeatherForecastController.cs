@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Example.WebApp.Serilog_.Controllers;
+namespace Example.WebApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
