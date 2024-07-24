@@ -1,0 +1,11 @@
+﻿namespace X.Extensions.Serilog.Sinks.Telegram.Filters.Fluent;
+
+public interface IExceptionRuleBuilder : ILogQueryBuilder
+{
+    ILogQueryBuilder Contains(string substring);
+    ILogQueryBuilder NotContains(string substring);
+    ILogQueryBuilder Equals(string message, StringComparison comparison);
+    ILogQueryBuilder NotEquals(string message, StringComparison comparison);
+    ILogQueryBuilder Null();
+    ILogQueryBuilder NotNull();
+}

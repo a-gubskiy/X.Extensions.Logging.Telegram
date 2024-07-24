@@ -1,10 +1,9 @@
 ﻿using System.Collections.Immutable;
 using Serilog;
 using Serilog.Events;
-using X.Serilog.Sinks.Telegram.Batch.Rules;
-using X.Serilog.Sinks.Telegram.Configuration;
-using X.Serilog.Sinks.Telegram.Extensions;
-using X.Serilog.Sinks.Telegram.Filters.Fluent;
+using X.Extensions.Serilog.Sinks.Telegram.Configuration;
+using X.Extensions.Serilog.Sinks.Telegram.Extensions;
+using X.Extensions.Serilog.Sinks.Telegram.Filters.Fluent;
 
 const string botToken = "TELEGRAM_BOT_TOKEN";
 const string loggingChatId = "CHANNEL_OR_CHAT_ID";

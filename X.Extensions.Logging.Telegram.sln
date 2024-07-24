@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.WebApp.Serilog ", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Extensions.Logging.Telegram.Tests", "tests\X.Extensions.Logging.Telegram.Tests\X.Extensions.Logging.Telegram.Tests.csproj", "{0B272B65-A497-4646-9FD6-096B9FAE4724}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Serilog.Sinks.Telegram", "src\X.Serilog.Sinks.Telegram\X.Serilog.Sinks.Telegram.csproj", "{8EDE2B45-DA1A-4AF4-B166-B8F202841C6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Extensions.Serilog.Sinks.Telegram", "src\X.Extensions.Serilog.Sinks.Telegram\X.Extensions.Serilog.Sinks.Telegram.csproj", "{8EDE2B45-DA1A-4AF4-B166-B8F202841C6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ConsoleApp", "examples\Example.ConsoleApp\Example.ConsoleApp.csproj", "{E5310BBD-2D37-4A1A-9235-46968F27CCE7}"
 EndProject

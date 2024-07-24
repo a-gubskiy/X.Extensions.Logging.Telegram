@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
 using Serilog.Events;
-using X.Serilog.Sinks.Telegram.Batch.Rules;
-using X.Serilog.Sinks.Telegram.Configuration;
-using X.Serilog.Sinks.Telegram.Extensions;
+using X.Extensions.Serilog.Sinks.Telegram.Batch.Rules;
+using X.Extensions.Serilog.Sinks.Telegram.Configuration;
+using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
