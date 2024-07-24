@@ -1,8 +1,6 @@
-[![NuGet Version](http://img.shields.io/nuget/v/X.Extensions.Logging.Telegram.svg?style=flat)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram/)
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/andrew_gubskiy.svg?style=social&label=Follow%20me!)](https://twitter.com/intent/user?screen_name=andrew_gubskiy)
+# X.Extensions.Logging.Telegram & X.Serilog.Sinks.Telegram
 
-# X.Extensions.Logging.Telegram
-Telegram logging provider
+Telegram logging provider for Serilog and standard .NET logging.
 
 ## What is Telegram?
 What is Telegram? What do I do here?
@@ -20,12 +18,19 @@ In telegram there are two types of channels: public and private. For public chan
 
 For private channel you can use [@JsonDumpBot](https://t.me/jsondumpbot) to get private channel id. Just forward any message from private channelto this bot. Additional information you can find [here](https://botostore.com/c/jsondumpbot/).
 
-**Do not forgot** to add your bot as admin with _write messages_ permission to channel.
+**Do not forget** to add your bot as admin with _write messages_ permission to channel.
 
-## Configure Telegram Logging provider
+
+## X.Extensions.Logging.Telegram
+[![NuGet](https://img.shields.io/nuget/v/X.Extensions.Logging.Telegram)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/X.Extensions.Logging.Telegram)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
+
+X.Extensions.Logging.Telegram is logging provider for standard .NET logging.
+
+### Getting Started
+
 You can configure Telegram logging provider by code or by config file:
 
-### Code 
 ```csharp
 var options = new TelegramLoggerOptions(LogLevel.Information)
 {
@@ -109,22 +114,9 @@ For using custom message formatter delegate Func<string, ITelegramMessageFormatt
 
 # X.Serilog.Sinks.Telegram
 
-[![Build status](https://ci.appveyor.com/api/projects/status/n4uj9qfuywrkdrhb/branch/main?svg=true)](https://ci.appveyor.com/project/Bardin08/x-serilog-sinks-telegram/branch/main)
-
 [![NuGet](https://img.shields.io/nuget/v/X.Serilog.Sinks.Telegram)](https://www.nuget.org/packages/X.Serilog.Sinks.Telegram)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/X.Serilog.Sinks.Telegram)](https://www.nuget.org/packages/X.Serilog.Sinks.Telegram)
 
-## Table of Contents
-
-- [X.Serilog.Sinks.Telegram](#xserilogsinkstelegram)
-    - [Introduction](#introduction)
-    - [Features](#features)
-    - [Getting Started](#getting-started)
-    - [Examples](#examples)
-    - [Contributing](#contributing)
-    - [License](#license)
-
-## Introduction
 
 X.Serilog.Sinks.Telegram is an open-source Serilog sink that allows you to send log events to Telegram. It's a convenient way to integrate Telegram as a logging output, enabling you to receive important log information directly in your chat.
 
@@ -165,14 +157,14 @@ Log.Logger = new LoggerConfiguration()
 
 For more detailed configuration options, please refer to the [Configuration Wiki](https://github.com/Bardin08/X.Serilog.Sinks.Telegram/wiki/Configuration).
 
-## Examples
+# Examples
 
-This repository includes several example projects that demonstrate how to use X.Serilog.Sinks.Telegram in various scenarios. These examples can be helpful if you're starting or looking to use a specific feature.
+This repository includes several example projects that demonstrate how to use both libraries  in various scenarios. 
+These examples can be helpful if you're starting or looking to use a specific feature.
 
-You can find the examples in the following location: [X.Serilog.Sinks.Telegram Examples](https://github.com/Bardin08/X.Serilog.Sinks.Telegram/tree/main/examples)
 
-## Contributing
+# Contributing
 Feel free to add any improvements you want via pull requests. All pull requests must be linked to an issue.
 
-## License
-This project is licensed under the [MIT License](https://en.wikipedia.org/wiki/MIT_License)https://en.wikipedia.org/wiki/MIT_License.
+# License
+This project is licensed under the MIT License.
