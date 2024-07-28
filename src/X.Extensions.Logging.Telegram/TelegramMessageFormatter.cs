@@ -47,12 +47,13 @@ public class TelegramMessageFormatter : ITelegramMessageFormatter
         {
             return string.Empty;
         }
+
+        ILogLevelMarkerRenderer logLevelMarkerRenderer =
+            _options.UseEmoji ? new LogLevelEmojiMarkerRenderer() : new LogLevelTextMarkerRenderer(); 
             
         var sb = new StringBuilder();
 
-        sb.Append(_options.UseEmoji
-            ? $"{ToEmoji(logLevel)} <b>{DateTime.Now:HH:mm:ss}</b> {ToString(logLevel)}"
-            : $"<b>{DateTime.Now:HH:mm:ss}</b> {ToString(logLevel)}");
+        sb.Append($"<b>{logLevelMarkerRenderer.RenderMarker(logLevel)} {DateTime.Now:HH:mm:ss}</b>");
 
         sb.AppendLine();
         sb.Append($"<pre>{_category}</pre>");
@@ -79,31 +80,5 @@ public class TelegramMessageFormatter : ITelegramMessageFormatter
         return sb.ToString();
     }
 
-    public virtual string EncodeHtml(string text) => WebUtility.HtmlEncode(text);
-
-    private static string ToString(LogLevel level) =>
-        level switch
-        {
-            LogLevel.Trace => "TRACE",
-            LogLevel.Debug => "DEBUG",
-            LogLevel.Information => "INFO",
-            LogLevel.Warning => "️️WARN",
-            LogLevel.Error => "ERROR",
-            LogLevel.Critical => "CRITICAL",
-            LogLevel.None => " ",
-            _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
-        };
-   
-    private static string ToEmoji(LogLevel level) =>
-        level switch
-        {
-            LogLevel.Trace => "⬜️",
-            LogLevel.Debug => "🟦",
-            LogLevel.Information => "⬛️️️",
-            LogLevel.Warning => "🟧",
-            LogLevel.Error => "🟥",
-            LogLevel.Critical => "❌",
-            LogLevel.None => "🔳",
-            _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
-        };
+    public virtual string EncodeHtml(string text) => WebUtility.HtmlEncode(text);   
 }
