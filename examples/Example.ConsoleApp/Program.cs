@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Example.Core;
 using Microsoft.Extensions.Logging;
 using X.Extensions.Logging.Telegram;
 
@@ -19,8 +20,8 @@ class Program
     {
         var options = new TelegramLoggerOptions(LogLevel.Information)
         {
-            AccessToken = "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
-            ChatId = "-0000000000000",
+            AccessToken = ExampleAppSettings.Token,
+            ChatId = ExampleAppSettings.ChatId,
             Source = "TEST APP",
             UseEmoji = true
         };

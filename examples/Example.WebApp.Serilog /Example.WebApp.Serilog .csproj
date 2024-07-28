@@ -15,6 +15,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\X.Extensions.Serilog.Sinks.Telegram\X.Extensions.Serilog.Sinks.Telegram.csproj" />
+        <ProjectReference Include="..\Example.Core\Example.Core.csproj" />
     </ItemGroup>
 
 </Project>

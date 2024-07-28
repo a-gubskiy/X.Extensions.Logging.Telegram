@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using Example.Core;
 using Example.WebApp.Serilog_;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,8 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((_, lc) => lc
     .WriteTo.Telegram(config =>
     {
-        config.Token = "0000000000:0000000000000000000-0000000-0000000";
-        config.ChatId = "-000000000000";
+        config.Token = ExampleAppSettings.Token;
+        config.ChatId = ExampleAppSettings.ChatId;
         config.BatchEmittingRulesConfiguration = new BatchEmittingRulesConfiguration
         {
             RuleCheckPeriod = TimeSpan.FromSeconds(5),
