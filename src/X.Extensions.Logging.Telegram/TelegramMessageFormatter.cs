@@ -56,7 +56,7 @@ public class TelegramMessageFormatter : ITelegramMessageFormatter
         sb.Append($"<b>{logLevelMarkerRenderer.RenderMarker(logLevel)} {DateTime.Now:HH:mm:ss}</b>");
 
         sb.AppendLine();
-        sb.Append($"<pre>{_category}</pre>");
+        sb.Append($"<i>{_category}</i>");
 
         sb.AppendLine();
         sb.AppendLine($"Message: {EncodeHtml(message)}");
