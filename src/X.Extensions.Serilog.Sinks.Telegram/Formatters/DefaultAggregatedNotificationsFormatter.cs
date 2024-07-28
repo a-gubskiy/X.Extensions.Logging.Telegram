@@ -1,4 +1,5 @@
 ﻿using X.Extensions.Serilog.Sinks.Telegram.Configuration;
+using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
@@ -35,7 +36,9 @@ public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
 
         foreach (var logEntry in logEntries)
         {
-            var level = config.UseEmoji ? ToEmoji(logEntry.Level) : logEntry.Level.ToString();
+            var level = config.UseEmoji
+                ? LogLevelMarkerRenderer.RenderMarker(logEntry.Level.ToLogLevel())
+                : logEntry.Level.ToString();
 
             sb.Append(level).Append(' ').Append("<em>[").Append($"{logEntry.UtcTimeStamp:G}").Append("]</em>");
 
