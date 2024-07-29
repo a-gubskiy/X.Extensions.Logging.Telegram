@@ -1,7 +1,7 @@
 using Example.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Example.WebApp.Controllers;
+namespace Example.WebApp.Serilog.Controllers;
 
 [ApiController]
 [Route("[controller]")]

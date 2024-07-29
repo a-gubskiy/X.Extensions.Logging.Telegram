@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 using Example.Core;
-using Example.WebApp.Serilog_;
+using Example.WebApp.Serilog;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -13,6 +13,7 @@ using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((_, lc) => lc
+    .WriteTo.Console()
     .WriteTo.Telegram(config =>
     {
         config.Token = ExampleAppSettings.Token;
@@ -33,7 +34,7 @@ builder.Host.UseSerilog((_, lc) => lc
         config.FormatterConfiguration = new FormatterConfiguration
         {
             UseEmoji = true,
-            ReadableApplicationName = "Example.Example.WebApp.Serilog  Example",
+            ReadableApplicationName = "Example.Example.WebApp.Serilog Example",
             IncludeException = false,
             IncludeProperties = false,
             TimeZone = TimeZoneInfo.Utc
@@ -69,7 +70,7 @@ app.MapPost("logs/generate",
 app.Run();
 
 
-namespace Example.WebApp.Serilog_
+namespace Example.WebApp.Serilog
 {
     internal record GenerateLogsRequest(
         [JsonConverter(typeof(StringEnumConverter))]

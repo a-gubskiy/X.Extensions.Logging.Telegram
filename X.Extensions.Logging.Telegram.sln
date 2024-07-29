@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{FE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ConsoleApp.Serilog", "examples\Example.ConsoleApp.Serilog\Example.ConsoleApp.Serilog.csproj", "{0CB25DBB-1659-4BE3-AE19-189ED5808E74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.WebApp.Serilog ", "examples\Example.WebApp.Serilog \Example.WebApp.Serilog .csproj", "{AED236EF-E9D0-4820-8CB7-D35F8EE6AB6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.WebApp.Serilog", "examples\Example.WebApp.Serilog\Example.WebApp.Serilog.csproj", "{AED236EF-E9D0-4820-8CB7-D35F8EE6AB6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Extensions.Logging.Telegram.Tests", "tests\X.Extensions.Logging.Telegram.Tests\X.Extensions.Logging.Telegram.Tests.csproj", "{0B272B65-A497-4646-9FD6-096B9FAE4724}"
 EndProject
