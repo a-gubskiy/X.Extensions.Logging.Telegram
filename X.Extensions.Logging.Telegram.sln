@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.WebApp", "examples\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Core", "examples\Example.Core\Example.Core.csproj", "{644A78CB-D265-49CC-BCB1-BFB767988899}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Extensions.Telegram", "src\X.Extensions.Telegram\X.Extensions.Telegram.csproj", "{58CB0241-BFCF-4BD3-B6D5-CD1A3F681D33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Extensions.Logging.Telegram.Base", "src\X.Extensions.Logging.Telegram.Base\X.Extensions.Logging.Telegram.Base.csproj", "{58CB0241-BFCF-4BD3-B6D5-CD1A3F681D33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

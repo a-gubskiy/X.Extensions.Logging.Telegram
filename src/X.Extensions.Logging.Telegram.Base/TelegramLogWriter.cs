@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
-namespace X.Extensions.Telegram;
+namespace X.Extensions.Logging.Telegram.Base;
 
 [PublicAPI]
 public interface ILogWriter

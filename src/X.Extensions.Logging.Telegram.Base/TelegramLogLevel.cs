@@ -1,4 +1,4 @@
-namespace X.Extensions.Telegram;
+namespace X.Extensions.Logging.Telegram.Base;
 
 public enum TelegramLogLevel
 {

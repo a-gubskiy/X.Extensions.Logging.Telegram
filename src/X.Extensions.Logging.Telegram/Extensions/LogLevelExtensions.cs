@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
-using X.Extensions.Telegram;
+using X.Extensions.Logging.Telegram.Base;
 
 namespace X.Extensions.Logging.Telegram.Extensions;
 

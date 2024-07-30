@@ -2,11 +2,11 @@
 using System.Threading;
 using System.Threading.Channels;
 using Serilog.Core;
+using X.Extensions.Logging.Telegram.Base;
 using X.Extensions.Serilog.Sinks.Telegram.Batch;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 using X.Extensions.Serilog.Sinks.Telegram.Filters;
 using X.Extensions.Serilog.Sinks.Telegram.Formatters;
-using X.Extensions.Telegram;
 
 namespace X.Extensions.Serilog.Sinks.Telegram;
 
