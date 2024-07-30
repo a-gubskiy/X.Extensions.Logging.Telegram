@@ -36,7 +36,7 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
         _logsQueueAccessor = logsQueueAccessor;
         _sinkConfiguration = sinkConfiguration;
         _logFormatter = messageFormatter ??
-                            TelegramSinkDefaults.GetDefaultLogFormatter(_sinkConfiguration.Mode);
+                        TelegramSinkDefaults.GetDefaultLogFormatter(_sinkConfiguration.Mode);
 
         _cancellationTokenSource = new CancellationTokenSource();
 
@@ -155,11 +155,11 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
             requiredBatches--;
         }
     }
-    
+
     public static LogEntry ConvertToLogEntry(LogEvent logEvent)
     {
         ArgumentNullException.ThrowIfNull(logEvent);
-    
+
         return new LogEntry
         {
             Message = logEvent.RenderMessage(),
