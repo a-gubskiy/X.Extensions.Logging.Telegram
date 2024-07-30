@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -10,7 +11,7 @@ namespace X.Extensions.Logging.Telegram;
 [PublicAPI]
 public interface ILogQueueProcessor : IDisposable
 {
-    void EnqueueMessage(string message);
+    void EnqueueMessages(ICollection<string> messages);
 }
 
 internal class LogQueueProcessor : ILogQueueProcessor
@@ -25,24 +26,28 @@ internal class LogQueueProcessor : ILogQueueProcessor
     public LogQueueProcessor(ILogWriter logWriter)
     {
         _writer = logWriter;
-            
+
         // Start message queue thread
         _thread = new Thread(async () => { await ProcessLogQueue(); })
         {
             IsBackground = true,
             Name = $"{nameof(LogQueueProcessor)} thread",
         };
-            
+
         _thread.Start();
     }
 
-    public void EnqueueMessage(string message)
+    public void EnqueueMessages(ICollection<string> messages)
     {
         if (!_queue.IsAddingCompleted)
         {
             try
             {
-                _queue.Add(message);
+                foreach (var message in messages)
+                {
+                    _queue.Add(message);
+                }
+
                 return;
             }
             catch
@@ -54,7 +59,10 @@ internal class LogQueueProcessor : ILogQueueProcessor
         // Adding is completed so just log the message
         try
         {
-            _writer.Write(message);
+            foreach (var message in messages)
+            {
+                _writer.Write(message);
+            }           
         }
         catch
         {

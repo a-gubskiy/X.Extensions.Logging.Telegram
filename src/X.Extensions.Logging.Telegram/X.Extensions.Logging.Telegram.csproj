@@ -5,7 +5,6 @@
         <Description>Telegram logging provider</Description>
 
         <LangVersion>default</LangVersion>
-        <TargetFrameworks>net6.0;net8.0;netstandard2.0;netstandard2.1</TargetFrameworks>
 
         <PackageTags>telegram logging log logs</PackageTags>
 
@@ -13,6 +12,7 @@
 
         <Authors>Andrew Gubskiy</Authors>
         <Copyright>Andrew Gubskiy © 2024</Copyright>
+        <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>

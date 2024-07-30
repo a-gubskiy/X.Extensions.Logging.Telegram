@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using X.Extensions.Logging.Telegram.Base;
+using X.Extensions.Logging.Telegram.Base.Formatters;
 
 namespace X.Extensions.Logging.Telegram.Extensions;
 
@@ -118,7 +119,7 @@ public static class TelegramLoggerExtensions
         ILogLevelChecker logLevelChecker,
         ILogQueueProcessor logQueueProcessor)
     {
-        ITelegramMessageFormatter CreateFormatter(string name) => new TelegramMessageFormatter(options, name);
+        IMessageFormatter CreateFormatter(string name) => new DefaultLogFormatter();
 
         return AddTelegram(builder, options, logLevelChecker, logQueueProcessor, CreateFormatter);
     }
@@ -126,7 +127,7 @@ public static class TelegramLoggerExtensions
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
-        Func<string, ITelegramMessageFormatter> createFormatter)
+        Func<string, IMessageFormatter> createFormatter)
     {
         var logWriter = new TelegramLogWriter(options.AccessToken, options.ChatId);
         var logLevelChecker = new DefaultLogLevelChecker();
@@ -149,7 +150,7 @@ public static class TelegramLoggerExtensions
         TelegramLoggerOptions options,
         ILogLevelChecker logLevelChecker,
         ILogQueueProcessor logQueueProcessor, 
-        Func<string, ITelegramMessageFormatter> createFormatter)
+        Func<string, IMessageFormatter> createFormatter)
     {
         builder.AddConfiguration();
         
