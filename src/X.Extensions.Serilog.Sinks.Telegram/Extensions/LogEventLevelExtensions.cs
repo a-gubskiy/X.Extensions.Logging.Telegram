@@ -10,7 +10,7 @@ namespace X.Extensions.Serilog.Sinks.Telegram.Extensions;
 public static class LogEventLevelExtensions
 {
     /// <summary>
-    /// Converts <see cref="LogEventLevel"/> to <see cref="LogLevel"/>.
+    /// Converts <see cref="LogEventLevel"/> to <see cref="TelegramLogLevel"/>.
     /// </summary>
     /// <param name="level">
     /// LogEventLevel value.

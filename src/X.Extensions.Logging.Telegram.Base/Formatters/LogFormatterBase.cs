@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using X.Extensions.Logging.Telegram.Base.Configuration;
+using X.Extensions.Logging.Telegram.Base.Rendereres;
 
 namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
