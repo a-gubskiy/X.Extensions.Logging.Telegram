@@ -21,7 +21,7 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
     private readonly LogFilterManager? _logFilterManager;
     private readonly ILogsQueueAccessor _logsQueueAccessor;
 
-    private readonly IMessageFormatter _messageFormatter;
+    private readonly ILogFormatter _logFormatter;
     private readonly ILogWriter _logWriter;
 
     private readonly TelegramSinkConfiguration _sinkConfiguration;
@@ -30,13 +30,13 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
         ChannelWriter<LogEvent> channelWriter,
         ILogsQueueAccessor logsQueueAccessor,
         TelegramSinkConfiguration sinkConfiguration,
-        IMessageFormatter? messageFormatter)
+        ILogFormatter? messageFormatter)
     {
         _channelWriter = channelWriter;
         _logsQueueAccessor = logsQueueAccessor;
         _sinkConfiguration = sinkConfiguration;
-        _messageFormatter = messageFormatter ??
-                            TelegramSinkDefaults.GetDefaultMessageFormatter(_sinkConfiguration.Mode);
+        _logFormatter = messageFormatter ??
+                            TelegramSinkDefaults.GetDefaultLogFormatter(_sinkConfiguration.Mode);
 
         _cancellationTokenSource = new CancellationTokenSource();
 
@@ -123,7 +123,7 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
             return ImmutableArray<string>.Empty;
         }
 
-        return _messageFormatter
+        return _logFormatter
             .Format(events, _sinkConfiguration.FormatterConfiguration)
             .ToImmutableList();
 

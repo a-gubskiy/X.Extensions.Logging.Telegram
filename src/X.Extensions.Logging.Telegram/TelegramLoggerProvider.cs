@@ -11,13 +11,13 @@ internal class TelegramLoggerProvider : ILoggerProvider
     private readonly ILogLevelChecker _logLevelChecker;
     private readonly TelegramLoggerOptions _options;
     private readonly ConcurrentDictionary<string, TelegramLogger> _loggers = new();
-    private readonly Func<string, IMessageFormatter> _createFormatter;
+    private readonly Func<string, ILogFormatter> _createFormatter;
     
     public TelegramLoggerProvider(
         TelegramLoggerOptions options,
         ILogQueueProcessor logQueueProcessor,
         ILogLevelChecker logLevelChecker, 
-        Func<string, IMessageFormatter> createFormatter)
+        Func<string, ILogFormatter> createFormatter)
     {
         _options = options;
         _logQueueProcessor = logQueueProcessor;

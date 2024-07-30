@@ -13,13 +13,13 @@ public class TelegramLogger : ILogger
 {
     private readonly ILogLevelChecker _logLevelChecker;
     private readonly ILogQueueProcessor _queueProcessor;
-    private readonly IMessageFormatter _formatter;
+    private readonly ILogFormatter _formatter;
 
     internal TelegramLogger(
         TelegramLoggerOptions options,
         ILogLevelChecker  logLevelChecker,
         ILogQueueProcessor loggerProcessor,
-        IMessageFormatter formatter)
+        ILogFormatter formatter)
     {
         Options = options ?? throw new ArgumentNullException(nameof(options));
         

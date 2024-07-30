@@ -51,7 +51,7 @@ public static class DependencyInjectionExtensions
                     ApplyLogFilters = false
                 };
             },
-            messageFormatter: null!,
+            logFormatter: null!,
             restrictedToMinimumLevel: logLevel);
     }
 }

@@ -6,7 +6,7 @@ using X.Extensions.Logging.Telegram.Base.Configuration;
 
 namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
-public abstract class MessageFormatterBase : IMessageFormatter
+public abstract class LogFormatterBase : ILogFormatter
 {
     protected static readonly List<string> Empty = Enumerable.Empty<string>().ToList();
     protected static readonly ILogLevelMarkerRenderer LogLevelMarkerRenderer = new LogLevelEmojiMarkerRenderer();
