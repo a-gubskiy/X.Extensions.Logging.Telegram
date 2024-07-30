@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace X.Extensions.Serilog.Sinks.Telegram.Configuration;
+namespace X.Extensions.Logging.Telegram.Base.Configuration;
 
 /// <summary>
 /// Represents the configuration for formatting output messages.

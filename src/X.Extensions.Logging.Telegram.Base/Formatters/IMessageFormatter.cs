@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using X.Extensions.Logging.Telegram.Base;
-using X.Extensions.Serilog.Sinks.Telegram.Configuration;
+using X.Extensions.Logging.Telegram.Base.Configuration;
 
-namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
+namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
 public interface IMessageFormatter
 {
