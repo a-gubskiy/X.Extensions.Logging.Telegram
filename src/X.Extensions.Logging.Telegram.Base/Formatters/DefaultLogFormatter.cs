@@ -7,7 +7,7 @@ using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
-internal class DefaultLogFormatter : MessageFormatterBase
+public class DefaultLogFormatter : MessageFormatterBase
 {
     /// <inheritdoc cref="MessageFormatterBase"/>
     /// <exception cref="ArgumentNullException">Throws when the log entry is null.</exception>
