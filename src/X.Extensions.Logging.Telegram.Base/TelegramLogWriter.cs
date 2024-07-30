@@ -44,6 +44,10 @@ public class TelegramLogWriter : ILogWriter
             parseMode: ParseMode.Html,
             cancellationToken: cancellationToken);
 
+        #if DEBUG
+        
         Trace.WriteLine(result.MessageId);
+            
+        #endif
     }
 }
