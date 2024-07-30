@@ -2,6 +2,6 @@
 
 public class ExampleAppSettings
 {
-    public const string Token = "5357457300:AAFao32RfqfZ5-6IsZOK1Of3-gPTXBGHK1k";
-    public const string ChatId = "-1002209155985";
+    public const string Token = "0000000000:0000000000000-0000000000-0000000000";
+    public const string ChatId = "-123456789";
 }
