@@ -37,7 +37,7 @@ public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
         foreach (var logEntry in logEntries)
         {
             var level = config.UseEmoji
-                ? LogLevelMarkerRenderer.RenderMarker(logEntry.Level.ToTelegramLogLevel())
+                ? LogLevelMarkerRenderer.RenderMarker(logEntry.Level)
                 : logEntry.Level.ToString();
 
             sb.Append(level).Append(' ').Append("<em>[").Append($"{logEntry.UtcTimeStamp:G}").Append("]</em>");
