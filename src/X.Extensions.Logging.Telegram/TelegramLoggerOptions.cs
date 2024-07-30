@@ -9,7 +9,9 @@ namespace X.Extensions.Logging.Telegram;
 public record TelegramLoggerOptions
 {
     public Dictionary<string, LogLevel> LogLevel { get; set; }
+    
     public string AccessToken { get; set; } = "";
+    
     public string ChatId { get; set; } = "";
     
     public FormatterConfiguration FormatterConfiguration { get; set; } = new();
