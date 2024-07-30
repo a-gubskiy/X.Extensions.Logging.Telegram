@@ -2,6 +2,7 @@ using Example.Core;
 using Example.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using X.Extensions.Logging.Telegram;
+using X.Extensions.Logging.Telegram.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

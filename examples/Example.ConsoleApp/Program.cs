@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Example.Core;
 using Microsoft.Extensions.Logging;
 using X.Extensions.Logging.Telegram;
+using X.Extensions.Logging.Telegram.Extensions;
 
 namespace Example.ConsoleApp;
 

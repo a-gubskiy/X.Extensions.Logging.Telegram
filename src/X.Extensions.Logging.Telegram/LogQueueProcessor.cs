@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using X.Extensions.Telegram;
 
 namespace X.Extensions.Logging.Telegram;
 

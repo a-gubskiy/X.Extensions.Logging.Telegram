@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,7 +5,7 @@ using JetBrains.Annotations;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
-namespace X.Extensions.Logging.Telegram;
+namespace X.Extensions.Telegram;
 
 [PublicAPI]
 public interface ILogWriter

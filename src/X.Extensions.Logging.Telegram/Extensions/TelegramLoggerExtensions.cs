@@ -3,8 +3,9 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
+using X.Extensions.Telegram;
 
-namespace X.Extensions.Logging.Telegram;
+namespace X.Extensions.Logging.Telegram.Extensions;
 
 [PublicAPI]
 public static class TelegramLoggerExtensions

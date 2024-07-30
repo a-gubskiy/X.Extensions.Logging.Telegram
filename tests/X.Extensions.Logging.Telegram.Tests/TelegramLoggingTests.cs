@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using X.Extensions.Logging.Telegram.Extensions;
 
 namespace X.Extensions.Logging.Telegram.Tests;
 

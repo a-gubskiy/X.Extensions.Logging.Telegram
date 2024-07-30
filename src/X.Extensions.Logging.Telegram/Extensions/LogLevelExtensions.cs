@@ -1,8 +1,8 @@
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
-using X.Extensions.Logging.Telegram;
+using X.Extensions.Telegram;
 
-namespace X.Extensions.Serilog.Sinks.Telegram.Extensions;
+namespace X.Extensions.Logging.Telegram.Extensions;
 
 /// <summary>
 /// Helper methods for <see cref="LogLevel"/>.

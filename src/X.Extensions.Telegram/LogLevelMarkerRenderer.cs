@@ -1,6 +1,6 @@
 using System;
 
-namespace X.Extensions.Logging.Telegram;
+namespace X.Extensions.Telegram;
 
 public interface ILogLevelMarkerRenderer
 {

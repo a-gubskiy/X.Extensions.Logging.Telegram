@@ -3,7 +3,8 @@ using System.Net;
 using System.Text;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
-using X.Extensions.Serilog.Sinks.Telegram.Extensions;
+using X.Extensions.Logging.Telegram.Extensions;
+using X.Extensions.Telegram;
 
 namespace X.Extensions.Logging.Telegram;
 

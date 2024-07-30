@@ -1,5 +1,5 @@
 using JetBrains.Annotations;
-using X.Extensions.Logging.Telegram;
+using X.Extensions.Telegram;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Extensions;
 
