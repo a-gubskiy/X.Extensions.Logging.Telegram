@@ -57,7 +57,7 @@ internal class DefaultLogFormatter : MessageFormatterBase
             : logEntry.UtcTimeStamp;
 
         var logLevelMarker = config.UseEmoji
-            ? LogLevelMarkerRenderer.RenderMarker(logEntry.Level.ToLogLevel()) + logEntry.Level
+            ? LogLevelMarkerRenderer.RenderMarker(logEntry.Level.ToTelegramLogLevel()) + logEntry.Level
             : logEntry.Level.ToString();
 
         sb.Append(logLevelMarker)

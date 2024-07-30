@@ -3,6 +3,7 @@ using System.Net;
 using System.Text;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
+using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 
 namespace X.Extensions.Logging.Telegram;
 
@@ -53,7 +54,7 @@ public class TelegramMessageFormatter : ITelegramMessageFormatter
             
         var sb = new StringBuilder();
 
-        sb.Append($"<b>{logLevelMarkerRenderer.RenderMarker(logLevel)} {DateTime.Now:HH:mm:ss}</b>");
+        sb.Append($"<b>{logLevelMarkerRenderer.RenderMarker(logLevel.ToTelegramLogLevel())} {DateTime.Now:HH:mm:ss}</b>");
 
         sb.AppendLine();
         sb.Append($"<i>{_category}</i>");

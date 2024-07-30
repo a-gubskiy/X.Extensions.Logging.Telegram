@@ -1,5 +1,5 @@
 using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
+using X.Extensions.Logging.Telegram;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Extensions;
 
@@ -18,17 +18,17 @@ public static class LogEventLevelExtensions
     /// <returns>
     /// LogLevel value.
     /// </returns>
-    public static LogLevel ToLogLevel(this LogEventLevel level)
+    public static TelegramLogLevel ToTelegramLogLevel(this LogEventLevel level)
     {
         return level switch
         {
-            LogEventLevel.Verbose => LogLevel.Trace,
-            LogEventLevel.Debug => LogLevel.Debug,
-            LogEventLevel.Information => LogLevel.Information,
-            LogEventLevel.Warning => LogLevel.Warning,
-            LogEventLevel.Error => LogLevel.Error,
-            LogEventLevel.Fatal => LogLevel.Critical,
-            _ => LogLevel.Information
+            LogEventLevel.Verbose => TelegramLogLevel.Trace,
+            LogEventLevel.Debug => TelegramLogLevel.Debug,
+            LogEventLevel.Information => TelegramLogLevel.Information,
+            LogEventLevel.Warning => TelegramLogLevel.Warning,
+            LogEventLevel.Error => TelegramLogLevel.Error,
+            LogEventLevel.Fatal => TelegramLogLevel.Critical,
+            _ => TelegramLogLevel.Information
         };
     }
 }

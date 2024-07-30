@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Title>X.Extensions.Telegram</Title>
+        <Description>Telegram extensions</Description>
+
+        <LangVersion>default</LangVersion>
+        <TargetFrameworks>net6.0;net8.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+
+        <PackageTags>telegram</PackageTags>
+
+        <Nullable>enable</Nullable>
+
+        <Authors>Andrew Gubskiy</Authors>
+        <Copyright>Andrew Gubskiy © 2024</Copyright>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" PrivateAssets="All"/>
+        <PackageReference Include="Telegram.Bot" Version="19.0.0"/>
+    </ItemGroup>
+
+</Project>

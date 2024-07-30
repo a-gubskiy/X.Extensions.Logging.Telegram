@@ -26,7 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\X.Extensions.Logging.Telegram\X.Extensions.Logging.Telegram.csproj"/>
+      <ProjectReference Include="..\X.Extensions.Telegram\X.Extensions.Telegram.csproj" />
     </ItemGroup>
 
 </Project>
