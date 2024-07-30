@@ -7,6 +7,9 @@ public interface ILogLevelMarkerRenderer
     string RenderMarker(TelegramLogLevel logLevel);
 }
 
+/// <summary>
+/// Render log level marker as emoji
+/// </summary>
 public class LogLevelEmojiMarkerRenderer : ILogLevelMarkerRenderer
 {
     public string RenderMarker(TelegramLogLevel level)
@@ -27,6 +30,9 @@ public class LogLevelEmojiMarkerRenderer : ILogLevelMarkerRenderer
     }
 }
 
+/// <summary>
+/// Render log level as text symbols
+/// </summary>
 public class LogLevelTextMarkerRenderer : ILogLevelMarkerRenderer
 {
     public string RenderMarker(TelegramLogLevel level)

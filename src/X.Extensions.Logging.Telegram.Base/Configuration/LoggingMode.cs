@@ -1,4 +1,4 @@
-﻿namespace X.Extensions.Serilog.Sinks.Telegram.Configuration;
+﻿namespace X.Extensions.Logging.Telegram.Base.Configuration;
 
 public enum LoggingMode
 {

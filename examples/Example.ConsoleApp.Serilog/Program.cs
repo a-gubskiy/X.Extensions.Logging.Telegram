@@ -1,6 +1,7 @@
 ﻿using Example.Core;
 using Serilog;
 using Serilog.Events;
+using X.Extensions.Logging.Telegram.Base.Configuration;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 using X.Extensions.Serilog.Sinks.Telegram.Filters.Fluent;
