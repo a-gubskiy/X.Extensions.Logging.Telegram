@@ -47,9 +47,9 @@ public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
                 sb.Append(" <strong>").Append(config.ReadableApplicationName).Append("</strong>");
             }
 
-            if (!string.IsNullOrWhiteSpace(logEntry.RenderedMessage))
+            if (!string.IsNullOrWhiteSpace(logEntry.Message))
             {
-                sb.AppendLine().Append("Message: <code>").Append(logEntry.RenderedMessage).Append("</code>");
+                sb.AppendLine().Append("Message: <code>").Append(logEntry.Message).Append("</code>");
             }
 
             if (config.IncludeException && !string.IsNullOrWhiteSpace(logEntry.Exception))

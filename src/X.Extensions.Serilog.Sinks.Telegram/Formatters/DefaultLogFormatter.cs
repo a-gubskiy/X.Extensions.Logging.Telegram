@@ -65,9 +65,9 @@ internal class DefaultLogFormatter : MessageFormatterBase
             .Append(' ').Append('[').Append($"{timestamp:yyyy-MM-dd HH:mm:ss UTC}").Append(']')
             .AppendLine();
 
-        if (NotEmpty(logEntry.RenderedMessage))
+        if (NotEmpty(logEntry.Message))
         {
-            sb.AppendLine().Append("<b>Message:</b> <code>").Append(logEntry.RenderedMessage).Append("</code>").AppendLine();
+            sb.AppendLine().Append("<b>Message:</b> <code>").Append(logEntry.Message).Append("</code>").AppendLine();
         }
 
         if (config.IncludeException && NotEmpty(logEntry.Exception))
