@@ -1,13 +1,11 @@
 using Example.Core;
+using Example.Core.Services;
+using Microsoft.AspNetCore.Mvc;
 using X.Extensions.Logging.Telegram;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.AddSingleton<LogsService>();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddTelegram(options =>
@@ -21,9 +19,11 @@ builder.Logging.AddTelegram(options =>
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.MapControllers();
+app.MapGet("logs",
+    (
+        [FromServices] LogsService logsService) =>
+    {
+        logsService.WriteLogs();
+    });
 
 app.Run();

@@ -1,9 +1,7 @@
 using System.Collections.Immutable;
 using Example.Core;
-using Example.WebApp.Serilog;
+using Example.Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Serilog;
 using Serilog.Events;
 using X.Extensions.Serilog.Sinks.Telegram.Batch.Rules;
@@ -12,6 +10,7 @@ using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton<LogsService>();
 builder.Host.UseSerilog((_, lc) => lc
     .WriteTo.Console()
     .WriteTo.Telegram(config =>
@@ -34,7 +33,7 @@ builder.Host.UseSerilog((_, lc) => lc
         config.FormatterConfiguration = new FormatterConfiguration
         {
             UseEmoji = true,
-            ReadableApplicationName = "Example.Example.WebApp.Serilog Example",
+            ReadableApplicationName = "Example.WebApp.Serilog",
             IncludeException = false,
             IncludeProperties = false,
             TimeZone = TimeZoneInfo.Utc
@@ -43,37 +42,13 @@ builder.Host.UseSerilog((_, lc) => lc
         config.Mode = LoggingMode.Logs;
     }, null!, LogEventLevel.Information));
 
-builder.Services.AddControllers();
-
 var app = builder.Build();
 
-app.MapControllers();
-
-app.MapPost("logs/generate",
+app.MapGet("logs",
     (
-        GenerateLogsRequest request,
-        [FromServices] ILogger<Program> logger) =>
+        [FromServices] LogsService logsService) =>
     {
-        const string testMessage = "Test message";
-
-        var amount = request.Amount;
-        while (amount > 0)
-        {
-            var logLevel = request.LogLevel;
-            logger.Log(logLevel, testMessage);
-
-            amount--;
-        }
+        logsService.WriteLogs();
     });
 
-
 app.Run();
-
-
-namespace Example.WebApp.Serilog
-{
-    internal record GenerateLogsRequest(
-        [JsonConverter(typeof(StringEnumConverter))]
-        LogLevel LogLevel,
-        int Amount);
-}
