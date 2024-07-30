@@ -1,4 +1,5 @@
-﻿using X.Extensions.Serilog.Sinks.Telegram.Configuration;
+﻿using X.Extensions.Logging.Telegram.Base;
+using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;

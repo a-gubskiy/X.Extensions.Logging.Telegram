@@ -5,6 +5,7 @@ using Serilog.Core;
 using X.Extensions.Logging.Telegram.Base;
 using X.Extensions.Serilog.Sinks.Telegram.Batch;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
+using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 using X.Extensions.Serilog.Sinks.Telegram.Filters;
 using X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
@@ -114,7 +115,7 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
         var logsBatch = await _logsQueueAccessor.DequeueSeveralAsync(amount);
         var events = logsBatch
             .Where(LogFilteringPredicate)
-            .Select(LogEntry.MapFrom)
+            .Select(ConvertToLogEntry)
             .ToList();
 
         if (events.Count == 0)
@@ -153,5 +154,19 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
             await EmitBatchInternalAsync(batchSize, CancellationToken.None);
             requiredBatches--;
         }
+    }
+    
+    public static LogEntry ConvertToLogEntry(LogEvent logEvent)
+    {
+        ArgumentNullException.ThrowIfNull(logEvent);
+    
+        return new LogEntry
+        {
+            Message = logEvent.RenderMessage(),
+            Level = logEvent.Level.ToTelegramLogLevel(),
+            UtcTimeStamp = logEvent.Timestamp.ToUniversalTime().UtcDateTime,
+            Exception = logEvent.Exception?.ToString(),
+            Properties = logEvent.Properties.ToDictionary(x => x.Key, x => x.Value.ToString())
+        };
     }
 }
