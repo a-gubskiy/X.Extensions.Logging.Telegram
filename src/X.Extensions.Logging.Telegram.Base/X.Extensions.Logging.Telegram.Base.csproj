@@ -12,7 +12,7 @@
 
         <Authors>Andrew Gubskiy, Vladyslav Bardin</Authors>
         <Copyright>Andrew Gubskiy, Vladyslav Bardin © 2024</Copyright>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;net6.0;net8.0;netstandard2.1</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
