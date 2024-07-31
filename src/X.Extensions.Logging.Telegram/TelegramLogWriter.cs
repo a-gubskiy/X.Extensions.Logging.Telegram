@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot;
@@ -10,6 +11,8 @@ namespace X.Extensions.Logging.Telegram;
 public interface ILogWriter
 {
     Task Write(string message);
+    
+    Task Write(string message, CancellationToken cancellationToken);
 }
 
 public class TelegramLogWriter : ILogWriter
@@ -30,8 +33,13 @@ public class TelegramLogWriter : ILogWriter
 
     public async Task Write(string message)
     {
+        await Write(message, CancellationToken.None);
+    }
+
+    public async Task Write(string message, CancellationToken cancellationToken)
+    {
         var messageThreadId = Convert.ToInt32(ParseMode.Html);
         
-        await _client.SendTextMessageAsync(_chatId, message, messageThreadId);
+        await _client.SendTextMessageAsync(_chatId, message, messageThreadId, cancellationToken: cancellationToken);
     }
 }
