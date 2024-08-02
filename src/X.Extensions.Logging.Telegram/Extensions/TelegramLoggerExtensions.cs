@@ -98,13 +98,13 @@ public static class TelegramLoggerExtensions
         TelegramLoggerOptions options,
         ILogQueueProcessor logQueueProcessor)
     {
-        return AddTelegram(builder, options, logQueueProcessor, name => new TelegramMessageFormatter(options, name));
+        return AddTelegram(builder, options, logQueueProcessor, name => new DefaultLogFormatter());
     }
     
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
-        Func<string, ITelegramMessageFormatter> createFormatter)
+        Func<string, IMessageFormatter> createFormatter)
     {
         var logWriter = new TelegramLogWriter(options.AccessToken, options.ChatId);
         var logQueueProcessor = new LogQueueProcessor(logWriter);

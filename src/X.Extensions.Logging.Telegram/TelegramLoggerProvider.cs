@@ -15,7 +15,7 @@ internal class TelegramLoggerProvider : ILoggerProvider
     public TelegramLoggerProvider(
         TelegramLoggerOptions options,
         ILogQueueProcessor logQueueProcessor,
-        Func<string, ITelegramMessageFormatter> createFormatter)
+        Func<string, IMessageFormatter> createFormatter)
     {
         _options = options;
         _logQueueProcessor = logQueueProcessor;

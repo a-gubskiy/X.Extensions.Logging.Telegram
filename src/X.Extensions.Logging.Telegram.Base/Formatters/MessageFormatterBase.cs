@@ -1,6 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using X.Extensions.Logging.Telegram.Base;
+using X.Extensions.Logging.Telegram.Base.Configuration;
+using X.Extensions.Logging.Telegram.Base.Formatters;
 using X.Extensions.Logging.Telegram.Base.Rendereres;
-using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
