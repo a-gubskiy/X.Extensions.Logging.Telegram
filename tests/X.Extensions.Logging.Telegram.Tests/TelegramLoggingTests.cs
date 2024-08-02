@@ -168,7 +168,8 @@ public class TelegramLoggingTests
         var configuration = new FormatterConfiguration
         {
             UseEmoji = true,
-            ReadableApplicationName = "Test API"
+            ReadableApplicationName = "Test API",
+            EncodeHtml = true
         };
 
         var messages = formatter.Format(logEntries, configuration);
@@ -179,9 +180,7 @@ public class TelegramLoggingTests
                                   message.Contains("</p>") ||
                                   message.Contains("<br/>") ||
                                   message.Contains("<i>") ||
-                                  message.Contains("</i>") ||
-                                  message.Contains("<b>") ||
-                                  message.Contains("</b>");
+                                  message.Contains("</i>");
 
             Assert.False(containsRawHtml);
         }

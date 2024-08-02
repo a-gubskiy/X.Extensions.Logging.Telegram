@@ -21,7 +21,8 @@ public class FormatterConfiguration
     /// </summary>
     ///
     /// <value>
-    /// The application's name. Useful when different applications are sending logs to the same channel. If null, this property will be ignored.
+    /// The application's name. Useful when different applications are sending logs to the same channel. 
+    /// If null, this property will be ignored.
     /// </value>
     public string? ReadableApplicationName { get; set; }
 
@@ -30,7 +31,9 @@ public class FormatterConfiguration
     /// </summary>
     ///
     /// <value>
-    /// A boolean representing the configuration. If true, and an exception is not null, the exception is included in the log message as a serialized JSON. This setting is only applicable when TelegramSinkConfiguration.Mode is LoggingMode.Logs.
+    /// A boolean representing the configuration. If true, and an exception is not null, the exception is included in 
+    /// the log message as a serialized JSON. This setting is only applicable when TelegramSinkConfiguration.Mode 
+    /// is LoggingMode.Logs.
     /// </value>
     public bool IncludeException { get; set; }
 
@@ -53,9 +56,15 @@ public class FormatterConfiguration
     /// 
     /// <remarks>
     /// This property is specifically for this logger sink. It does not affect other sinks utilized by Serilog.
-    /// Please note that each sink might handle log timestamps based on its individual configuration. To ensure the desired time zone is applied to your logs, you need to set this property for each necessary sink.
+    /// Please note that each sink might handle log timestamps based on its individual configuration. To ensure the 
+    /// desired time zone is applied to your logs, you need to set this property for each necessary sink.
     /// </remarks>
     public TimeZoneInfo? TimeZone { get; set; }
+    
+    /// <summary>
+    /// Indicates whether to encode HTML in the log message to avoid mess in Telegram message.
+    /// </summary>
+    public bool EncodeHtml { get; set; }
 
     public static FormatterConfiguration Default => new()
     {
