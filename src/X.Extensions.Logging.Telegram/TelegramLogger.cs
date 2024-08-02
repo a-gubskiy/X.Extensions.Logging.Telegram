@@ -6,19 +6,16 @@ namespace X.Extensions.Logging.Telegram;
 
 public class TelegramLogger : ILogger
 {
-    private readonly ILogLevelChecker _logLevelChecker;
     private readonly ILogQueueProcessor _queueProcessor;
     private readonly ITelegramMessageFormatter _formatter;
 
     internal TelegramLogger(
         TelegramLoggerOptions options,
-        ILogLevelChecker  logLevelChecker,
         ILogQueueProcessor loggerProcessor,
         ITelegramMessageFormatter formatter)
     {
         Options = options ?? throw new ArgumentNullException(nameof(options));
-        
-        _logLevelChecker = logLevelChecker;
+
         _queueProcessor = loggerProcessor;
         _formatter = formatter;
     }
@@ -48,7 +45,10 @@ public class TelegramLogger : ILogger
         _queueProcessor.EnqueueMessage(message);
     }
 
-    public bool IsEnabled(LogLevel logLevel) => _logLevelChecker.IsEnabled(logLevel);
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        return logLevel != LogLevel.None;
+    }
 
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull => default;
 }

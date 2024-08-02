@@ -62,11 +62,10 @@ public static class TelegramLoggerExtensions
     /// <returns></returns>
     public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options)
     {
-        var logLevelChecker = new DefaultLogLevelChecker();
         var logWriter = new TelegramLogWriter(options.AccessToken, options.ChatId);
         var logQueueProcessor = new LogQueueProcessor(logWriter);
 
-        return AddTelegram(builder, options, logLevelChecker, logQueueProcessor);
+        return AddTelegram(builder, options, logQueueProcessor);
     }
 
     /// <summary>
@@ -81,10 +80,9 @@ public static class TelegramLoggerExtensions
         TelegramLoggerOptions options,
         ILogWriter logWriter)
     {
-        var logLevelChecker = new DefaultLogLevelChecker();
         var logQueueProcessor = new LogQueueProcessor(logWriter);
 
-        return AddTelegram(builder, options, logLevelChecker, logQueueProcessor);
+        return AddTelegram(builder, options, logQueueProcessor);
     }
 
     /// <summary>
@@ -92,35 +90,14 @@ public static class TelegramLoggerExtensions
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="options"></param>
-    /// <param name="logQueueProcessor"></param>
-    /// <returns></returns>
-    public static ILoggingBuilder AddTelegram(
-        this ILoggingBuilder builder,
-        TelegramLoggerOptions options, 
-        ILogQueueProcessor logQueueProcessor)
-    {
-        var levelChecker = new DefaultLogLevelChecker();
-
-        return AddTelegram(builder, options, levelChecker, logQueueProcessor);
-    }
-
-    /// <summary>
-    /// Adds a Telegram logger to the factory
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="options"></param>
-    /// <param name="logLevelChecker"></param>
     /// <param name="logQueueProcessor"></param>
     /// <returns></returns>
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
-        ILogLevelChecker logLevelChecker,
         ILogQueueProcessor logQueueProcessor)
     {
-        ITelegramMessageFormatter CreateFormatter(string name) => new TelegramMessageFormatter(options, name);
-
-        return AddTelegram(builder, options, logLevelChecker, logQueueProcessor, CreateFormatter);
+        return AddTelegram(builder, options, logQueueProcessor, name => new TelegramMessageFormatter(options, name));
     }
     
     public static ILoggingBuilder AddTelegram(
@@ -129,10 +106,9 @@ public static class TelegramLoggerExtensions
         Func<string, ITelegramMessageFormatter> createFormatter)
     {
         var logWriter = new TelegramLogWriter(options.AccessToken, options.ChatId);
-        var logLevelChecker = new DefaultLogLevelChecker();
         var logQueueProcessor = new LogQueueProcessor(logWriter);
 
-        return AddTelegram(builder, options, logLevelChecker, logQueueProcessor, createFormatter);
+        return AddTelegram(builder, options, logQueueProcessor, createFormatter);
     }
     
     /// <summary>
@@ -140,14 +116,12 @@ public static class TelegramLoggerExtensions
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="options"></param>
-    /// <param name="logLevelChecker"></param>
     /// <param name="logQueueProcessor"></param>
     /// <param name="createFormatter"></param>
     /// <returns></returns>
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
-        ILogLevelChecker logLevelChecker,
         ILogQueueProcessor logQueueProcessor, 
         Func<string, ITelegramMessageFormatter> createFormatter)
     {
@@ -161,7 +135,7 @@ public static class TelegramLoggerExtensions
             builder.AddFilter<TelegramLoggerProvider>(category, level);
         }
             
-        builder.AddProvider(new TelegramLoggerProvider(options, logQueueProcessor, logLevelChecker, createFormatter));
+        builder.AddProvider(new TelegramLoggerProvider(options, logQueueProcessor, createFormatter));
             
         return builder;
     }
