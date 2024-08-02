@@ -67,7 +67,7 @@ public class TelegramLoggingTests
             }
         };
 
-        ITelegramMessageFormatter formatter = new DefaultAggregatedNotificationsFormatter();
+        IMessageFormatter formatter = new DefaultAggregatedNotificationsFormatter();
 
         ICollection<LogEntry> logEntries = new List<LogEntry>
         {
