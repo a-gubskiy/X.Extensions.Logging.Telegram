@@ -1,5 +1,5 @@
 ﻿using X.Extensions.Logging.Telegram.Base.Configuration;
-using X.Extensions.Serilog.Sinks.Telegram.Batch;
+using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Configuration;
 

@@ -1,10 +1,11 @@
 ﻿using System.Threading;
+using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Batch.Rules;
 
 /// <summary>
-/// Emit logs batch when in the logs queue is not less than <see cref="TelegramSinkConfiguration.BatchPostingLimit"/> entries.
+/// Emit logs batch when in the logs queue is not less than <see cref="TelegramSinkConfiguration.BatchPostingLimit"/> logs in queue.
 /// </summary>
 public class BatchSizeRule : IRule
 {
@@ -22,9 +23,8 @@ public class BatchSizeRule : IRule
         _accessContext = accessContext;
     }
 
-    public Task<bool> IsPassedAsync(CancellationToken cancellationToken)
+    public bool IsPassed()
     {
-        var isPass = _accessContext.GetSize() >= _batchSize;
-        return Task.FromResult(isPass);
+        return _accessContext.GetSize() >= _batchSize;
     }
 }
