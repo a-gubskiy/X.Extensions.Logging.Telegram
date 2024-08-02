@@ -10,7 +10,7 @@ using X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
 namespace X.Extensions.Serilog.Sinks.Telegram;
 
-public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
+public class TelegramSink : ILogEventSink, IAsyncDisposable
 {
     private readonly BatchCycleManager _batchCycleManager;
 
@@ -62,13 +62,6 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
         {
             await FlushAsync();
         }
-    }
-
-    public void Dispose()
-    {
-        _ = Task.Run(DisposeAsync, CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
     }
 
     public void Emit(LogEvent logEvent)
