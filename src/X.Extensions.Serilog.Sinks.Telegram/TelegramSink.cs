@@ -9,7 +9,6 @@ using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 using X.Extensions.Serilog.Sinks.Telegram.Filters;
-using X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
 namespace X.Extensions.Serilog.Sinks.Telegram;
 
@@ -46,7 +45,7 @@ public class TelegramSink : ILogEventSink, IAsyncDisposable
         }
 
         var logFormatter = messageFormatter ??
-                           TelegramSinkDefaults.GetDefaultMessageFormatter(_sinkConfiguration.Mode);
+                           TelegramSinkDefaults.GetDefaultLogFormatter(_sinkConfiguration.Mode);
         _logsQueueProcessor = new LogsQueueProcessor(logsQueueAccessor, logFormatter, sinkConfiguration);
 
         ExecuteLogsProcessingLoop(CancellationToken.None);
