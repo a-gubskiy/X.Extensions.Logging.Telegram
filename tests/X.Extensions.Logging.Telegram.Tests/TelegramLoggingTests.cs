@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Logging;
+using X.Extensions.Logging.Telegram.Base;
 using X.Extensions.Logging.Telegram.Base.Configuration;
+using X.Extensions.Logging.Telegram.Base.Formatters;
 using X.Extensions.Logging.Telegram.Extensions;
 
 namespace X.Extensions.Logging.Telegram.Tests;
@@ -15,23 +17,91 @@ public class TelegramLoggingTests
     {
     }
 
-    // [Fact]
-    // public void Test_MessageFormatter_MessageNotNull()
-    // {
-    //     var options = new TelegramLoggerOptions(LogLevel.Trace)
-    //     {
-    //         Source = "Project A",
-    //         AccessToken = "",
-    //         ChatId = "",
-    //         UseEmoji = true
-    //     };
-    //
-    //     var formatter = new TelegramMessageFormatter(options, "Some.Namespace.SomeClassName");
-    //     var message = formatter.Format(LogLevel.Warning, new EventId(), "Message", null, (s, _) => s);
-    //
-    //
-    //     Assert.NotNull(message);
-    // }
+    [Fact]
+    public void Test_DefaultLogFormatter_MessageNotNull()
+    {
+        var options = new TelegramLoggerOptions(LogLevel.Trace)
+        {
+            AccessToken = "",
+            ChatId = "",
+            FormatterConfiguration = new FormatterConfiguration
+            {
+                UseEmoji = true,
+                ReadableApplicationName = "Project A"
+            }
+        };
+
+        IMessageFormatter formatter = new DefaultLogFormatter(); 
+
+        ICollection<LogEntry> logEntries = new List<LogEntry>
+        {
+            new LogEntry
+            {
+                Message = "Message1",
+                Exception = null,
+                Level = TelegramLogLevel.Warning,
+                Properties = new Dictionary<string, string>(),
+                UtcTimeStamp = DateTime.UtcNow
+            }
+        };
+        
+        var messages = formatter.Format(logEntries, options.FormatterConfiguration);
+
+        foreach (var message in messages)
+        {
+            Assert.NotNull(messages);
+        }
+    }
+    
+    [Fact]
+    public void Test_DefaultAggregatedNotificationsFormatter_MessageNotNull()
+    {
+        var options = new TelegramLoggerOptions(LogLevel.Trace)
+        {
+            AccessToken = "",
+            ChatId = "",
+            FormatterConfiguration = new FormatterConfiguration
+            {
+                UseEmoji = true,
+                ReadableApplicationName = "Project A"
+            }
+        };
+
+        IMessageFormatter formatter = new DefaultAggregatedNotificationsFormatter();
+
+        ICollection<LogEntry> logEntries = new List<LogEntry>
+        {
+            new LogEntry
+            {
+                Message = "Message 1",
+                Exception = null,
+                Level = TelegramLogLevel.Error,
+                Properties = new Dictionary<string, string>(),
+                UtcTimeStamp = DateTime.UtcNow
+            },
+            new LogEntry
+            {
+                Message = "Message 2",
+                Exception = null,
+                Level = TelegramLogLevel.Information,
+                Properties = new Dictionary<string, string>(),
+                UtcTimeStamp = DateTime.UtcNow
+            },
+            new LogEntry
+            {
+                Message = "Message 3",
+                Exception = null,
+                Level = TelegramLogLevel.Warning,
+                Properties = new Dictionary<string, string>(),
+                UtcTimeStamp = DateTime.UtcNow
+            }
+        };
+        
+        var messages = formatter.Format(logEntries, options.FormatterConfiguration);
+        var message = messages.FirstOrDefault();
+    
+        Assert.NotNull(message);
+    }
 
     [Fact]
     public void Test_MessageFormatter_MessageIsNull()
@@ -73,40 +143,47 @@ public class TelegramLoggingTests
 
 
         Assert.Equal(2, processor.Messages.Count);
+        
         Assert.Contains(processor.Messages, o => o.Contains("System"));
         Assert.Contains(processor.Messages, o => o.Contains("Message from Some.Namespace.AnotherClassName"));
 
         Assert.DoesNotContain(processor.Messages, o => o.Contains("Some.Namespace.SomeClassName"));
     }
 
-    // [Theory]
-    // [InlineData("<p style=\"font-family='Lucida Console'\">Exception message description</p>")]
-    // [InlineData(
-    //     "<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
-    // public void ExceptionDescriptionWithRawHtmlTest(string description)
-    // {
-    //     ITelegramMessageFormatter formatter = new TelegramMessageFormatter(new TelegramLoggerOptions()
-    //     {
-    //         Source = "Test API",
-    //         AccessToken = "none",
-    //         ChatId = "12345",
-    //         UseEmoji = true,
-    //         LogLevel = new Dictionary<string, LogLevel>
-    //         {
-    //             { "test", LogLevel.Information }
-    //         }
-    //     }, "test");
-    //
-    //     var result = formatter.EncodeHtml(description);
-    //
-    //     var containsRawHtml = result.Contains("<p style=\"font-family='Lucida Console'\">") ||
-    //                           result.Contains("</p>") ||
-    //                           result.Contains("<br/>") ||
-    //                           result.Contains("<i>") ||
-    //                           result.Contains("</i>") ||
-    //                           result.Contains("<b>") ||
-    //                           result.Contains("</b>");
-    //
-    //     Assert.False(containsRawHtml);
-    // }
+    [Theory]
+    [InlineData("<p style=\"font-family='Lucida Console'\">Exception message description</p>")]
+    [InlineData("<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
+    public void ExceptionDescriptionWithRawHtmlTest(string description)
+    {
+        IMessageFormatter formatter = new DefaultLogFormatter();
+
+        ICollection<LogEntry> logEntries = new List<LogEntry>
+        {
+            new LogEntry
+            {
+                Message = description
+            }
+        };
+
+        var configuration = new FormatterConfiguration
+        {
+            UseEmoji = true,
+            ReadableApplicationName = "Test API"
+        };
+
+        var messages = formatter.Format(logEntries, configuration);
+
+        foreach (var message in messages)
+        {
+            var containsRawHtml = message.Contains("<p style=\"font-family='Lucida Console'\">") ||
+                                  message.Contains("</p>") ||
+                                  message.Contains("<br/>") ||
+                                  message.Contains("<i>") ||
+                                  message.Contains("</i>") ||
+                                  message.Contains("<b>") ||
+                                  message.Contains("</b>");
+
+            Assert.False(containsRawHtml);
+        }
+    }
 }
