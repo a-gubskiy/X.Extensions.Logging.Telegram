@@ -155,7 +155,7 @@ public class TelegramLoggingTests
     [InlineData("<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
     public void ExceptionDescriptionWithRawHtmlTest(string description)
     {
-        ITelegramMessageFormatter formatter = new DefaultLogFormatter();
+        IMessageFormatter formatter = new DefaultLogFormatter();
 
         ICollection<LogEntry> logEntries = new List<LogEntry>
         {
