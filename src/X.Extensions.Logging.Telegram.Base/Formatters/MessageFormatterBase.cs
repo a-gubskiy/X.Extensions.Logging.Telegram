@@ -2,14 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using X.Extensions.Logging.Telegram.Base;
 using X.Extensions.Logging.Telegram.Base.Configuration;
-using X.Extensions.Logging.Telegram.Base.Formatters;
 using X.Extensions.Logging.Telegram.Base.Rendereres;
 
-namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
+namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
-public abstract class TelegramMessageFormatterBase : ITelegramMessageFormatter
+public abstract class MessageFormatterBase : ITelegramMessageFormatter
 {
     protected static readonly List<string> Empty = Enumerable.Empty<string>().ToList();
     protected static readonly ILogLevelMarkerRenderer LogLevelMarkerRenderer = new LogLevelEmojiMarkerRenderer();

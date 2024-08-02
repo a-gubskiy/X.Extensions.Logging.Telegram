@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using X.Extensions.Logging.Telegram.Base.Configuration;
-using X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
 namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
-public class DefaultAggregatedNotificationsFormatter : TelegramMessageFormatterBase
+public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
 {
     public override List<string> Format(
         ICollection<LogEntry> logEntries,
