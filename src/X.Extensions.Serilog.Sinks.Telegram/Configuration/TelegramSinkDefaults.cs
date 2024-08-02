@@ -45,7 +45,7 @@ public static class TelegramSinkDefaults
     {
         return loggingMode switch
         {
-            LoggingMode.Logs => new DefaultMessageFormatter(),
+            LoggingMode.Logs => new DefaultLogFormatter(),
             LoggingMode.AggregatedNotifications => new DefaultAggregatedNotificationsMessageFormatter(),
             _ => throw new ArgumentOutOfRangeException()
         };

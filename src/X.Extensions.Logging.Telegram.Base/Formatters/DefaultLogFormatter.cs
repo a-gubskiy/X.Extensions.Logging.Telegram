@@ -6,7 +6,7 @@ using X.Extensions.Logging.Telegram.Base.Configuration;
 
 namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
-public class DefaultMessageFormatter : MessageFormatterBase
+public class DefaultLogFormatter : MessageFormatterBase
 {
     /// <inheritdoc cref="MessageFormatterBase"/>
     /// <exception cref="ArgumentNullException">Throws when the log entry is null.</exception>
