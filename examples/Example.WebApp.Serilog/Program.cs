@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Events;
 using X.Extensions.Logging.Telegram.Base.Configuration;
+using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 using X.Extensions.Serilog.Sinks.Telegram.Batch.Rules;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 using X.Extensions.Serilog.Sinks.Telegram.Extensions;

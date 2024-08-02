@@ -5,26 +5,27 @@ using Serilog.Core;
 using X.Extensions.Logging.Telegram.Base;
 using X.Extensions.Logging.Telegram.Base.Formatters;
 using X.Extensions.Serilog.Sinks.Telegram.Batch;
+using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 using X.Extensions.Serilog.Sinks.Telegram.Filters;
+using X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
 namespace X.Extensions.Serilog.Sinks.Telegram;
 
-public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
+public class TelegramSink : ILogEventSink, IAsyncDisposable
 {
     private readonly BatchCycleManager _batchCycleManager;
 
-    private readonly CancellationTokenSource _cancellationTokenSource;
-
     private readonly ChannelWriter<LogEvent> _channelWriter;
-    private readonly LogFilterManager? _logFilterManager;
     private readonly ILogsQueueAccessor _logsQueueAccessor;
 
-    private readonly ILogFormatter _logFormatter;
     private readonly ILogWriter _logWriter;
 
     private readonly TelegramSinkConfiguration _sinkConfiguration;
+
+    private readonly LogsQueueProcessor _logsQueueProcessor;
+    private readonly LogFilterManager? _logFilterManager;
 
     public TelegramSink(
         ChannelWriter<LogEvent> channelWriter,
@@ -35,13 +36,8 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
         _channelWriter = channelWriter;
         _logsQueueAccessor = logsQueueAccessor;
         _sinkConfiguration = sinkConfiguration;
-        _logFormatter = messageFormatter ??
-                        TelegramSinkDefaults.GetDefaultLogFormatter(_sinkConfiguration.Mode);
-
-        _cancellationTokenSource = new CancellationTokenSource();
 
         _logWriter = new TelegramLogWriter(_sinkConfiguration.Token, _sinkConfiguration.ChatId);
-
         _batchCycleManager = new BatchCycleManager(sinkConfiguration.BatchEmittingRulesConfiguration);
 
         if (sinkConfiguration.LogFiltersConfiguration is { ApplyLogFilters: true })
@@ -49,27 +45,11 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
             _logFilterManager = new LogFilterManager(sinkConfiguration.LogFiltersConfiguration);
         }
 
-        ExecuteLogsProcessingLoop(CancellationToken);
-    }
+        var logFormatter = messageFormatter ??
+                           TelegramSinkDefaults.GetDefaultMessageFormatter(_sinkConfiguration.Mode);
+        _logsQueueProcessor = new LogsQueueProcessor(logsQueueAccessor, logFormatter, sinkConfiguration);
 
-    private CancellationToken CancellationToken => _cancellationTokenSource.Token;
-
-    public async ValueTask DisposeAsync()
-    {
-        _batchCycleManager.Dispose();
-        _channelWriter.Complete();
-
-        if (_logsQueueAccessor.GetSize() >= 0)
-        {
-            await FlushAsync();
-        }
-    }
-
-    public void Dispose()
-    {
-        _ = Task.Run(DisposeAsync, CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+        ExecuteLogsProcessingLoop(CancellationToken.None);
     }
 
     public void Emit(LogEvent logEvent)
@@ -92,46 +72,26 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
             while (!cancellationToken.IsCancellationRequested)
             {
                 await _batchCycleManager.WhenNextAvailableAsync(cancellationToken);
-                await EmitBatchAsync(cancellationToken);
-                await _batchCycleManager.OnBatchProcessedAsync(cancellationToken);
+                await EmitBatchAsync();
+                await _batchCycleManager.AfterBatchProcessedAsync(cancellationToken);
             }
         }, cancellationToken);
     }
 
-    private async Task EmitBatchAsync(CancellationToken cancellationToken)
+    private async Task EmitBatchAsync()
     {
         var batchSize = _sinkConfiguration.BatchPostingLimit;
-        await EmitBatchInternalAsync(batchSize, cancellationToken);
+        var messages = await _logsQueueProcessor.GetMessagesFromQueueAsync(batchSize);
+        await SendMessagesAsync(messages);
     }
 
-    private async Task EmitBatchInternalAsync(int batchSize, CancellationToken cancellationToken)
+    private async Task EmitBatchInternalAsync(int batchSize)
     {
-        var messages = await GetMessagesFromQueueAsync(batchSize);
-        await SendMessagesAsync(cancellationToken, messages);
+        var logs = await _logsQueueProcessor.GetMessagesFromQueueAsync(batchSize);
+        await SendMessagesAsync(logs);
     }
 
-    private async Task<IImmutableList<string>> GetMessagesFromQueueAsync(int amount)
-    {
-        var logsBatch = await _logsQueueAccessor.DequeueSeveralAsync(amount);
-        var events = logsBatch
-            .Where(LogFilteringPredicate)
-            .Select(ConvertToLogEntry)
-            .ToList();
-
-        if (events.Count == 0)
-        {
-            return ImmutableArray<string>.Empty;
-        }
-
-        return _logFormatter
-            .Format(events, _sinkConfiguration.FormatterConfiguration)
-            .ToImmutableList();
-
-        bool LogFilteringPredicate(LogEvent log) =>
-            _logFilterManager == null || _logFilterManager.ApplyFilter(log);
-    }
-
-    private async Task SendMessagesAsync(CancellationToken cancellationToken, IImmutableList<string> messages)
+    private async Task SendMessagesAsync(IImmutableList<string> messages)
     {
         if (!messages.Any())
         {
@@ -140,7 +100,7 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
 
         foreach (var message in messages)
         {
-            await _logWriter.Write(message, cancellationToken);
+            await _logWriter.Write(message, CancellationToken.None);
         }
     }
 
@@ -151,11 +111,11 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
 
         while (requiredBatches > 0)
         {
-            await EmitBatchInternalAsync(batchSize, CancellationToken.None);
+            await EmitBatchInternalAsync(batchSize);
             requiredBatches--;
         }
     }
-
+    
     public static LogEntry ConvertToLogEntry(LogEvent logEvent)
     {
         ArgumentNullException.ThrowIfNull(logEvent);
@@ -168,5 +128,16 @@ public class TelegramSink : ILogEventSink, IDisposable, IAsyncDisposable
             Exception = logEvent.Exception?.ToString(),
             Properties = logEvent.Properties.ToDictionary(x => x.Key, x => x.Value.ToString())
         };
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        _batchCycleManager.Dispose();
+        _channelWriter.Complete();
+
+        if (_logsQueueAccessor.GetSize() >= 0)
+        {
+            await FlushAsync();
+        }
     }
 }
