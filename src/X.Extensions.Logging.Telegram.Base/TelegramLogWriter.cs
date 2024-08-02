@@ -1,11 +1,11 @@
-using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
-namespace X.Extensions.Logging.Telegram;
+namespace X.Extensions.Logging.Telegram.Base;
 
 [PublicAPI]
 public interface ILogWriter
@@ -38,8 +38,12 @@ public class TelegramLogWriter : ILogWriter
 
     public async Task Write(string message, CancellationToken cancellationToken)
     {
-        var messageThreadId = Convert.ToInt32(ParseMode.Html);
-        
-        await _client.SendTextMessageAsync(_chatId, message, messageThreadId, cancellationToken: cancellationToken);
+        var result = await _client.SendTextMessageAsync(
+            chatId: _chatId,
+            text: message,
+            parseMode: ParseMode.Html,
+            cancellationToken: cancellationToken);
+
+        Trace.WriteLine(result.MessageId);
     }
 }

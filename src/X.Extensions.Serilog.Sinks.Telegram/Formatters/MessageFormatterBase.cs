@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using X.Extensions.Logging.Telegram.Base;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
@@ -6,6 +7,7 @@ namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
 public abstract class MessageFormatterBase : IMessageFormatter
 {
     protected static readonly List<string> Empty = Enumerable.Empty<string>().ToList();
+    protected static readonly ILogLevelMarkerRenderer LogLevelMarkerRenderer = new LogLevelEmojiMarkerRenderer();
 
     /// <inheritdoc />
     public virtual List<string> Format(ICollection<LogEntry> logEntries,
@@ -39,33 +41,5 @@ public abstract class MessageFormatterBase : IMessageFormatter
         }
 
         return true;
-    }
-
-    protected virtual string ToString(LogEventLevel logLevel)
-    {
-        return logLevel switch
-        {
-            LogEventLevel.Verbose => "VRB",
-            LogEventLevel.Debug => "DBG",
-            LogEventLevel.Information => "INF",
-            LogEventLevel.Warning => "WARN",
-            LogEventLevel.Error => "ERR",
-            LogEventLevel.Fatal => "FTL",
-            _ => throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, null)
-        };
-    }
-
-    protected virtual string ToEmoji(LogEventLevel logLevel)
-    {
-        return logLevel switch
-        {
-            LogEventLevel.Verbose => "📝",
-            LogEventLevel.Debug => "📓",
-            LogEventLevel.Information => "ℹ️",
-            LogEventLevel.Warning => "⚠️",
-            LogEventLevel.Error => "❗",
-            LogEventLevel.Fatal => "☠️️",
-            _ => throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, null)
-        };
     }
 }

@@ -1,4 +1,5 @@
 ﻿using X.Extensions.Serilog.Sinks.Telegram.Configuration;
+using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
@@ -55,14 +56,18 @@ internal class DefaultLogFormatter : MessageFormatterBase
             ? TimeZoneInfo.ConvertTime(logEntry.UtcTimeStamp, config.TimeZone)
             : logEntry.UtcTimeStamp;
 
-        sb.Append(config.UseEmoji ? ToEmoji(logEntry.Level) + logEntry.Level: logEntry.Level.ToString())
+        var logLevelMarker = config.UseEmoji
+            ? LogLevelMarkerRenderer.RenderMarker(logEntry.Level) + logEntry.Level
+            : logEntry.Level.ToString();
+
+        sb.Append(logLevelMarker)
             .Append(' ').Append('[').Append(config.ReadableApplicationName ?? "YourApp").Append(']')
             .Append(' ').Append('[').Append($"{timestamp:yyyy-MM-dd HH:mm:ss UTC}").Append(']')
             .AppendLine();
 
-        if (NotEmpty(logEntry.RenderedMessage))
+        if (NotEmpty(logEntry.Message))
         {
-            sb.AppendLine().Append("<b>Message:</b> <code>").Append(logEntry.RenderedMessage).Append("</code>").AppendLine();
+            sb.AppendLine().Append("<b>Message:</b> <code>").Append(logEntry.Message).Append("</code>").AppendLine();
         }
 
         if (config.IncludeException && NotEmpty(logEntry.Exception))

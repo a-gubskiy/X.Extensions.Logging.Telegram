@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{FE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ConsoleApp.Serilog", "examples\Example.ConsoleApp.Serilog\Example.ConsoleApp.Serilog.csproj", "{0CB25DBB-1659-4BE3-AE19-189ED5808E74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.WebApp.Serilog ", "examples\Example.WebApp.Serilog \Example.WebApp.Serilog .csproj", "{AED236EF-E9D0-4820-8CB7-D35F8EE6AB6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.WebApp.Serilog", "examples\Example.WebApp.Serilog\Example.WebApp.Serilog.csproj", "{AED236EF-E9D0-4820-8CB7-D35F8EE6AB6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Extensions.Logging.Telegram.Tests", "tests\X.Extensions.Logging.Telegram.Tests\X.Extensions.Logging.Telegram.Tests.csproj", "{0B272B65-A497-4646-9FD6-096B9FAE4724}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ConsoleApp", "examples\Example.ConsoleApp\Example.ConsoleApp.csproj", "{E5310BBD-2D37-4A1A-9235-46968F27CCE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.WebApp", "examples\Example.WebApp\Example.WebApp.csproj", "{6D57746A-2A87-4511-8BB2-2C92DBBAA0BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Core", "examples\Example.Core\Example.Core.csproj", "{644A78CB-D265-49CC-BCB1-BFB767988899}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Extensions.Logging.Telegram.Base", "src\X.Extensions.Logging.Telegram.Base\X.Extensions.Logging.Telegram.Base.csproj", "{58CB0241-BFCF-4BD3-B6D5-CD1A3F681D33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,14 @@ Global
 		{6D57746A-2A87-4511-8BB2-2C92DBBAA0BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D57746A-2A87-4511-8BB2-2C92DBBAA0BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D57746A-2A87-4511-8BB2-2C92DBBAA0BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{644A78CB-D265-49CC-BCB1-BFB767988899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{644A78CB-D265-49CC-BCB1-BFB767988899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{644A78CB-D265-49CC-BCB1-BFB767988899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{644A78CB-D265-49CC-BCB1-BFB767988899}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58CB0241-BFCF-4BD3-B6D5-CD1A3F681D33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58CB0241-BFCF-4BD3-B6D5-CD1A3F681D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58CB0241-BFCF-4BD3-B6D5-CD1A3F681D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58CB0241-BFCF-4BD3-B6D5-CD1A3F681D33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0E1C0807-2482-4007-B0E0-F87A3A9A2898} = {D7219AE6-E36B-4CE1-9581-B341751BA4EB}
@@ -66,5 +78,7 @@ Global
 		{8EDE2B45-DA1A-4AF4-B166-B8F202841C6F} = {D7219AE6-E36B-4CE1-9581-B341751BA4EB}
 		{E5310BBD-2D37-4A1A-9235-46968F27CCE7} = {FE4C92EB-3AE0-4FC2-B2C5-5C94820B1763}
 		{6D57746A-2A87-4511-8BB2-2C92DBBAA0BA} = {FE4C92EB-3AE0-4FC2-B2C5-5C94820B1763}
+		{644A78CB-D265-49CC-BCB1-BFB767988899} = {FE4C92EB-3AE0-4FC2-B2C5-5C94820B1763}
+		{58CB0241-BFCF-4BD3-B6D5-CD1A3F681D33} = {D7219AE6-E36B-4CE1-9581-B341751BA4EB}
 	EndGlobalSection
 EndGlobal
