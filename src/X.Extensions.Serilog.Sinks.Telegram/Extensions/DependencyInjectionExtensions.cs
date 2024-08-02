@@ -52,7 +52,7 @@ public static class DependencyInjectionExtensions
                     ApplyLogFilters = false
                 };
             },
-            telegramMessageFormatter: null!,
+            messageFormatter: null!,
             restrictedToMinimumLevel: logLevel);
     }
 }
