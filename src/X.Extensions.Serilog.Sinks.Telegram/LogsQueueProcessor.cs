@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using X.Extensions.Logging.Telegram.Base;
 using X.Extensions.Logging.Telegram.Base.Formatters;
 using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
@@ -29,7 +28,7 @@ internal class LogsQueueProcessor
     {
         var logsBatch = await _logsQueueAccessor.DequeueSeveralAsync(amount);
         var events = logsBatch
-            .Select(o => MapLogEntry(o))
+            .Select(o => o.ToLogEntry())
             .ToList();
 
         if (events.Count == 0)
@@ -40,17 +39,5 @@ internal class LogsQueueProcessor
         return _messageFormatter
             .Format(events, _sinkConfiguration.FormatterConfiguration)
             .ToImmutableList();
-    }
-
-    private LogEntry MapLogEntry(LogEvent e)
-    {
-        return new LogEntry
-        {
-            Message = e.RenderMessage(),
-            Level = e.Level.ToTelegramLogLevel(),
-            Properties = e.Properties.ToDictionary(k => k.Key, v => v.Value.ToString()),
-            UtcTimeStamp = e.Timestamp.UtcDateTime,
-            Exception = e.Exception?.ToString()
-        };
     }
 }
