@@ -6,7 +6,7 @@ using X.Extensions.Logging.Telegram.Base.Configuration;
 
 namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
-public class DefaultAggregatedNotificationsMessageFormatter : MessageFormatterBase
+public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
 {
     public override List<string> Format(
         ICollection<LogEntry> logEntries,
