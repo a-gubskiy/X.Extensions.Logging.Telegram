@@ -10,13 +10,13 @@ internal class LogsQueueProcessor
 {
     private readonly ILogsQueueAccessor _logsQueueAccessor;
 
-    private readonly ITelegramMessageFormatter _telegramMessageFormatter;
+    private readonly IMessageFormatter _telegramMessageFormatter;
 
     private readonly TelegramSinkConfiguration _sinkConfiguration;
 
     public LogsQueueProcessor(
         ILogsQueueAccessor logsQueueAccessor,
-        ITelegramMessageFormatter telegramMessageFormatter,
+        IMessageFormatter telegramMessageFormatter,
         TelegramSinkConfiguration sinkConfiguration)
     {
         _logsQueueAccessor = logsQueueAccessor;

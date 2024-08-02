@@ -29,7 +29,7 @@ public class TelegramSink : ILogEventSink, IAsyncDisposable
         ChannelWriter<LogEvent> channelWriter,
         ILogsQueueAccessor logsQueueAccessor,
         TelegramSinkConfiguration sinkConfiguration,
-        ITelegramMessageFormatter? messageFormatter)
+        IMessageFormatter? messageFormatter)
     {
         _channelWriter = channelWriter;
         _logsQueueAccessor = logsQueueAccessor;

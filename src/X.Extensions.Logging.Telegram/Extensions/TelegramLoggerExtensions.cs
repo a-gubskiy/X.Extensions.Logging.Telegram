@@ -104,7 +104,7 @@ public static class TelegramLoggerExtensions
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
-        Func<string, ITelegramMessageFormatter> createFormatter)
+        Func<string, IMessageFormatter> createFormatter)
     {
         var logWriter = new TelegramLogWriter(options.AccessToken, options.ChatId);
         var logQueueProcessor = new LogQueueProcessor(logWriter);
@@ -124,7 +124,7 @@ public static class TelegramLoggerExtensions
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
         ILogQueueProcessor logQueueProcessor, 
-        Func<string, ITelegramMessageFormatter> createFormatter)
+        Func<string, IMessageFormatter> createFormatter)
     {
         builder.AddConfiguration();
         
