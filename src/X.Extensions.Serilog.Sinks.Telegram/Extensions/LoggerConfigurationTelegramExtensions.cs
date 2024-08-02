@@ -14,7 +14,7 @@ public static class LoggerConfigurationTelegramExtensions
     public static LoggerConfiguration Telegram(
         this LoggerSinkConfiguration loggerConfiguration,
         Action<TelegramSinkConfiguration> configureAction,
-        ILogFormatter logFormatter,
+        IMessageFormatter messageFormatter,
         LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum)
     {
         if (loggerConfiguration == null)
@@ -39,7 +39,7 @@ public static class LoggerConfigurationTelegramExtensions
                 channel.Writer,
                 logsAccessor,
                 config,
-                logFormatter),
+                messageFormatter),
             restrictedToMinimumLevel);
     }
 }

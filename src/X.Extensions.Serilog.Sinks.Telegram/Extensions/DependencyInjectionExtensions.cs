@@ -52,7 +52,7 @@ public static class DependencyInjectionExtensions
                     ApplyLogFilters = false
                 };
             },
-            logFormatter: null!,
+            messageFormatter: null!,
             restrictedToMinimumLevel: logLevel);
     }
 }

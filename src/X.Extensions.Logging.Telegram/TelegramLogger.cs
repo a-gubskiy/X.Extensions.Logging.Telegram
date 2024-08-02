@@ -12,12 +12,12 @@ namespace X.Extensions.Logging.Telegram;
 public class TelegramLogger : ILogger
 {
     private readonly ILogQueueProcessor _queueProcessor;
-    private readonly ILogFormatter _formatter;
+    private readonly IMessageFormatter _formatter;
 
     internal TelegramLogger(
         TelegramLoggerOptions options,
         ILogQueueProcessor loggerProcessor,
-        ILogFormatter formatter)
+        IMessageFormatter formatter)
     {
         Options = options ?? throw new ArgumentNullException(nameof(options));
 

@@ -6,9 +6,9 @@ using X.Extensions.Logging.Telegram.Base.Configuration;
 
 namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
-public class DefaultLogFormatter : LogFormatterBase
+public class DefaultMessageFormatter : MessageFormatterBase
 {
-    /// <inheritdoc cref="LogFormatterBase"/>
+    /// <inheritdoc cref="MessageFormatterBase"/>
     /// <exception cref="ArgumentNullException">Throws when the log entry is null.</exception>
     /// <exception cref="ArgumentException">Throws when, after using the formatter, the message is null, empty, or whitespace.</exception>
     public override List<string> Format(ICollection<LogEntry> logEntries,
