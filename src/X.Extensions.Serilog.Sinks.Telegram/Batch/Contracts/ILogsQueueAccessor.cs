@@ -1,4 +1,4 @@
-﻿namespace X.Extensions.Serilog.Sinks.Telegram.Batch;
+﻿namespace X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 
 public interface ILogsQueueAccessor
 {

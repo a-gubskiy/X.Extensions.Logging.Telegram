@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 using X.Extensions.Serilog.Sinks.Telegram.Batch.Rules;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 
