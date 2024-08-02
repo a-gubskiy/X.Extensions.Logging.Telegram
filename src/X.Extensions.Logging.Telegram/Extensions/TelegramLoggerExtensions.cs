@@ -98,9 +98,12 @@ public static class TelegramLoggerExtensions
         TelegramLoggerOptions options, 
         ILogQueueProcessor logQueueProcessor)
     {
-        return AddTelegram(builder, options, logQueueProcessor);
+        return AddTelegram(builder, options, logQueueProcessor, s =>
+        {
+            return new DefaultLogFormatter();
+        });
     }
-    
+
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
@@ -117,7 +120,6 @@ public static class TelegramLoggerExtensions
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="options"></param>
-    /// <param name="logLevelChecker"></param>
     /// <param name="logQueueProcessor"></param>
     /// <param name="createFormatter"></param>
     /// <returns></returns>
