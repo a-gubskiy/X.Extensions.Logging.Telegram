@@ -66,7 +66,7 @@ public class TelegramLogger : ILogger
             UtcTimeStamp = DateTime.UtcNow
         };
     }
-    
+
     public bool IsEnabled(LogLevel logLevel)
     {
         return logLevel != LogLevel.None;
