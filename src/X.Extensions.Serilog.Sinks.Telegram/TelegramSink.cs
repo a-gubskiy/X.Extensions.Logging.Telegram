@@ -7,7 +7,6 @@ using X.Extensions.Logging.Telegram.Base.Formatters;
 using X.Extensions.Serilog.Sinks.Telegram.Batch;
 using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
-using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 using X.Extensions.Serilog.Sinks.Telegram.Filters;
 
 namespace X.Extensions.Serilog.Sinks.Telegram;
@@ -113,20 +112,6 @@ public class TelegramSink : ILogEventSink, IAsyncDisposable
             await EmitBatchInternalAsync(batchSize);
             requiredBatches--;
         }
-    }
-    
-    public static LogEntry ConvertToLogEntry(LogEvent logEvent)
-    {
-        ArgumentNullException.ThrowIfNull(logEvent);
-
-        return new LogEntry
-        {
-            Message = logEvent.RenderMessage(),
-            Level = logEvent.Level.ToTelegramLogLevel(),
-            UtcTimeStamp = logEvent.Timestamp.ToUniversalTime().UtcDateTime,
-            Exception = logEvent.Exception?.ToString(),
-            Properties = logEvent.Properties.ToDictionary(x => x.Key, x => x.Value.ToString())
-        };
     }
 
     public async ValueTask DisposeAsync()
