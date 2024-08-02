@@ -7,7 +7,7 @@ using X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
 namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
-public class DefaultAggregatedNotificationsFormatter : MessageFormatterBase
+public class DefaultAggregatedNotificationsFormatter : TelegramMessageFormatterBase
 {
     public override List<string> Format(
         ICollection<LogEntry> logEntries,

@@ -10,17 +10,17 @@ internal class LogsQueueProcessor
 {
     private readonly ILogsQueueAccessor _logsQueueAccessor;
 
-    private readonly IMessageFormatter _messageFormatter;
+    private readonly ITelegramMessageFormatter _telegramMessageFormatter;
 
     private readonly TelegramSinkConfiguration _sinkConfiguration;
 
     public LogsQueueProcessor(
         ILogsQueueAccessor logsQueueAccessor,
-        IMessageFormatter messageFormatter,
+        ITelegramMessageFormatter telegramMessageFormatter,
         TelegramSinkConfiguration sinkConfiguration)
     {
         _logsQueueAccessor = logsQueueAccessor;
-        _messageFormatter = messageFormatter;
+        _telegramMessageFormatter = telegramMessageFormatter;
         _sinkConfiguration = sinkConfiguration;
     }
 
@@ -36,7 +36,7 @@ internal class LogsQueueProcessor
             return ImmutableArray<string>.Empty;
         }
 
-        return _messageFormatter
+        return _telegramMessageFormatter
             .Format(events, _sinkConfiguration.FormatterConfiguration)
             .ToImmutableList();
     }

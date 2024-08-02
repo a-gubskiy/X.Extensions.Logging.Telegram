@@ -4,7 +4,7 @@ using X.Extensions.Logging.Telegram.Base.Configuration;
 
 namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
-public interface IMessageFormatter
+public interface ITelegramMessageFormatter
 {
     /// <summary>
     ///     Creates a human-readable message from a <see cref="IEnumerable{LogEntry}"/>.

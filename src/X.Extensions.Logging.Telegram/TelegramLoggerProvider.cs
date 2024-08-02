@@ -10,12 +10,12 @@ internal class TelegramLoggerProvider : ILoggerProvider
     private readonly ILogQueueProcessor _logQueueProcessor;
     private readonly TelegramLoggerOptions _options;
     private readonly ConcurrentDictionary<string, TelegramLogger> _loggers = new();
-    private readonly Func<string, IMessageFormatter> _createFormatter;
+    private readonly Func<string, ITelegramMessageFormatter> _createFormatter;
     
     public TelegramLoggerProvider(
         TelegramLoggerOptions options,
         ILogQueueProcessor logQueueProcessor,
-        Func<string, IMessageFormatter> createFormatter)
+        Func<string, ITelegramMessageFormatter> createFormatter)
     {
         _options = options;
         _logQueueProcessor = logQueueProcessor;

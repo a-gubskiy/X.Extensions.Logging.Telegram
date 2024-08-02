@@ -41,7 +41,7 @@ public static class TelegramSinkDefaults
     /// <param name="loggingMode">The logging mode.</param>
     /// <returns>A message formatter.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when an invalid logging mode is supplied.</exception>
-    public static IMessageFormatter GetDefaultMessageFormatter(LoggingMode loggingMode)
+    public static ITelegramMessageFormatter GetDefaultMessageFormatter(LoggingMode loggingMode)
     {
         return loggingMode switch
         {

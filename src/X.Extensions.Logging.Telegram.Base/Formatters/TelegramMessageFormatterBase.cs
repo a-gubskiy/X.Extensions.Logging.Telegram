@@ -9,7 +9,7 @@ using X.Extensions.Logging.Telegram.Base.Rendereres;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
 
-public abstract class MessageFormatterBase : IMessageFormatter
+public abstract class TelegramMessageFormatterBase : ITelegramMessageFormatter
 {
     protected static readonly List<string> Empty = Enumerable.Empty<string>().ToList();
     protected static readonly ILogLevelMarkerRenderer LogLevelMarkerRenderer = new LogLevelEmojiMarkerRenderer();

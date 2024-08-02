@@ -31,7 +31,7 @@ public class TelegramLoggingTests
             }
         };
 
-        IMessageFormatter formatter = new DefaultLogFormatter(); 
+        ITelegramMessageFormatter formatter = new DefaultLogFormatter(); 
 
         ICollection<LogEntry> logEntries = new List<LogEntry>
         {
@@ -67,7 +67,7 @@ public class TelegramLoggingTests
             }
         };
 
-        IMessageFormatter formatter = new DefaultAggregatedNotificationsFormatter();
+        ITelegramMessageFormatter formatter = new DefaultAggregatedNotificationsFormatter();
 
         ICollection<LogEntry> logEntries = new List<LogEntry>
         {
@@ -155,7 +155,7 @@ public class TelegramLoggingTests
     [InlineData("<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
     public void ExceptionDescriptionWithRawHtmlTest(string description)
     {
-        IMessageFormatter formatter = new DefaultLogFormatter();
+        ITelegramMessageFormatter formatter = new DefaultLogFormatter();
 
         ICollection<LogEntry> logEntries = new List<LogEntry>
         {
