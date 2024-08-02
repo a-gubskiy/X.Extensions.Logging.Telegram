@@ -27,7 +27,9 @@ class Program
             FormatterConfiguration = new FormatterConfiguration
             {
                 ReadableApplicationName ="TEST APP",
-                UseEmoji = true
+                UseEmoji = true,
+                IncludeException = true,
+                IncludeProperties = true
             }
         };
             

@@ -60,11 +60,6 @@ public class FormatterConfiguration
     /// desired time zone is applied to your logs, you need to set this property for each necessary sink.
     /// </remarks>
     public TimeZoneInfo? TimeZone { get; set; }
-    
-    /// <summary>
-    /// Indicates whether to encode HTML in the log message to avoid mess in Telegram message.
-    /// </summary>
-    public bool EncodeHtml { get; set; }
 
     public static FormatterConfiguration Default => new()
     {

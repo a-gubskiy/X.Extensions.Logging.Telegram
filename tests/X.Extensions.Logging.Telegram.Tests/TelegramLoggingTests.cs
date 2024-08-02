@@ -168,8 +168,7 @@ public class TelegramLoggingTests
         var configuration = new FormatterConfiguration
         {
             UseEmoji = true,
-            ReadableApplicationName = "Test API",
-            EncodeHtml = true
+            ReadableApplicationName = "Test API"            
         };
 
         var messages = formatter.Format(logEntries, configuration);

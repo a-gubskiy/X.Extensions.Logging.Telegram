@@ -77,22 +77,18 @@ public class DefaultLogFormatter : MessageFormatterBase
             .Append(' ').Append('[').Append($"{timestamp:yyyy-MM-dd HH:mm:ss UTC}").Append(']')
             .AppendLine();
 
-        var logEntryMessage = config.EncodeHtml
-            ? WebUtility.HtmlEncode(logEntry.Message)
-            : logEntry.Message;
-        
-        if (NotEmpty(logEntryMessage))
+        if (NotEmpty(logEntry.Message))
         {
-            sb.AppendLine().Append("<b>Message:</b> <code>").Append(logEntryMessage).Append("</code>").AppendLine();
+            sb.AppendLine();
+            sb.Append("<b>Message:</b> <code>").Append(WebUtility.HtmlEncode(logEntry.Message)).Append("</code>");
+            sb.AppendLine();
         }
 
         if (config.IncludeException && NotEmpty(logEntry.Exception))
-        {
-            var logEntryException = config.EncodeHtml
-                ? WebUtility.HtmlEncode(logEntry.Exception)
-                : logEntry.Exception;
-            
-            sb.AppendLine().Append("Exception: `").Append(logEntryException).Append("`").AppendLine();
+        {            
+            sb.AppendLine();
+            sb.Append("Exception: `").Append(WebUtility.HtmlEncode(logEntry.Exception)).Append("`");
+            sb.AppendLine();
         }
 
         if (config.IncludeProperties && logEntry.Properties != null && logEntry.Properties.Count != 0)
