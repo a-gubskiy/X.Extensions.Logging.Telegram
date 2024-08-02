@@ -45,7 +45,7 @@ public class TelegramSink : ILogEventSink, IAsyncDisposable
         }
 
         var logFormatter = messageFormatter ??
-                           TelegramSinkDefaults.GetDefaultLogFormatter(_sinkConfiguration.Mode);
+                           TelegramSinkDefaults.GetDefaultMessageFormatter(_sinkConfiguration.Mode);
         _logsQueueProcessor = new LogsQueueProcessor(logsQueueAccessor, logFormatter, sinkConfiguration);
 
         ExecuteLogsProcessingLoop(CancellationToken.None);
