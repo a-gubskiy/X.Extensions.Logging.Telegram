@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace X.Extensions.Logging.Telegram.Base.Configuration;
+﻿namespace X.Extensions.Logging.Telegram.Base.Configuration;
 
 /// <summary>
 /// Represents the configuration for formatting output messages.

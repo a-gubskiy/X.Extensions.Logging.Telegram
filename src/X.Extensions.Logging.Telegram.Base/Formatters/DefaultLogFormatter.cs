@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Text;
-using X.Extensions.Logging.Telegram.Base.Configuration;
 
 namespace X.Extensions.Logging.Telegram.Base.Formatters;
 

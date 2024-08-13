@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace X.Extensions.Logging.Telegram.Base;
+﻿namespace X.Extensions.Logging.Telegram.Base;
 
 public class LogEntry
 {

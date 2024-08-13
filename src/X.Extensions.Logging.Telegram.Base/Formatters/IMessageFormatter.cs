@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using X.Extensions.Logging.Telegram.Base.Configuration;
-
-namespace X.Extensions.Logging.Telegram.Base.Formatters;
+﻿namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
 public interface IMessageFormatter
 {

@@ -1,5 +1,3 @@
-using System;
-
 namespace X.Extensions.Logging.Telegram.Base;
 
 [Flags]
