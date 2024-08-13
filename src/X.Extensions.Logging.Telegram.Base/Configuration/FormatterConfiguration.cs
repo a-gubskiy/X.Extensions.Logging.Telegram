@@ -5,7 +5,7 @@ namespace X.Extensions.Logging.Telegram.Base.Configuration;
 /// <summary>
 /// Represents the configuration for formatting output messages.
 /// </summary>
-public class FormatterConfiguration
+public record FormatterConfiguration
 {
     /// <summary>
     /// Determines whether to replace the log level text definition with emojis.
@@ -29,7 +29,6 @@ public class FormatterConfiguration
     /// <summary>
     /// Determines the handling of exceptions in log messages.
     /// </summary>
-    ///
     /// <value>
     /// A boolean representing the configuration. If true, and an exception is not null, the exception is included in 
     /// the log message as a serialized JSON. This setting is only applicable when TelegramSinkConfiguration.Mode 
@@ -40,20 +39,18 @@ public class FormatterConfiguration
     /// <summary>
     /// Specifies whether to include the log's parameters dictionary in log messages.
     /// </summary>
-    ///
     /// <value>
-    /// A boolean representing the configuration. If true, the log's parameters dictionary is included in the log message as a JSON. This setting is only applicable when TelegramSinkConfiguration.Mode is LoggingMode.Logs.
+    /// A boolean representing the configuration. If true, the log's parameters dictionary is included in the log 
+    /// message as a JSON. This setting is only applicable when TelegramSinkConfiguration.Mode is LoggingMode.Logs.
     /// </value>
     public bool IncludeProperties { get; set; }
 
     /// <summary>
     /// Sets or gets the time zone used by this sink for log timestamps. 
     /// </summary>
-    ///
     /// <value>
     /// The time zone information. If null, server time will be used.
     /// </value>
-    /// 
     /// <remarks>
     /// This property is specifically for this logger sink. It does not affect other sinks utilized by Serilog.
     /// Please note that each sink might handle log timestamps based on its individual configuration. To ensure the 
