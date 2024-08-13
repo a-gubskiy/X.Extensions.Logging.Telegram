@@ -14,7 +14,7 @@ public record TelegramLoggerOptions
     
     public string ChatId { get; set; } = "";
     
-    public FormatterConfiguration FormatterConfiguration { get; set; } = new();
+    public FormatterConfiguration FormatterConfiguration { get; set; } = FormatterConfiguration.Default;
     
     public TelegramLoggerOptions()
         : this(Microsoft.Extensions.Logging.LogLevel.Information)
