@@ -13,9 +13,9 @@ builder.Logging.AddTelegram(options =>
 {
     options.ChatId = ExampleAppSettings.ChatId;
     options.AccessToken = ExampleAppSettings.Token;
-    options.UseEmoji = true;
-    options.LogLevel = new Dictionary<string, LogLevel> { { "Default", LogLevel.Information } };
-    options.Source = "Example.WebApp";
+    options.FormatterConfiguration.UseEmoji = true;
+    options.FormatterConfiguration.ReadableApplicationName = "Example.WebApp";
+    options.LogLevel = new Dictionary<string, LogLevel> { { "Default", LogLevel.Information } };     
 });
 
 var app = builder.Build();

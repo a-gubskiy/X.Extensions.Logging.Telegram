@@ -1,6 +1,4 @@
-﻿using X.Extensions.Serilog.Sinks.Telegram.Configuration;
-
-namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
+﻿namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
 public interface IMessageFormatter
 {

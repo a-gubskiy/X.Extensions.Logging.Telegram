@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Example.Core;
 using Microsoft.Extensions.Logging;
 using X.Extensions.Logging.Telegram;
+using X.Extensions.Logging.Telegram.Base.Configuration;
 using X.Extensions.Logging.Telegram.Extensions;
 
 namespace Example.ConsoleApp;
@@ -23,8 +24,13 @@ class Program
         {
             AccessToken = ExampleAppSettings.Token,
             ChatId = ExampleAppSettings.ChatId,
-            Source = "TEST APP",
-            UseEmoji = true
+            FormatterConfiguration = new FormatterConfiguration
+            {
+                ReadableApplicationName ="TEST APP",
+                UseEmoji = true,
+                IncludeException = true,
+                IncludeProperties = true
+            }
         };
             
         var factory = LoggerFactory.Create(builder =>

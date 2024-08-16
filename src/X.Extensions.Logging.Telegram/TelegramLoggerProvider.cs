@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
+using X.Extensions.Logging.Telegram.Base.Formatters;
 
 namespace X.Extensions.Logging.Telegram;
 
@@ -9,12 +10,12 @@ internal class TelegramLoggerProvider : ILoggerProvider
     private readonly ILogQueueProcessor _logQueueProcessor;
     private readonly TelegramLoggerOptions _options;
     private readonly ConcurrentDictionary<string, TelegramLogger> _loggers = new();
-    private readonly Func<string, ITelegramMessageFormatter> _createFormatter;
+    private readonly Func<string, IMessageFormatter> _createFormatter;
     
     public TelegramLoggerProvider(
         TelegramLoggerOptions options,
         ILogQueueProcessor logQueueProcessor,
-        Func<string, ITelegramMessageFormatter> createFormatter)
+        Func<string, IMessageFormatter> createFormatter)
     {
         _options = options;
         _logQueueProcessor = logQueueProcessor;

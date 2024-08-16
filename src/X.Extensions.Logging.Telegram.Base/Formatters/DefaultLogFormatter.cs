@@ -1,9 +1,9 @@
-﻿using X.Extensions.Serilog.Sinks.Telegram.Configuration;
-using X.Extensions.Serilog.Sinks.Telegram.Extensions;
+﻿using System.Net;
+using System.Text;
 
-namespace X.Extensions.Serilog.Sinks.Telegram.Formatters;
+namespace X.Extensions.Logging.Telegram.Base.Formatters;
 
-internal class DefaultLogFormatter : MessageFormatterBase
+public class DefaultLogFormatter : MessageFormatterBase
 {
     /// <inheritdoc cref="MessageFormatterBase"/>
     /// <exception cref="ArgumentNullException">Throws when the log entry is null.</exception>
@@ -20,16 +20,19 @@ internal class DefaultLogFormatter : MessageFormatterBase
         formatter ??= DefaultFormatter;
 
         var logEntryWrapper = new LogEntry[1];
+        
         if (logEntries.Count is 1)
         {
             return base.Format(logEntries, config, formatter);
         }
 
         var formattedMessages = new List<string>();
+        
         foreach (var logEntry in logEntries)
         {
             logEntryWrapper[0] = logEntry;
             var messages = base.Format(logEntryWrapper, config, formatter);
+            
             formattedMessages.AddRange(messages);
         }
 
@@ -44,12 +47,16 @@ internal class DefaultLogFormatter : MessageFormatterBase
         }
 
         var formattedMessage = FormatMessageInternal(logEntries.First(), config);
+        
         return new List<string> { formattedMessage };
     }
 
     private string FormatMessageInternal(LogEntry logEntry, FormatterConfiguration config)
     {
-        if (logEntry is null) throw new ArgumentNullException(nameof(logEntry));
+        if (logEntry is null) 
+        {
+            throw new ArgumentNullException(nameof(logEntry));
+        }
 
         var sb = new StringBuilder();
         var timestamp = config.TimeZone != null
@@ -67,21 +74,25 @@ internal class DefaultLogFormatter : MessageFormatterBase
 
         if (NotEmpty(logEntry.Message))
         {
-            sb.AppendLine().Append("<b>Message:</b> <code>").Append(logEntry.Message).Append("</code>").AppendLine();
+            sb.AppendLine();
+            sb.Append("<b>Message:</b> <code>").Append(WebUtility.HtmlEncode(logEntry.Message)).Append("</code>");
+            sb.AppendLine();
         }
 
         if (config.IncludeException && NotEmpty(logEntry.Exception))
-        {
-            sb.AppendLine().Append("Exception: `").Append(logEntry.Exception).Append("`").AppendLine();
+        {            
+            sb.AppendLine();
+            sb.Append("Exception: `").Append(WebUtility.HtmlEncode(logEntry.Exception)).Append("`");
+            sb.AppendLine();
         }
 
         if (config.IncludeProperties && logEntry.Properties != null && logEntry.Properties.Count != 0)
         {
             sb.AppendLine().Append("<b>").Append("Properties: ").Append("</b>").AppendLine();
+            
             foreach (var property in logEntry.Properties)
             {
-                sb.Append("<code>").Append(property.Key).Append(": ").Append(property.Value).Append("</code>")
-                    .AppendLine();
+                sb.Append("<code>").Append(property.Key).Append(": ").Append(property.Value).Append("</code>").AppendLine();
             }
         }
 

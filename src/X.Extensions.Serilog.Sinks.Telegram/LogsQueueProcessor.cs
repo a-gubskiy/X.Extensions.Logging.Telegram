@@ -1,7 +1,8 @@
 using System.Collections.Immutable;
+using X.Extensions.Logging.Telegram.Base.Formatters;
 using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
-using X.Extensions.Serilog.Sinks.Telegram.Formatters;
+using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 
 namespace X.Extensions.Serilog.Sinks.Telegram;
 
@@ -27,7 +28,7 @@ internal class LogsQueueProcessor
     {
         var logsBatch = await _logsQueueAccessor.DequeueSeveralAsync(amount);
         var events = logsBatch
-            .Select(LogEntry.MapFrom)
+            .Select(o => o.ToLogEntry())
             .ToList();
 
         if (events.Count == 0)

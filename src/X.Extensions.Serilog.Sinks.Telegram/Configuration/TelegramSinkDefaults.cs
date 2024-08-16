@@ -1,5 +1,5 @@
 ﻿using X.Extensions.Logging.Telegram.Base.Configuration;
-using X.Extensions.Serilog.Sinks.Telegram.Formatters;
+using X.Extensions.Logging.Telegram.Base.Formatters;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Configuration;
 
@@ -41,7 +41,7 @@ public static class TelegramSinkDefaults
     /// <param name="loggingMode">The logging mode.</param>
     /// <returns>A message formatter.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when an invalid logging mode is supplied.</exception>
-    internal static IMessageFormatter GetDefaultMessageFormatter(LoggingMode loggingMode)
+    public static IMessageFormatter GetDefaultMessageFormatter(LoggingMode loggingMode)
     {
         return loggingMode switch
         {
