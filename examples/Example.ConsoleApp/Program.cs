@@ -13,11 +13,11 @@ class Program
     public class ExampleClass
     {
     }
-        
+
     public class AnotherExampleClass
     {
     }
-        
+
     static void Main(string[] args)
     {
         var options = new TelegramLoggerOptions(LogLevel.Information)
@@ -26,13 +26,13 @@ class Program
             ChatId = ExampleAppSettings.ChatId,
             FormatterConfiguration = new FormatterConfiguration
             {
-                ReadableApplicationName ="TEST APP",
+                ReadableApplicationName = "TEST APP",
                 UseEmoji = true,
                 IncludeException = true,
                 IncludeProperties = true
             }
         };
-            
+
         var factory = LoggerFactory.Create(builder =>
             {
                 builder
@@ -60,7 +60,7 @@ class Program
             {
                 logger2.LogWarning(exception, $"Warning message text {i}");
                 logger1.LogError(exception, $"Error message  text {i}");
-                logger2.LogCritical(exception, $"Critical error message  text {i}");    
+                logger2.LogCritical(exception, $"Critical error message  text {i}");
             }
 
             Task.WaitAll(Task.Delay(500));
