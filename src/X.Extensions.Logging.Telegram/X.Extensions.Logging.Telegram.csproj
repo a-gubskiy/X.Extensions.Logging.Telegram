@@ -6,9 +6,7 @@
 
         <LangVersion>default</LangVersion>
         <TargetFrameworks>net6.0;net8.0;netstandard2.0;netstandard2.1</TargetFrameworks>
-
         <PackageTags>telegram logging log logs</PackageTags>
-
         <Nullable>enable</Nullable>
 
         <Authors>Andrew Gubskiy</Authors>
@@ -16,8 +14,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
-        <None Include="..\..\README.md" Pack="true" PackagePath=""/>
+        <None Include="../../README.md" Pack="true" PackagePath=""/>
+        <None Include="../../LICENSE.md" Pack="true" PackagePath=""/>
+        <None Include="../../x-extensions.png" Pack="True" PackagePath=""/>
     </ItemGroup>
 
     <ItemGroup>
@@ -28,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\X.Extensions.Logging.Telegram.Base\X.Extensions.Logging.Telegram.Base.csproj" />
+        <ProjectReference Include="..\X.Extensions.Logging.Telegram.Base\X.Extensions.Logging.Telegram.Base.csproj"/>
     </ItemGroup>
 
 </Project>
