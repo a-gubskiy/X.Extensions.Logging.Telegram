@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using X.Extensions.Serilog.Sinks.Telegram.Batch;
+using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 using X.Extensions.Serilog.Sinks.Telegram.Batch.Rules;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Configuration;
@@ -36,11 +37,17 @@ public class BatchEmittingRulesConfiguration
     public IImmutableList<IRule> BatchProcessingRules { get; init; } = ImmutableList<IRule>.Empty;
 
     /// <summary>
+    /// Gets or initializes the async batch processing rules to be applied.
+    /// </summary>
+    public IImmutableList<IRuleAsync> AsyncBatchProcessingRules { get; init; } = ImmutableList<IRuleAsync>.Empty;
+
+    /// <summary>
     /// Gets the execution hooks that are extracted from the batch processing rules.
     /// </summary>
-    public IImmutableList<IExecutionHook> BatchProcessingExecutionHooks
+    // TODO: add an option to add hooks separately from rules.
+    public IImmutableList<IPostExecutionHook> BatchPostExecutionHooks
         => BatchProcessingRules
-            .Where(rule => rule is IExecutionHook)
-            .Cast<IExecutionHook>()
+            .Where(rule => rule is IPostExecutionHook)
+            .Cast<IPostExecutionHook>()
             .ToImmutableList();
 }

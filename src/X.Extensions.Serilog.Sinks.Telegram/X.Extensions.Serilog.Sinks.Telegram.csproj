@@ -22,10 +22,12 @@
 
     <ItemGroup>
         <PackageReference Include="Serilog" Version="4.0.1"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" PrivateAssets="All"/>
+        <PackageReference Include="Serilog" Version="4.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\X.Extensions.Logging.Telegram\X.Extensions.Logging.Telegram.csproj"/>
+      <ProjectReference Include="..\X.Extensions.Logging.Telegram.Base\X.Extensions.Logging.Telegram.Base.csproj" />
     </ItemGroup>
 
 </Project>

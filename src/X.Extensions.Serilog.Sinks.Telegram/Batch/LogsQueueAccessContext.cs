@@ -1,4 +1,5 @@
 ﻿using System.Threading.Channels;
+using X.Extensions.Serilog.Sinks.Telegram.Batch.Contracts;
 
 namespace X.Extensions.Serilog.Sinks.Telegram.Batch;
 

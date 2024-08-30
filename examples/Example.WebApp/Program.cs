@@ -1,31 +1,30 @@
+using Example.Core;
+using Example.Core.Services;
+using Microsoft.AspNetCore.Mvc;
 using X.Extensions.Logging.Telegram;
+using X.Extensions.Logging.Telegram.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.AddSingleton<LogsService>();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-builder.Logging.AddTelegram(builder.Configuration);
+builder.Logging.AddTelegram(options =>
+{
+    options.ChatId = ExampleAppSettings.ChatId;
+    options.AccessToken = ExampleAppSettings.Token;
+    options.FormatterConfiguration.UseEmoji = true;
+    options.FormatterConfiguration.ReadableApplicationName = "Example.WebApp";
+    options.LogLevel = new Dictionary<string, LogLevel> { { "Default", LogLevel.Information } };     
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+app.MapGet("logs",
+    (
+        [FromServices] LogsService logsService) =>
+    {
+        logsService.WriteLogs();
+    });
 
 app.Run();

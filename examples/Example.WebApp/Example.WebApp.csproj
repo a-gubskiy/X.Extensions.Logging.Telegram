@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\X.Extensions.Logging.Telegram\X.Extensions.Logging.Telegram.csproj"/>
+        <ProjectReference Include="..\Example.Core\Example.Core.csproj" />
     </ItemGroup>
 
 </Project>
