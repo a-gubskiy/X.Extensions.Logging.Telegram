@@ -14,6 +14,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+
+    <ItemGroup>
         <None Include="../../LICENSE.md" Pack="true" PackagePath=""/>
         <None Include="../../x-extensions.png" Pack="True" PackagePath=""/>
     </ItemGroup>
