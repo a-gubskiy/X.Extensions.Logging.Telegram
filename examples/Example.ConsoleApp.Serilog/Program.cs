@@ -6,7 +6,9 @@ using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 using X.Extensions.Serilog.Sinks.Telegram.Extensions;
 using X.Extensions.Serilog.Sinks.Telegram.Filters.Fluent;
 
-ConfigAsMinimal(ExampleAppSettings.Token, ExampleAppSettings.ChatId);
+// ConfigAsMinimal(ExampleAppSettings.Token, ExampleAppSettings.ChatId);
+
+ConfigAsExtended(ExampleAppSettings.Token, ExampleAppSettings.ChatId);
 
 var logsCounter = 0;
 const int logsThreshold = 100;
@@ -15,6 +17,7 @@ while (logsCounter <= logsThreshold)
 {
     var level = Random.Shared.NextInt64(0, 6);
     Log.Logger.Write((LogEventLevel)level, "Message {counter}", logsCounter);
+    
     await Task.Delay(500);
 
     logsCounter++;
@@ -60,7 +63,7 @@ void ConfigAsExtended(string token, string tgChatId)
                     .And().Level.Equals(LogEventLevel.Fatal)
                     .And().Message.Contains("Payment API failed")
             };
-        }, null!, LogEventLevel.Debug)
+        }, null, LogEventLevel.Debug)
         .WriteTo.Console()
         .CreateLogger();
 }
