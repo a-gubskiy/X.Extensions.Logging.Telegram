@@ -21,8 +21,10 @@ public class TelegramLogger : ILogger
     {
         Options = options ?? throw new ArgumentNullException(nameof(options));
 
+        _formatter = formatter ?? throw new ArgumentNullException(nameof(formatter));
+        
         _queueProcessor = loggerProcessor;
-        _formatter = formatter;
+        
     }
 
     [PublicAPI]
@@ -33,11 +35,6 @@ public class TelegramLogger : ILogger
         if (!IsEnabled(logLevel))
         {
             return;
-        }
-            
-        if (formatter == null)
-        {
-            throw new ArgumentNullException(nameof(formatter));
         }
 
         ICollection<LogEntry> logEntries = new List<LogEntry>
