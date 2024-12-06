@@ -1,7 +1,7 @@
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Polly;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
@@ -11,7 +11,7 @@ namespace X.Extensions.Logging.Telegram.Base;
 public interface ILogWriter
 {
     Task Write(string message);
-    
+
     Task Write(string message, CancellationToken cancellationToken);
 }
 
@@ -38,16 +38,25 @@ public class TelegramLogWriter : ILogWriter
 
     public async Task Write(string message, CancellationToken cancellationToken)
     {
-        var result = await _client.SendTextMessageAsync(
-            chatId: _chatId,
-            text: message,
-            parseMode: ParseMode.Html,
-            cancellationToken: cancellationToken);
+        const int retryCount = 5;
 
-        #if DEBUG
-        
-        Trace.WriteLine(result.MessageId);
-            
-        #endif
+        var retryPolicy = Policy
+            .Handle<Exception>()
+            .WaitAndRetryAsync(
+                retryCount: retryCount,
+                sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)),
+                onRetry: (exception, timeSpan, context) =>
+                {
+                    // ignored
+                });
+
+        await retryPolicy.ExecuteAsync(async () =>
+        {
+            var result = await _client.SendTextMessageAsync(
+                chatId: _chatId,
+                text: message,
+                parseMode: ParseMode.Html,
+                cancellationToken: cancellationToken);
+        });
     }
 }
