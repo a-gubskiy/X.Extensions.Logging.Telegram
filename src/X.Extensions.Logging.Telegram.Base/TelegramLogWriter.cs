@@ -52,7 +52,7 @@ public class TelegramLogWriter : ILogWriter
 
         await retryPolicy.ExecuteAsync(async () =>
         {
-            var result = await _client.SendTextMessageAsync(
+            var result = await _client.SendMessage(
                 chatId: _chatId,
                 text: message,
                 parseMode: ParseMode.Html,
