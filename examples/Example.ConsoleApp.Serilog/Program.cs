@@ -4,6 +4,7 @@ using Serilog.Events;
 using X.Extensions.Logging.Telegram.Base.Configuration;
 using X.Extensions.Serilog.Sinks.Telegram.Configuration;
 using X.Extensions.Serilog.Sinks.Telegram.Extensions;
+using X.Extensions.Serilog.Sinks.Telegram.Filters.Fluent;
 
 ConfigAsMinimal(ExampleAppSettings.Token, ExampleAppSettings.ChatId);
 
@@ -54,14 +55,14 @@ void ConfigAsExtended(string token, string tgChatId)
                 IncludeProperties = true,
                 TimeZone = TimeZoneInfo.Utc
             };
-            // config.LogFiltersConfiguration = new LogsFiltersConfiguration
-            // {
-            //     ApplyLogFilters = true,
-            //     QueryBuilder = LogQueryBuilder.Create()
-            //         .Exception.NotNull()
-            //         .And().Level.Equals(LogEventLevel.Debug)
-            //         // .And().Message.Contains("Payment API failed")
-            // };
+            config.LogFiltersConfiguration = new LogsFiltersConfiguration
+            {
+                ApplyLogFilters = true,
+                QueryBuilder = LogQueryBuilder.Create()
+                    .Exception.NotNull()
+                    .And().Level.Equals(LogEventLevel.Debug)
+                    // .And().Message.Contains("Payment API failed")
+            };
         }, null, LogEventLevel.Debug)
         .WriteTo.Console()
         .CreateLogger();
