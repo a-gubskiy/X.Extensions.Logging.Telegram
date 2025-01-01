@@ -9,10 +9,9 @@
         </Description>
 
         <LangVersion>default</LangVersion>
-        <TargetFrameworks>net6.0;net8.0;</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
         <PackageTags>telegram logging log logs serilog-sink serilog serilog-extensions</PackageTags>
         <Nullable>enable</Nullable>
-
         <Authors>Vladyslav Bardin</Authors>
         <Copyright>Vladyslav Bardin © 2024</Copyright>
     </PropertyGroup>
