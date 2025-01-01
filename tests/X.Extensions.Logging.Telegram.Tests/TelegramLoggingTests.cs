@@ -8,15 +8,6 @@ namespace X.Extensions.Logging.Telegram.Tests;
 
 public class TelegramLoggingTests
 {
-    public TelegramLoggingTests()
-    {
-        Setup();
-    }
-
-    public void Setup()
-    {
-    }
-
     [Fact]
     public void Test_DefaultLogFormatter_MessageNotNull()
     {
@@ -31,7 +22,7 @@ public class TelegramLoggingTests
             }
         };
 
-        IMessageFormatter formatter = new DefaultLogFormatter(); 
+        IMessageFormatter formatter = new DefaultLogFormatter();
 
         ICollection<LogEntry> logEntries = new List<LogEntry>
         {
@@ -44,7 +35,7 @@ public class TelegramLoggingTests
                 UtcTimeStamp = DateTime.UtcNow
             }
         };
-        
+
         var messages = formatter.Format(logEntries, options.FormatterConfiguration);
 
         foreach (var message in messages)
@@ -52,7 +43,7 @@ public class TelegramLoggingTests
             Assert.NotNull(messages);
         }
     }
-    
+
     [Fact]
     public void Test_DefaultAggregatedNotificationsFormatter_MessageNotNull()
     {
@@ -96,10 +87,10 @@ public class TelegramLoggingTests
                 UtcTimeStamp = DateTime.UtcNow
             }
         };
-        
+
         var messages = formatter.Format(logEntries, options.FormatterConfiguration);
         var message = messages.FirstOrDefault();
-    
+
         Assert.NotNull(message);
     }
 
@@ -143,7 +134,7 @@ public class TelegramLoggingTests
 
 
         Assert.Equal(2, processor.Messages.Count);
-        
+
         Assert.Contains(processor.Messages, o => o.Contains("System"));
         Assert.Contains(processor.Messages, o => o.Contains("Message from Some.Namespace.AnotherClassName"));
 
@@ -152,7 +143,8 @@ public class TelegramLoggingTests
 
     [Theory]
     [InlineData("<p style=\"font-family='Lucida Console'\">Exception message description</p>")]
-    [InlineData("<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
+    [InlineData(
+        "<p style=\"font-family='Lucida Console';width:100%\">Exception <br/><i><b>message</b></i> description</p>")]
     public void ExceptionDescriptionWithRawHtmlTest(string description)
     {
         IMessageFormatter formatter = new DefaultLogFormatter();
@@ -168,7 +160,7 @@ public class TelegramLoggingTests
         var configuration = new FormatterConfiguration
         {
             UseEmoji = true,
-            ReadableApplicationName = "Test API"            
+            ReadableApplicationName = "Test API"
         };
 
         var messages = formatter.Format(logEntries, configuration);
