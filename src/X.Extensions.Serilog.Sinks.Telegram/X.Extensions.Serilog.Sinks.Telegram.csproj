@@ -13,7 +13,7 @@
         <PackageTags>telegram logging log logs serilog-sink serilog serilog-extensions</PackageTags>
         <Nullable>enable</Nullable>
         <Authors>Vladyslav Bardin</Authors>
-        <Copyright>Vladyslav Bardin © 2024</Copyright>
+        <Copyright>Vladyslav Bardin © 2025</Copyright>
     </PropertyGroup>
 
     <ItemGroup>
