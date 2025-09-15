@@ -24,7 +24,7 @@
 
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" PrivateAssets="All" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="9.0.8" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="9.0.9" />
     </ItemGroup>
 
     <ItemGroup>
