@@ -1,5 +1,8 @@
 # Telegram logging extensions
 
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor_on_GitHub-ff7f00?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/a-gubskiy)
+[![Subscribe on X](https://img.shields.io/badge/Subscribe_on_X-000000?logo=x&logoColor=white&style=for-the-badge)](https://x.com/i/subscribe/andrew_gubskiy)
+
 * X.Extensions.Logging.Telegram 
 * X.Extensions.Serilog.Sinks.Telegram
 
