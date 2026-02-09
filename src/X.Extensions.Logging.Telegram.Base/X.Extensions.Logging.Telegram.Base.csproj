@@ -25,7 +25,7 @@
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" PrivateAssets="All" />
         <PackageReference Include="Polly" Version="8.6.5" />
-        <PackageReference Include="Telegram.Bot" Version="22.8.1" />
+        <PackageReference Include="Telegram.Bot" Version="22.9.0" />
     </ItemGroup>
 
 </Project>
