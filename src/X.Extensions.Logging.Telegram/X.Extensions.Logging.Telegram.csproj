@@ -18,7 +18,7 @@
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageIcon>x-extensions.png</PackageIcon>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/a-gubskiy/X.Extensions.Logging.Telegram.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/a-gubskiy/X.Extensions.Logging.Telegram</RepositoryUrl>
         <PackageProjectUrl>https://github.com/a-gubskiy/X.Extensions.Logging.Telegram</PackageProjectUrl>
     </PropertyGroup>
 
