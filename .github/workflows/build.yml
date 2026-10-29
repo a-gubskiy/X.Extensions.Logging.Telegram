@@ -27,6 +27,9 @@ jobs:
       - name: Test
         run: dotnet test --solution X.Extensions.Logging.Telegram.slnx -c Release --no-build
 
+      - name: Pack
+        run: dotnet pack src/X.Extensions.Logging.Telegram/X.Extensions.Logging.Telegram.csproj -c Release --no-build -o artifacts
+
   publish:
     # Publishes to NuGet via Trusted Publishing when a GitHub Release is published.
     # The package version is taken from the release tag (v3.0.0 -> 3.0.0).
