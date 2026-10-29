@@ -2,7 +2,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using JetBrains.Annotations;
 using X.Extensions.Logging.Telegram.Base;
 
@@ -27,8 +26,7 @@ internal class LogQueueProcessor : ILogQueueProcessor
     {
         _writer = logWriter;
 
-        // Start message queue thread
-        _thread = new Thread(async () => { await ProcessLogQueue(); })
+        _thread = new Thread(ProcessLogQueue)
         {
             IsBackground = true,
             Name = $"{nameof(LogQueueProcessor)} thread",
@@ -39,55 +37,30 @@ internal class LogQueueProcessor : ILogQueueProcessor
 
     public void EnqueueMessages(ICollection<string> messages)
     {
-        if (!_queue.IsAddingCompleted)
+        foreach (var message in messages)
         {
             try
             {
-                foreach (var message in messages)
-                {
-                    _queue.Add(message);
-                }
-
-                return;
+                _queue.Add(message);
             }
-            catch
+            catch (InvalidOperationException)
             {
-                // ignored
+                // Adding is completed (processor is disposed), so the message is dropped
             }
-        }
-
-        // Adding is completed so just log the message
-        try
-        {
-            foreach (var message in messages)
-            {
-                _writer.Write(message);
-            }           
-        }
-        catch
-        {
-            // ignored
         }
     }
 
-    private async Task ProcessLogQueue()
+    private void ProcessLogQueue()
     {
-        try
-        {
-            foreach (var message in _queue.GetConsumingEnumerable())
-            {
-                await _writer.Write(message);
-            }
-        }
-        catch
+        foreach (var message in _queue.GetConsumingEnumerable())
         {
             try
             {
-                _queue.CompleteAdding();
+                _writer.Write(message).GetAwaiter().GetResult();
             }
             catch
             {
-                // ignored
+                // ignored: logging must never crash the application
             }
         }
     }
@@ -96,13 +69,7 @@ internal class LogQueueProcessor : ILogQueueProcessor
     {
         _queue.CompleteAdding();
 
-        try
-        {
-            _thread.Join(Timeout); // with timeout in-case Telegram is not respond
-        }
-        catch
-        {
-            // ignored
-        }
+        // Give the queue some time to flush in case Telegram does not respond
+        _thread.Join(Timeout);
     }
 }

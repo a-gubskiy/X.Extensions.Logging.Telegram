@@ -1,6 +1,7 @@
 using System;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using X.Extensions.Logging.Telegram.Base;
@@ -11,22 +12,17 @@ namespace X.Extensions.Logging.Telegram.Extensions;
 [PublicAPI]
 public static class TelegramLoggerExtensions
 {
-    /// <summary>
-    /// Adds a Telegram logger to the factory
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <returns></returns>
-    public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder)
-    {
-        return AddTelegram(builder, new TelegramLoggerOptions());
-    }
+    private const string ConfigurationSection = "Logging:Telegram";
 
     /// <summary>
-    /// Adds a Telegram logger to the factory
+    /// Adds a Telegram logger with default options.
     /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="configure"></param>
-    /// <returns></returns>
+    public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder) =>
+        builder.AddTelegram(new TelegramLoggerOptions());
+
+    /// <summary>
+    /// Adds a Telegram logger configured by the <paramref name="configure"/> delegate.
+    /// </summary>
     public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, Action<TelegramLoggerOptions> configure)
     {
         if (configure == null)
@@ -37,107 +33,87 @@ public static class TelegramLoggerExtensions
         var options = new TelegramLoggerOptions();
         configure(options);
 
-        return AddTelegram(builder, options);
+        return builder.AddTelegram(options);
     }
 
     /// <summary>
-    /// Adds a Telegram logger to the factory
+    /// Adds a Telegram logger configured from the <c>Logging:Telegram</c> configuration section.
     /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="configuration"></param>
-    /// <returns></returns>
     public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, IConfiguration configuration)
     {
         var options = new TelegramLoggerOptions();
+        configuration.GetSection(ConfigurationSection).Bind(options);
 
-        configuration.GetSection("Logging:Telegram")?.Bind(options);
-
-        return AddTelegram(builder, options);
+        return builder.AddTelegram(options);
     }
 
     /// <summary>
-    /// Adds a Telegram logger to the factory
+    /// Adds a Telegram logger with the specified options.
     /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="options"></param>
-    /// <returns></returns>
-    public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options)
-    {
-        var logWriter = new TelegramLogWriter(options.AccessToken, options.ChatId);
-        var logQueueProcessor = new LogQueueProcessor(logWriter);
-
-        return AddTelegram(builder, options, logQueueProcessor);
-    }
+    public static ILoggingBuilder AddTelegram(this ILoggingBuilder builder, TelegramLoggerOptions options) =>
+        builder.AddTelegram(options, new TelegramLogWriter(options.AccessToken, options.ChatId));
 
     /// <summary>
-    /// Adds a Telegram logger to the factory
+    /// Adds a Telegram logger which uses a custom <see cref="ILogWriter"/>.
     /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="options"></param>
-    /// <param name="logWriter"></param>
-    /// <returns></returns>
-    public static ILoggingBuilder AddTelegram(
-        this ILoggingBuilder builder, 
-        TelegramLoggerOptions options,
-        ILogWriter logWriter)
-    {
-        var logQueueProcessor = new LogQueueProcessor(logWriter);
-
-        return AddTelegram(builder, options, logQueueProcessor);
-    }
-
-    /// <summary>
-    /// Adds a Telegram logger to the factory
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="options"></param>
-    /// <param name="logQueueProcessor"></param>
-    /// <returns></returns>
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
-        ILogQueueProcessor logQueueProcessor)
-    {
-        return AddTelegram(builder, options, logQueueProcessor, name => new DefaultLogFormatter());
-    }
-    
+        ILogWriter logWriter) =>
+        builder.AddTelegram(options, new LogQueueProcessor(logWriter));
+
+    /// <summary>
+    /// Adds a Telegram logger which uses a custom <see cref="ILogQueueProcessor"/>.
+    /// </summary>
+    public static ILoggingBuilder AddTelegram(
+        this ILoggingBuilder builder,
+        TelegramLoggerOptions options,
+        ILogQueueProcessor logQueueProcessor) =>
+        builder.AddTelegram(options, logQueueProcessor, _ => new DefaultLogFormatter());
+
+    /// <summary>
+    /// Adds a Telegram logger which uses a custom message formatter.
+    /// </summary>
+    /// <param name="builder">The logging builder.</param>
+    /// <param name="options">Logger options.</param>
+    /// <param name="createFormatter">Creates a formatter for the given logger category.</param>
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
         Func<string, IMessageFormatter> createFormatter)
     {
         var logWriter = new TelegramLogWriter(options.AccessToken, options.ChatId);
-        var logQueueProcessor = new LogQueueProcessor(logWriter);
 
-        return AddTelegram(builder, options, logQueueProcessor, createFormatter);
+        return builder.AddTelegram(options, new LogQueueProcessor(logWriter), createFormatter);
     }
-    
+
     /// <summary>
-    /// Adds a Telegram logger to the factory
+    /// Adds a Telegram logger with a custom <see cref="ILogQueueProcessor"/> and message formatter.
     /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="options"></param>
-    /// <param name="logQueueProcessor"></param>
-    /// <param name="createFormatter"></param>
-    /// <returns></returns>
+    /// <param name="builder">The logging builder.</param>
+    /// <param name="options">Logger options.</param>
+    /// <param name="logQueueProcessor">Processor which delivers formatted messages.</param>
+    /// <param name="createFormatter">Creates a formatter for the given logger category.</param>
     public static ILoggingBuilder AddTelegram(
         this ILoggingBuilder builder,
         TelegramLoggerOptions options,
-        ILogQueueProcessor logQueueProcessor, 
+        ILogQueueProcessor logQueueProcessor,
         Func<string, IMessageFormatter> createFormatter)
     {
         builder.AddConfiguration();
-        
+
         foreach (var logLevelConfiguration in options.LogLevel)
         {
             var category = logLevelConfiguration.Key == "Default" ? "" : logLevelConfiguration.Key;
-            var level = logLevelConfiguration.Value;
-            
-            builder.AddFilter<TelegramLoggerProvider>(category, level);
+
+            builder.AddFilter<TelegramLoggerProvider>(category, logLevelConfiguration.Value);
         }
-            
-        builder.AddProvider(new TelegramLoggerProvider(options, logQueueProcessor, createFormatter));
-            
+
+        // Registered via factory so the container owns the provider and disposes it,
+        // which flushes the message queue on shutdown
+        builder.Services.AddSingleton<ILoggerProvider>(_ =>
+            new TelegramLoggerProvider(options, logQueueProcessor, createFormatter));
+
         return builder;
     }
 }

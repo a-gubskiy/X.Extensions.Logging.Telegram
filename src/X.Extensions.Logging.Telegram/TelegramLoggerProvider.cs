@@ -5,27 +5,19 @@ using X.Extensions.Logging.Telegram.Base.Formatters;
 
 namespace X.Extensions.Logging.Telegram;
 
-internal class TelegramLoggerProvider : ILoggerProvider
+internal class TelegramLoggerProvider(
+    TelegramLoggerOptions options,
+    ILogQueueProcessor logQueueProcessor,
+    Func<string, IMessageFormatter> createFormatter) : ILoggerProvider
 {
-    private readonly ILogQueueProcessor _logQueueProcessor;
-    private readonly TelegramLoggerOptions _options;
     private readonly ConcurrentDictionary<string, TelegramLogger> _loggers = new();
-    private readonly Func<string, IMessageFormatter> _createFormatter;
-    
-    public TelegramLoggerProvider(
-        TelegramLoggerOptions options,
-        ILogQueueProcessor logQueueProcessor,
-        Func<string, IMessageFormatter> createFormatter)
+
+    public ILogger CreateLogger(string name) =>
+        _loggers.GetOrAdd(name, category => new TelegramLogger(options, logQueueProcessor, createFormatter(category)));
+
+    public void Dispose()
     {
-        _options = options;
-        _logQueueProcessor = logQueueProcessor;
-        _createFormatter = createFormatter;
+        _loggers.Clear();
+        logQueueProcessor.Dispose();
     }
-    
-    public ILogger CreateLogger(string name) => _loggers.GetOrAdd(name, CreateTelegramLogger);
-
-    private TelegramLogger CreateTelegramLogger(string name) =>
-        new TelegramLogger(_options, _logQueueProcessor, _createFormatter(name));
-
-    public void Dispose() => _loggers.Clear();
 }

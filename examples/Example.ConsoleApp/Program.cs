@@ -1,73 +1,44 @@
-﻿using System;
-using System.Threading.Tasks;
 using Example.Core;
 using Microsoft.Extensions.Logging;
 using X.Extensions.Logging.Telegram;
 using X.Extensions.Logging.Telegram.Base.Configuration;
 using X.Extensions.Logging.Telegram.Extensions;
 
-namespace Example.ConsoleApp;
-
-class Program
+var options = new TelegramLoggerOptions(LogLevel.Information)
 {
-    public class ExampleClass
+    AccessToken = ExampleAppSettings.Token,
+    ChatId = ExampleAppSettings.ChatId,
+    FormatterConfiguration = new FormatterConfiguration
     {
+        ReadableApplicationName = "TEST APP",
+        UseEmoji = true,
+        IncludeException = true,
+        IncludeProperties = true
     }
+};
 
-    public class AnotherExampleClass
+using (var factory = LoggerFactory.Create(builder => builder
+           .ClearProviders()
+           .AddTelegram(options)
+           .AddConsole()))
+{
+    var logger = factory.CreateLogger("Example.ConsoleApp");
+
+    logger.LogTrace("Trace message");
+    logger.LogDebug("Debug message");
+    logger.LogInformation("Information message");
+
+    try
     {
+        throw new SystemException("Exception message description. <br /> This message contains " +
+                                  "<html> <tags /> And some **special** symbols _");
     }
-
-    static void Main(string[] args)
+    catch (Exception exception)
     {
-        var options = new TelegramLoggerOptions(LogLevel.Information)
-        {
-            AccessToken = ExampleAppSettings.Token,
-            ChatId = ExampleAppSettings.ChatId,
-            FormatterConfiguration = new FormatterConfiguration
-            {
-                ReadableApplicationName = "TEST APP",
-                UseEmoji = true,
-                IncludeException = true,
-                IncludeProperties = true
-            }
-        };
-
-        var factory = LoggerFactory.Create(builder =>
-            {
-                builder
-                    .ClearProviders()
-                    .AddTelegram(options)
-                    .AddConsole();
-            }
-        );
-
-        var logger1 = factory.CreateLogger<ExampleClass>();
-        var logger2 = factory.CreateLogger<AnotherExampleClass>();
-
-        for (var i = 0; i < 1; i++)
-        {
-            logger1.LogTrace($"Message {i}");
-            logger2.LogDebug($"Debug message text {i}");
-            logger1.LogInformation($"Information message text {i}");
-
-            try
-            {
-                throw new SystemException("Exception message description. <br /> This message contains " +
-                                          "<html> <tags /> And some **special** symbols _");
-            }
-            catch (Exception exception)
-            {
-                logger2.LogWarning(exception, $"Warning message text {i}");
-                logger1.LogError(exception, $"Error message  text {i}");
-                logger2.LogCritical(exception, $"Critical error message  text {i}");
-            }
-
-            Task.WaitAll(Task.Delay(500));
-        }
-
-
-        Console.WriteLine("Hello World!");
-        Console.ReadKey();
+        logger.LogWarning(exception, "Warning message");
+        logger.LogError(exception, "Error message");
+        logger.LogCritical(exception, "Critical error message");
     }
 }
+
+Console.WriteLine("Done.");

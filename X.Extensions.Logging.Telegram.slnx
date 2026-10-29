@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/examples/">
+    <Project Path="examples/Example.ConsoleApp/Example.ConsoleApp.csproj" />
+    <Project Path="examples/Example.Core/Example.Core.csproj" />
+    <Project Path="examples/Example.WebApp/Example.WebApp.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/X.Extensions.Logging.Telegram/X.Extensions.Logging.Telegram.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/X.Extensions.Logging.Telegram.Tests/X.Extensions.Logging.Telegram.Tests.csproj" />
+  </Folder>
+</Solution>
