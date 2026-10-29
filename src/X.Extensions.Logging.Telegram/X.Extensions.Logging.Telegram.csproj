@@ -1,34 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Title>X.Extensions.Logging.Telegram</Title>
-        <Description>Telegram logging provider</Description>
-
-        <LangVersion>default</LangVersion>
-        <TargetFrameworks>netstandard2.0;net8.0;net9.0</TargetFrameworks>
-        <PackageTags>telegram logging log logs</PackageTags>
+        <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
-        <Authors>Andrew Gubskiy</Authors>
-        <Copyright>Andrew Gubskiy © 2025</Copyright>
+        <Version>3.0.0</Version>
+        <Title>X.Extensions.Logging.Telegram</Title>
+        <Description>Telegram logging provider for Microsoft.Extensions.Logging</Description>
+        <PackageTags>telegram logging log logs</PackageTags>
+        <Authors>Andrew Gubskiy, Vladyslav Bardin</Authors>
+        <Company>Ukrainian .NET Developer Community</Company>
+        <Copyright>Andrew Gubskiy, Vladyslav Bardin © 2026</Copyright>
+
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageIcon>x-extensions.png</PackageIcon>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/a-gubskiy/X.Extensions.Logging.Telegram.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/a-gubskiy/X.Extensions.Logging.Telegram</PackageProjectUrl>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="README.md" Pack="true" PackagePath="" />
-    </ItemGroup>
-
-    <ItemGroup>
+        <None Include="../../README.md" Pack="true" PackagePath="" />
         <None Include="../../LICENSE.md" Pack="true" PackagePath="" />
-        <None Include="../../x-extensions.png" Pack="True" PackagePath="" />
+        <None Include="../../x-extensions.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" PrivateAssets="All" />
+        <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="All" />
         <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="10.0.14" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\X.Extensions.Logging.Telegram.Base\X.Extensions.Logging.Telegram.Base.csproj" />
+        <PackageReference Include="Telegram.Bot" Version="22.10.3.3" />
     </ItemGroup>
 
 </Project>

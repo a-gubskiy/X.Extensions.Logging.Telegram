@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using X.Extensions.Logging.Telegram.Base;
@@ -16,19 +14,16 @@ public class TelegramLogger : ILogger
 
     internal TelegramLogger(
         TelegramLoggerOptions options,
-        ILogQueueProcessor loggerProcessor,
+        ILogQueueProcessor queueProcessor,
         IMessageFormatter formatter)
     {
         Options = options ?? throw new ArgumentNullException(nameof(options));
-
+        _queueProcessor = queueProcessor ?? throw new ArgumentNullException(nameof(queueProcessor));
         _formatter = formatter ?? throw new ArgumentNullException(nameof(formatter));
-        
-        _queueProcessor = loggerProcessor;
-        
     }
 
     [PublicAPI]
-    public TelegramLoggerOptions Options { get; private set; }
+    public TelegramLoggerOptions Options { get; }
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
@@ -37,14 +32,18 @@ public class TelegramLogger : ILogger
             return;
         }
 
-        ICollection<LogEntry> logEntries = new List<LogEntry>
+        var logEntry = new LogEntry
         {
-            CreateLogEntry(logLevel, state, exception, formatter)
+            Exception = exception?.ToString(),
+            Level = logLevel.ToTelegramLogLevel(),
+            Message = formatter(state, exception),
+            Properties = [],
+            UtcTimeStamp = DateTime.UtcNow
         };
-        
-        var messages = _formatter.Format(logEntries, Options.FormatterConfiguration);
-            
-        if (!messages.Any())
+
+        var messages = _formatter.Format([logEntry], Options.FormatterConfiguration);
+
+        if (messages.Count == 0)
         {
             return;
         }
@@ -52,22 +51,7 @@ public class TelegramLogger : ILogger
         _queueProcessor.EnqueueMessages(messages);
     }
 
-    private static LogEntry CreateLogEntry<TState>(LogLevel logLevel, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
-    {
-        return new LogEntry
-        {
-            Exception = exception?.ToString(),
-            Level = logLevel.ToTelegramLogLevel(),
-            Message = formatter.Invoke(state, exception),
-            Properties = new Dictionary<string, string>(),
-            UtcTimeStamp = DateTime.UtcNow
-        };
-    }
+    public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
 
-    public bool IsEnabled(LogLevel logLevel)
-    {
-        return logLevel != LogLevel.None;
-    }
-
-    public IDisposable? BeginScope<TState>(TState state) where TState : notnull => default;
+    public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
 }

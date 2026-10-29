@@ -5,17 +5,14 @@ namespace Example.Core.Services;
 
 public class LogsService(ILogger<LogsService> logger)
 {
+    private const int LogsNumber = 5;
+
     public void WriteLogs()
     {
-        const int logsNumber = 5;
-
-        var amount = logsNumber;
-        while (amount > 0)
+        for (var i = 0; i < LogsNumber; i++)
         {
-            amount--;
-
             var logLevel = EnumHelpers.GetRandomValue<LogLevel>();
-            logger.Log(logLevel, "Log message: " + Guid.NewGuid().ToString("N"));
+            logger.Log(logLevel, "Log message: {Id}", Guid.NewGuid().ToString("N"));
         }
     }
 }

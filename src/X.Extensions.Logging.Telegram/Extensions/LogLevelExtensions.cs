@@ -11,14 +11,8 @@ namespace X.Extensions.Logging.Telegram.Extensions;
 public static class LogLevelExtensions
 {
     /// <summary>
-    /// Converts <see cref="LogLevel"/> to <see cref="LogLevel"/>.
+    /// Converts <see cref="LogLevel"/> to <see cref="TelegramLogLevel"/>.
     /// </summary>
-    /// <param name="level">
-    /// LogEventLevel value.
-    /// </param>
-    /// <returns>
-    /// LogLevel value.
-    /// </returns>
     public static TelegramLogLevel ToTelegramLogLevel(this LogLevel level)
     {
         return level switch

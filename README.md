@@ -1,47 +1,121 @@
-# Telegram logging extensions
+# X.Extensions.Logging.Telegram
 
+[![NuGet](https://img.shields.io/nuget/v/X.Extensions.Logging.Telegram)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/X.Extensions.Logging.Telegram)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor_on_GitHub-ff7f00?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/a-gubskiy)
 [![Subscribe on X](https://img.shields.io/badge/Subscribe_on_X-000000?logo=x&logoColor=white&style=for-the-badge)](https://x.com/andrew_gubskiy)
 
-* X.Extensions.Logging.Telegram 
-* X.Extensions.Serilog.Sinks.Telegram
+Telegram logging provider for `Microsoft.Extensions.Logging`. Receive important log messages directly on your phone or laptop.
 
-Telegram logging providers for Serilog and standard .NET logging.
+```
+dotnet add package X.Extensions.Logging.Telegram
+```
 
-## What is Telegram?
-What is Telegram? What do I do here?
-Telegram is a messaging app with a focus on speed and security, it’s super-fast, simple and free. You can use Telegram on all your devices at the same time — your messages sync seamlessly across any number of your phones, tablets or computers. Telegram has over 500 million monthly active users and is one of the 10 most downloaded apps in the world.
+Targets `netstandard2.0` and `net10.0`.
 
-## Why do you need to write logs to Telegram?
-Because it is very comfortable - you can receive important messages directly to your smartphone or laptop.
+## Prepare Telegram bot and channel
 
-## Prepare Telegram bot
-For sending log messages into telegram channel or chat, you need to create telegram bot before. [Here](https://core.telegram.org/bots#3-how-do-i-create-a-bot) you can find how to do it.
-After you create bot, add it to a channel with admin role and allow bot to post messages.
+1. [Create a Telegram bot](https://core.telegram.org/bots#how-do-i-create-a-bot) and copy its access token.
+2. Add the bot to your channel or chat as an admin with permission to post messages.
+3. Get the chat id. For a public channel you can use its name (`@channel_name`). For a private channel, forward any message from it to [@JsonDumpBot](https://t.me/jsondumpbot) to get the id.
 
-## Prepare Telegram channel
-In the telegram, there are two types of channels: public and private. For public channel you can use channel name as *ChatId* in configuration. 
+## Configure in code
 
-For private channel you can use [@JsonDumpBot](https://t.me/jsondumpbot) to get private channel id. Just forward any message from private channelto this bot. Additional information you can find [here](https://botostore.com/c/jsondumpbot/).
+```csharp
+var options = new TelegramLoggerOptions(LogLevel.Information)
+{
+    AccessToken = "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
+    ChatId = "-0000000000000",
+    FormatterConfiguration = new FormatterConfiguration
+    {
+        ReadableApplicationName = "Human Readable Project Name",
+        UseEmoji = true,
+        IncludeException = true
+    }
+};
 
-**Do not forget** to add your bot as admin with _write messages_ permission to channel.
+builder.Logging
+    .ClearProviders()
+    .AddTelegram(options)
+    .AddConsole();
+```
 
-## Logger implementations
+Or with a delegate:
 
-### X.Extensions.Logging.Telegram
-Read library documentation [here](./src/X.Extensions.Logging.Telegram/README.md).
+```csharp
+builder.Logging.AddTelegram(options =>
+{
+    options.AccessToken = "...";
+    options.ChatId = "...";
+    options.FormatterConfiguration.ReadableApplicationName = "My App";
+});
+```
 
-### X.Extensions.Serilog.Sinks.Telegram
-Read library documentation [here](./src/X.Extensions.Serilog.Sinks.Telegram/README.md).
+## Configure with appsettings.json
 
-# Examples
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+    },
+    "Telegram": {
+      "LogLevel": {
+        "Default": "Error",
+        "WebApp.Controllers": "Warning"
+      },
+      "AccessToken": "1234567890:AAAaaAAaa_AaAAaa-AAaAAAaAAaAaAaAAAA",
+      "ChatId": "1234567890",
+      "FormatterConfiguration": {
+        "ReadableApplicationName": "Human Readable Project Name",
+        "UseEmoji": true,
+        "IncludeException": true
+      }
+    }
+  }
+}
+```
 
-This repository includes several example projects that demonstrate how to use both libraries  in various scenarios. 
-These examples can be helpful if you're starting or looking to use a specific feature.
+and pass `IConfiguration` to the extension method:
 
+```csharp
+builder.Logging.AddTelegram(builder.Configuration);
+```
 
-# Contributing
+## Formatter options
+
+| Option                    | Description                                         |
+|---------------------------|-----------------------------------------------------|
+| `ReadableApplicationName` | Application name shown in every message.            |
+| `UseEmoji`                | Prefix the log level with an emoji.                 |
+| `IncludeException`        | Include the exception details.                      |
+| `IncludeProperties`       | Include log entry properties.                       |
+| `TimeZone`                | Time zone for timestamps. UTC by default.           |
+
+## Custom log writer
+
+Implement `ILogWriter` to deliver messages your own way:
+
+```csharp
+builder.Logging.AddTelegram(options, new CustomLogWriter());
+```
+
+## Custom message formatter
+
+Implement `IMessageFormatter` (or derive from `MessageFormatterBase`) and pass a factory. The factory receives the logger category name:
+
+```csharp
+builder.Logging.AddTelegram(options, category => new CustomMessageFormatter(category));
+```
+
+## Examples
+
+The [examples](https://github.com/a-gubskiy/X.Extensions.Logging.Telegram/tree/main/examples) folder contains a console app and a web app.
+
+## Contributing
+
 Feel free to add any improvements you want via pull requests. All pull requests must be linked to an issue.
 
-# License
+## License
+
 This project is licensed under the MIT License.
