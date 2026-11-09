@@ -30,7 +30,7 @@
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="All" />
         <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="10.0.14" />
-        <PackageReference Include="Telegram.Bot" Version="22.10.3.3" />
+        <PackageReference Include="Telegram.Bot" Version="22.10.3.4" />
     </ItemGroup>
 
 </Project>
