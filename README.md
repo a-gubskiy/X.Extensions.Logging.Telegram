@@ -121,5 +121,3 @@ Contributions are accepted under the [Contributor License Agreement](CLA.md). By
 ## License
 
 This project is licensed under the [Apache License, Version 2.0](LICENSE). See [NOTICE](NOTICE) for attribution.
-
-Versions up to and including 3.0.0 were released under the MIT License.
