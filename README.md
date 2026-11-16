@@ -116,6 +116,10 @@ The [examples](https://github.com/a-gubskiy/X.Extensions.Logging.Telegram/tree/m
 
 Feel free to add any improvements you want via pull requests. All pull requests must be linked to an issue.
 
+Before your first pull request can be merged, you need to sign the [Contributor License Agreement](CLA.md). The CLA Assistant bot posts a link on the pull request; you sign once and it covers all your future contributions.
+
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [Apache License, Version 2.0](LICENSE). See [NOTICE](NOTICE) for attribution.
+
+Versions up to and including 3.0.0 were released under the MIT License.
