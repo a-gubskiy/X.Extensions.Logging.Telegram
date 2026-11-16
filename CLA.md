@@ -4,7 +4,7 @@ Thank you for your interest in contributing to X.Extensions.Logging.Telegram (th
 
 This Contributor License Agreement (the "Agreement") documents the rights you grant to the Maintainer for your Contributions. You keep the copyright in your Contributions: this Agreement is a license, not an assignment. It protects you, the Maintainer and the Project's users.
 
-You accept this Agreement by checking the Contributor License Agreement box in the description of your pull request. Your acceptance covers that Contribution and all of Your future Contributions to the Project. A pull request cannot be merged until the box is checked.
+You accept this Agreement by submitting a pull request or any other Contribution to the Project. The pull request template states this before you submit. Your acceptance covers that Contribution and all of Your future Contributions to the Project. If You do not agree to this Agreement, do not submit Contributions.
 
 ## 1. Definitions
 

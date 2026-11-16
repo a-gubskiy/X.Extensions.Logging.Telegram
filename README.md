@@ -116,7 +116,7 @@ The [examples](https://github.com/a-gubskiy/X.Extensions.Logging.Telegram/tree/m
 
 Feel free to add any improvements you want via pull requests. All pull requests must be linked to an issue.
 
-Contributions are accepted under the [Contributor License Agreement](CLA.md). To accept it, check the CLA box in the pull request description; the CLA check stays red until you do.
+Contributions are accepted under the [Contributor License Agreement](CLA.md). By submitting a pull request, you accept it.
 
 ## License
 
