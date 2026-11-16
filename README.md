@@ -116,6 +116,10 @@ The [examples](https://github.com/a-gubskiy/X.Extensions.Logging.Telegram/tree/m
 
 Feel free to add any improvements you want via pull requests. All pull requests must be linked to an issue.
 
+Contributions are accepted under the [Contributor License Agreement](CLA.md). By submitting a pull request, you accept it.
+
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [Apache License, Version 2.0](LICENSE). See [NOTICE](NOTICE) for attribution.
+
+Versions up to and including 3.0.0 were released under the MIT License.

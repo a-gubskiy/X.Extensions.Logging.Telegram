@@ -14,7 +14,7 @@
         <Copyright>Andrew Gubskiy, Vladyslav Bardin © 2026</Copyright>
 
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageIcon>x-extensions.png</PackageIcon>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/a-gubskiy/X.Extensions.Logging.Telegram</RepositoryUrl>
@@ -23,7 +23,7 @@
 
     <ItemGroup>
         <None Include="../../README.md" Pack="true" PackagePath="" />
-        <None Include="../../LICENSE.md" Pack="true" PackagePath="" />
+        <None Include="../../NOTICE" Pack="true" PackagePath="" />
         <None Include="../../x-extensions.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
