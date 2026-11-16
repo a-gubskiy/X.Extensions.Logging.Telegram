@@ -1,7 +1,7 @@
 # X.Extensions.Logging.Telegram
 
-[![NuGet](https://img.shields.io/nuget/v/X.Extensions.Logging.Telegram)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/X.Extensions.Logging.Telegram)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
+[![NuGet](https://img.shields.io/nuget/v/X.Extensions.Logging.Telegram?logo=nuget&logoColor=white&style=for-the-badge)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/X.Extensions.Logging.Telegram?logo=nuget&logoColor=white&style=for-the-badge)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor_on_GitHub-ff7f00?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/a-gubskiy)
 [![Subscribe on X](https://img.shields.io/badge/Subscribe_on_X-000000?logo=x&logoColor=white&style=for-the-badge)](https://x.com/andrew_gubskiy)
 
