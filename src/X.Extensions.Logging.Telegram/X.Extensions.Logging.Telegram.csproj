@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;net10.0;net11.0</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
 
@@ -29,8 +29,17 @@
 
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="All" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="10.0.14" />
         <PackageReference Include="Telegram.Bot" Version="22.10.4" />
+    </ItemGroup>
+
+    <!-- Keep LTS consumers (.NET 10, .NET Framework) on Microsoft.Extensions 10.x;
+         only the net11.0 build depends on Microsoft.Extensions 11.x. -->
+    <ItemGroup Condition="'$(TargetFramework)' != 'net11.0'">
+        <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="10.0.15" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net11.0'">
+        <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="11.0.0" />
     </ItemGroup>
 
 </Project>

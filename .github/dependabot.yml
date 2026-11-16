@@ -6,6 +6,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # The library pins Microsoft.Extensions 10.x for LTS targets and 11.x for net11.0.
+      # Major bumps happen together with a target framework change, so do them by hand.
+      - dependency-name: "Microsoft.Extensions.*"
+        update-types: [ "version-update:semver-major" ]
 
   - package-ecosystem: "github-actions"
     directory: "/"
