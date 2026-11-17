@@ -1,17 +1,17 @@
 # X.Extensions.Logging.Telegram
 
-[![NuGet](https://img.shields.io/nuget/v/X.Extensions.Logging.Telegram?logo=nuget&logoColor=white&style=for-the-badge)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/X.Extensions.Logging.Telegram?logo=nuget&logoColor=white&style=for-the-badge)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
-[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor_on_GitHub-ff7f00?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/a-gubskiy)
-[![Subscribe on X](https://img.shields.io/badge/Subscribe_on_X-000000?logo=x&logoColor=white&style=for-the-badge)](https://x.com/andrew_gubskiy)
+[![NuGet Version](https://img.shields.io/nuget/v/X.Extensions.Logging.Telegram?style=for-the-badge&label=NuGet&color=004880&logo=nuget&logoColor=white)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/X.Extensions.Logging.Telegram?style=for-the-badge&label=Downloads&color=004880&logo=nuget&logoColor=white)](https://www.nuget.org/packages/X.Extensions.Logging.Telegram)
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor_on_GitHub-ff7f00?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sponsors/a-gubskiy)
+[![Subscribe on X](https://img.shields.io/badge/Subscribe_on_X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/andrew_gubskiy)
 
 Telegram logging provider for `Microsoft.Extensions.Logging`. Receive important log messages directly on your phone or laptop.
 
-```
+```bash
 dotnet add package X.Extensions.Logging.Telegram
 ```
 
-Targets `netstandard2.0` and `net10.0`.
+Targets `netstandard2.0`, `net10.0` and `net11.0`.
 
 ## Prepare Telegram bot and channel
 
