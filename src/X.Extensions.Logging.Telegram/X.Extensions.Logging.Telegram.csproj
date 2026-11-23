@@ -29,7 +29,7 @@
 
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="All" />
-        <PackageReference Include="Telegram.Bot" Version="22.10.4" />
+        <PackageReference Include="Telegram.Bot" Version="22.10.5" />
     </ItemGroup>
 
     <!-- Keep LTS consumers (.NET 10, .NET Framework) on Microsoft.Extensions 10.x;
